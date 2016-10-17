@@ -10,7 +10,7 @@ public class TestPerson implements ReadOnlyTask {
 
     private TaskName name;
     private Address address;
-    private DueTime email;
+    private DueDateTime email;
     private DateTime phone;
     private UniqueTagList tags;
 
@@ -26,7 +26,7 @@ public class TestPerson implements ReadOnlyTask {
         this.address = address;
     }
 
-    public void setEmail(DueTime email) {
+    public void setEmail(DueDateTime email) {
         this.email = email;
     }
 
@@ -45,7 +45,7 @@ public class TestPerson implements ReadOnlyTask {
     }
 
     @Override
-    public DueTime getDueTime() {
+    public DueDateTime getDueTime() {
         return email;
     }
 

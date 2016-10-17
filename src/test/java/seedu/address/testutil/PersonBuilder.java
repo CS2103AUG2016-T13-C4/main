@@ -38,7 +38,7 @@ public class PersonBuilder {
     }
 
     public PersonBuilder withEmail(String email) throws IllegalValueException {
-        this.person.setEmail(new DueTime(email));
+        this.person.setEmail(new DueDateTime(email));
         return this;
     }
 

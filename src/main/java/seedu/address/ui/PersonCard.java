@@ -41,11 +41,19 @@ public class PersonCard extends UiPart{
 
     @FXML
     public void initialize() {
+    	String dateMessage = "Date: ", timeMessage = "Time: ";
+    	if (person.getDueTime().date_value == "") {
+    		dateMessage += person.getDateTime().date_value;
+    		timeMessage += person.getDateTime().time_value;
+        } else {
+        	dateMessage += person.getDateTime().date_value + " to " + person.getDueTime().date_value;
+    		timeMessage += person.getDateTime().time_value + " to " + person.getDueTime().time_value;
+        }
         name.setText(person.getName().fullName);
         id.setText(displayedIndex + ". ");
-        phone.setText(person.getDueDate().date_value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getDueDate().time_value);
+        phone.setText(dateMessage);
+        address.setText(timeMessage);
+        email.setText(person.getAddress().value);
         tags.setText(person.tagsString());
     }
 

@@ -13,7 +13,7 @@ public class Task implements ReadOnlyTask {
 
     private TaskName name;
     private DateTime dueDate;
-    private DueTime dueTime;
+    private DueDateTime dueTime;
     private Address address;
 
     private UniqueTagList tags;
@@ -21,7 +21,7 @@ public class Task implements ReadOnlyTask {
     /**
      * Every field must be present and not null.
      */
-    public Task(TaskName name, DateTime dueDate, DueTime dueTime, Address address, UniqueTagList tags) {
+    public Task(TaskName name, DateTime dueDate, DueDateTime dueTime, Address address, UniqueTagList tags) {
         assert !CollectionUtil.isAnyNull(name, dueDate, dueTime, address, tags);
         this.name = name;
         this.dueDate = dueDate;
@@ -34,7 +34,7 @@ public class Task implements ReadOnlyTask {
      * Copy constructor.
      */
     public Task(ReadOnlyTask source) {
-        this(source.getName(), source.getDueDate(), source.getDueTime(), source.getAddress(), source.getTags());
+        this(source.getName(), source.getDateTime(), source.getDueTime(), source.getAddress(), source.getTags());
     }
     
     @Override
@@ -43,12 +43,12 @@ public class Task implements ReadOnlyTask {
     }
 
     @Override
-    public DateTime getDueDate() {
+    public DateTime getDateTime() {
         return dueDate;
     }
 
     @Override
-    public DueTime getDueTime() {
+    public DueDateTime getDueTime() {
         return dueTime;
     }
 

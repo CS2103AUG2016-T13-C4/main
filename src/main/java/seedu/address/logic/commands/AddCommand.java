@@ -40,7 +40,7 @@ public class AddCommand extends Command {
         this.toAdd = new Task(
                 new TaskName(name),
                 new DateTime(datetimeParam1 + " " + dateTimeParam2),
-                new DueTime(),
+                new DueDateTime(),
                 new Address(),
                 new UniqueTagList(tagSet)
         );

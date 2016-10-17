@@ -7,21 +7,25 @@ import seedu.address.model.tag.UniqueTagList;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+
+import com.joestelmach.natty.*;
 
 /**
  * Adds a person to the address book.
  */
-public class FloatingCommand extends Command {
+public class EventCommand extends Command {
 
-    public static final String COMMAND_WORD = "addf";
+    public static final String COMMAND_WORD = "event";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to SuperbTodo. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an event to SuperbTodo. "
     		//add <task description> at/by <time> on <date>
-            + "Format: <task description> [t/TAG]\n"
+            + "Format: <task description> from <time and date> to <time and date> [t/TAG]\n"
             + "Example: " + COMMAND_WORD
-            + " Finish homework t/school t/important";
+            + " Jane's birthday party from 21 Dec 2016 3pm to 4pm t/important";
 
-    public static final String MESSAGE_SUCCESS = "New floating task added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New event added: %1$s";
+    public static final String MESSAGE_ERROR_DATE = "SuperbToDo is unable to identify event period. Please specify only 2 dates as period.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This task already exists in the address book";
 
     private final Task toAdd;
@@ -31,20 +35,35 @@ public class FloatingCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public FloatingCommand(String name, Set<String> tags)
+    public EventCommand(String name, String period, Set<String> tags)
             throws IllegalValueException {
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
+        
+        List dateList = retrieveDate(period);
+        
+        if (dateList.size() > 2 || dateList.size() == 0) {
+        	throw new IllegalValueException(MESSAGE_ERROR_DATE);
+        }
+        
         this.toAdd = new Task(
                 new TaskName(name),
-                new DateTime(),
-                new DueDateTime(),
+                new DateTime(dateList.get(0).toString()),
+                new DueDateTime(dateList.get(1).toString()),
                 new Address(),
                 new UniqueTagList(tagSet)
         );
     }
+
+	private List retrieveDate(String period) {
+		assert period != null;
+        period = period.trim();
+        Parser parser = new Parser();
+    	List<DateGroup> dateParser = parser.parse(period);
+    	return dateParser.get(0).getDates();
+	}
 
     @Override
     public CommandResult execute() {

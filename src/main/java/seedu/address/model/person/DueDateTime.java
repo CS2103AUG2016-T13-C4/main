@@ -8,9 +8,9 @@ import java.util.List;
  * Represents a Task's date and time in SuperbTodo.
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
-public class DateTime {
+public class DueDateTime {
 
-    public static final String MESSAGE_DATE_CONSTRAINTS = "Task's dateTime should be a valid number representing date and time";
+    public static final String MESSAGE_DATE_CONSTRAINTS = "Task's DueTime should be a valid number representing date and time";
 
     public final String date_value;
     public final String time_value;
@@ -20,7 +20,7 @@ public class DateTime {
      *
      * @throws IllegalValueException if given date string is invalid.
      */
-    public DateTime(String date) throws IllegalValueException {
+    public DueDateTime(String date) throws IllegalValueException {
         assert date != null;
         date = date.trim();
         Parser parser = new Parser();
@@ -39,7 +39,7 @@ public class DateTime {
     /**
      * Empty constructor
      */
-    public DateTime() {
+    public DueDateTime() {
         this.date_value = "";
         this.time_value = "";
     }
@@ -73,8 +73,8 @@ public class DateTime {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DateTime // instanceof handles nulls
-                && this.date_value.equals(((DateTime) other).date_value)); // state check
+                || (other instanceof DueDateTime // instanceof handles nulls
+                && this.date_value.equals(((DueDateTime) other).date_value)); // state check
     }
 
     @Override
@@ -83,3 +83,4 @@ public class DateTime {
     }
 
 }
+
