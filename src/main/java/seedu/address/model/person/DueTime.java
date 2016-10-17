@@ -30,6 +30,13 @@ public class DueTime {
         }
         this.value = email;
     }
+    
+    /**
+     * Empty constructor
+     */
+    public DueTime() {
+        this.value = "";
+    }
 
     /**
      * Returns if a given string is a valid person email.

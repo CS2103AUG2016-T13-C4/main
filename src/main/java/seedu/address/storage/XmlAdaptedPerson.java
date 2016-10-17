@@ -40,8 +40,8 @@ public class XmlAdaptedPerson {
     public XmlAdaptedPerson(ReadOnlyTask source) {
         name = source.getName().fullName;
         phone = source.getDueDate().date_value;
-        email = source.getDueDate().time_value;
-        address = source.getAddress().value;
+        email = source.getAddress().value;
+        address = source.getDueDate().time_value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));

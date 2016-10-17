@@ -25,6 +25,10 @@ public class Parser {
 
     private static final Pattern KEYWORDS_ARGS_FORMAT =
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
+    
+    private static final Pattern TASK_FLOATING_DATA_ARGS_FORMAT =
+    		Pattern.compile("(?<name>[^/]+)"
+            		+ "\\s*(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
     private static final Pattern TASK_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
             Pattern.compile("(?<name1>[^/]+)"
@@ -62,7 +66,10 @@ public class Parser {
 
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
-
+            
+        case FloatingCommand.COMMAND_WORD:
+            return prepareFloating(arguments);
+            
         case SelectCommand.COMMAND_WORD:
             return prepareSelect(arguments);
 
@@ -90,7 +97,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the add person command.
+     * Parses arguments in the context of the add task command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -121,6 +128,28 @@ public class Parser {
         	} else {
         		return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         	}
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+    }
+    
+    /**
+     * Parses arguments in the context of the add floating task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareFloating(String args){
+        final Matcher matcher = TASK_FLOATING_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FloatingCommand.MESSAGE_USAGE));
+        }
+        try {
+        	return new FloatingCommand(
+            		matcher.group("name"),
+                    getTagsFromArgs(matcher.group("tagArguments"))
+            );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }

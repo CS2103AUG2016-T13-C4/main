@@ -37,6 +37,14 @@ public class DateTime {
         	this.time_value = formatTime(dateParser.get(0).getDates().toString());
         }
     }
+    
+    /**
+     * Empty constructor
+     */
+    public DateTime() {
+        this.date_value = "";
+        this.time_value = "";
+    }
 
 	private String formatDate(String dateString) {
 		String[] dateComponent = dateString.substring(1, dateString.length() - 1).split(" ");

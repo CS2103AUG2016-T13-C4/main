@@ -28,6 +28,13 @@ public class Address {
     }
 
     /**
+     * Empty constructor
+     */
+    public Address() {
+        this.value = "";
+    }
+    
+    /**
      * Returns true if a given string is a valid person email.
      */
     public static boolean isValidAddress(String test) {
