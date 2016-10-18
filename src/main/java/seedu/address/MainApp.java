@@ -45,7 +45,7 @@ public class MainApp extends Application {
 
     @Override
     public void init() throws Exception {
-        logger.info("=============================[ Initializing AddressBook ]===========================");
+        logger.info("=============================[ Initializing SuperTodo ]===========================");
         super.init();
 
         config = initConfig(getApplicationParameter("config"));
@@ -69,6 +69,7 @@ public class MainApp extends Application {
         return applicationParameters.get(parameterName);
     }
 
+    // initialize with empty addressbook in case of no data, wrong file
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
@@ -93,6 +94,7 @@ public class MainApp extends Application {
         LogsCenter.init(config);
     }
 
+    // specify filepaths 
     protected Config initConfig(String configFilePath) {
         Config initializedConfig;
         String configFilePathUsed;
@@ -165,7 +167,7 @@ public class MainApp extends Application {
 
     @Override
     public void stop() {
-        logger.info("============================ [ Stopping Address Book ] =============================");
+        logger.info("============================ [ Stopping SuperTodo ] =============================");
         ui.stop();
         try {
             storage.saveUserPrefs(userPrefs);
