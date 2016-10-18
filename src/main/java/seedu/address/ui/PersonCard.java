@@ -43,8 +43,8 @@ public class PersonCard extends UiPart{
     public void initialize() {
     	String dateMessage = "Date: ", timeMessage = "Time: ";
     	if (person.getDueTime().date_value == "") {
-    		dateMessage += person.getDateTime().date_value;
-    		timeMessage += person.getDateTime().time_value;
+    		dateMessage = person.getDateTime().date_value;
+    		timeMessage = person.getDateTime().time_value;
         } else {
         	dateMessage += person.getDateTime().date_value + " to " + person.getDueTime().date_value;
     		timeMessage += person.getDateTime().time_value + " to " + person.getDueTime().time_value;
