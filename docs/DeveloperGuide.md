@@ -297,16 +297,72 @@ Priority | As a ... | I want to ... | So that I can...
 
 ## Appendix B : Use Cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `SuperbToDo` and the **Actor** is the `user`, unless specified otherwise)
 
-#### Use case: Delete person
+#### Use case: Add timed task
 
 **MSS**
 
-1. User requests to list persons
-2. AddressBook shows a list of persons
-3. User requests to delete a specific person in the list
-4. AddressBook deletes the person <br>
+1. User uses the "add" command to add a task
+2. SuperbToDo adds the task
+3. SuperbToDo informs user that task has been added successfully <br>
+Use case ends.
+
+**Extensions**
+
+2a. SuperbTodo does not understand the user command
+
+> 2a1. SuperbToDo will show an error message and inform user on correct syntax
+  User case resume at step 1
+
+#### Use case: Add untimed/floating task
+
+**MSS**
+
+1. User uses the "addf" command to add a task
+2. SuperbToDo adds the task with no date and time
+3. SuperbToDo informs user that task has been added successfully <br>
+Use case ends.
+
+**Extensions**
+
+2a. SuperbTodo does not understand the user command
+
+> 2a1. SuperbToDo shows an error message and inform user on the correct syntax
+  User case resume at step 1
+
+#### Use case: Edit task
+
+**MSS**
+
+1. User request to list task
+2. SuperbToDo shows a list of task
+3. User requests to edit a specific task in the list using "edit" command
+4. SuperbToDo informs user the update is complete and reflect the changes <br>
+Use case ends.
+
+**Extensions**
+
+2a. The list is empty
+
+> Use case ends
+
+3a. User gives an invalid command
+> 3a1. SuperbToDo shows an error message and inform user on the correct syntax
+  Use case resumes at step 2
+
+3b. The given index is invalid
+> 3b1. SuperbToDo shows an error message
+  Use case resumes at step 2
+
+#### Use case: Delete task
+
+**MSS**
+
+1. User requests to list task
+2. SuperbToDo shows a list of tasks
+3. User requests to remove a specific task in the list
+4. SuperbToDo deletes the task <br>
 Use case ends.
 
 **Extensions**
@@ -317,7 +373,7 @@ Use case ends.
 
 3a. The given index is invalid
 
-> 3a1. AddressBook shows an error message <br>
+> 3a1. SuperbToDo shows an error message <br>
   Use case resumes at step 2
 
 {More to be added}
