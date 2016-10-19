@@ -11,7 +11,7 @@
  *
  *
 **/
-
+package seedu.address.storage;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.io.BufferedReader;
@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import seedu.address.model.person.*;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -53,7 +54,7 @@ public class SuperbTodoIO {
 	*/
 	public static void saveTasksIntoFile() throws FileNotFoundException, UnsupportedEncodingException {
 		Gson gson = new Gson();
-		String jsonTasks = gson.toJson(Data.task);
+		String jsonTasks = gson.toJson(UniquePersonList.getInternalList());
 		PrintWriter writer = new PrintWriter("Tasks.txt", "UTF-8");
 		writer.println(jsonTasks);
 		writer.close();
