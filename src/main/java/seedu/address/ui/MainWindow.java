@@ -111,8 +111,8 @@ public class MainWindow extends UiPart {
        // browserPanel = BrowserPanel.load(browserPlaceholder);
         
         personListPanel = PersonListPanel.load(primaryStage, getPersonListPlaceholder(), logic.getFilteredPersonList());
-        commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
+        commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
         
         
       //  statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getAddressBookFilePath());
