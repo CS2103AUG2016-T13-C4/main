@@ -45,7 +45,7 @@ public class MainApp extends Application {
 
     @Override
     public void init() throws Exception {
-        logger.info("=============================[ Initializing SuperTodo ]===========================");
+        logger.info("=============================[ Initializing SuperbTodo ]===========================");
         super.init();
 
         config = initConfig(getApplicationParameter("config"));
@@ -161,13 +161,13 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        logger.info("Starting AddressBook " + MainApp.VERSION);
+        logger.info("Starting SuperbToDo " + MainApp.VERSION);
         ui.start(primaryStage);
     }
 
     @Override
     public void stop() {
-        logger.info("============================ [ Stopping SuperTodo ] =============================");
+        logger.info("============================ [ Stopping SuperbTodo ] =============================");
         ui.stop();
         try {
             storage.saveUserPrefs(userPrefs);
