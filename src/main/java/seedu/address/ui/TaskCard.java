@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import seedu.address.model.person.ReadOnlyTask;
 
-public class PersonCard extends UiPart{
+public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
 
@@ -47,12 +47,12 @@ public class PersonCard extends UiPart{
     private ReadOnlyTask person;
     private int displayedIndex;
     
-    public PersonCard(){
+    public TaskCard(){
 
     }
 
-    public static PersonCard load(ReadOnlyTask person, int displayedIndex){
-        PersonCard card = new PersonCard();
+    public static TaskCard load(ReadOnlyTask person, int displayedIndex){
+        TaskCard card = new TaskCard();
         card.person = person;
         card.displayedIndex = displayedIndex;
         return UiPartLoader.loadUiPart(card);
@@ -60,18 +60,13 @@ public class PersonCard extends UiPart{
 
     @FXML
     public void initialize() {
-    	String dateMessage = "Date: ", timeMessage = "Time: ";
-    	if (person.getDueTime().date_value == "") {
-    		dateMessage = person.getDateTime().date_value;
-    		timeMessage = person.getDateTime().time_value;
-        } else {
-        	dateMessage += person.getDateTime().date_value + " to " + person.getDueTime().date_value;
-    		timeMessage += person.getDateTime().time_value + " to " + person.getDueTime().time_value;
-        }
         task.setText(person.getName().fullName);
         id.setText(displayedIndex + ". ");
-        startdate.setText(dateMessage);
-        starttime.setText(timeMessage);
+        startdate.setText(person.getDateTime().date_value);
+        starttime.setText(person.getDateTime().time_value);
+        enddate.setText(person.getDueTime().date_value);
+        endtime.setText(person.getDueTime().time_value);
+        hashtag.setText(person.tagsString());
         //email.setText(person.getAddress().value);
         //tags.setText(person.tagsString());
     }

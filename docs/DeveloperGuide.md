@@ -319,7 +319,7 @@ Use case ends.
 
 **MSS**
 
-1. User uses the "addf" command to add a task
+1. User uses the "add" command to add a task
 2. SuperbToDo adds the task with no date and time
 3. SuperbToDo informs user that task has been added successfully <br>
 Use case ends.
@@ -335,7 +335,7 @@ Use case ends.
 
 **MSS**
 
-1. User uses the "event" command to add a task
+1. User uses the "add" command to add a task
 2. SuperbToDo adds the event
 3. SuperbToDo informs user that the event has been added successfully <br>
 Use case ends.

@@ -4,9 +4,9 @@ import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.person.*;
 
 /**
- * A mutable person object. For testing only.
+ * A mutable task object. For testing only.
  */
-public class TestPerson implements ReadOnlyTask {
+public class TestTask implements ReadOnlyTask {
 
     private TaskName name;
     private Address address;
@@ -14,7 +14,7 @@ public class TestPerson implements ReadOnlyTask {
     private DateTime phone;
     private UniqueTagList tags;
 
-    public TestPerson() {
+    public TestTask() {
         tags = new UniqueTagList();
     }
 

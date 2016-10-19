@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.*;
+import seedu.address.model.person.DateTime;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.exceptions.IllegalValueException;
 
@@ -25,24 +26,12 @@ public class Parser {
 
     private static final Pattern KEYWORDS_ARGS_FORMAT =
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
-    
-    private static final Pattern EVENT_DATA_ARGS_FORMAT =
-    		Pattern.compile("(?<name>[^/]+)"
-    				+ "\\s+(from)\\s+(?<period>[^/]+)" 
-            		+ "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
-    
-    private static final Pattern TASK_FLOATING_DATA_ARGS_FORMAT =
-    		Pattern.compile("(?<name>[^/]+)"
-            		+ "\\s*(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
-    
+
     private static final Pattern TASK_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
-            Pattern.compile("(?<name1>[^/]+)"
-            		+ "\\s+(at|by|on|every)\\s+(?<dateTime1>[^/]+)" 
-            		+ "(\\s+(at|by|on)\\s+(?<dateTime2>[^/]+))"
-            		+ "(?<tagArguments1>(?: t/[^/]+)*)|"
-            		+ "(?<name2>[^/]+)"
-            		+ "\\s+(at|by|on|every)\\s+(?<dateTime3>[^/]+)"
-            		+ "(?<tagArguments2>(?: t/[^/]+)*)"); // variable number of tags
+            Pattern.compile("((?<name>[^/]+)"
+            		+ "\\s+(at|by|on|every|from)\\s+(?<dateTime>[^/]+)" 
+            		+ "|(?<floating>[^/]+))"
+            		+ "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
             		/*
             		"(?<name>[^/]+)"
                     + " (?<isPhonePrivate>p?)p/(?<phone>[^/]+)"
@@ -71,13 +60,7 @@ public class Parser {
 
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
-            
-        case FloatingCommand.COMMAND_WORD:
-            return prepareFloating(arguments);
-            
-        case EventCommand.COMMAND_WORD:
-            return prepareEvent(arguments);
-            
+
         case SelectCommand.COMMAND_WORD:
             return prepareSelect(arguments);
 
@@ -111,80 +94,51 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareAdd(String args){
-        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
+    	final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
         try {
-        	if (matcher.group("name1") != null) {
-        		// Case: Double date/time parameters provided
-        		return new AddCommand(
-                		matcher.group("name1"),
-                		matcher.group("dateTime1"),
-                		matcher.group("dateTime2"),
-                        getTagsFromArgs(matcher.group("tagArguments1"))
-                );
-        	} else if (matcher.group("name2") != null) {
-        		// Case: Single date/time parameter provided
-        		return new AddCommand(
-                		matcher.group("name2"),
-                		matcher.group("dateTime3"),
-                		"",
-                        getTagsFromArgs(matcher.group("tagArguments2"))
-                );
-        	} else {
-        		return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-        	}
+        	return checkDoubleDateTimeParam(matcher);
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
     }
-    
-    /**
-     * Parses arguments in the context of the add floating task command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareFloating(String args){
-        final Matcher matcher = TASK_FLOATING_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FloatingCommand.MESSAGE_USAGE));
-        }
-        try {
-        	return new FloatingCommand(
-            		matcher.group("name"),
-                    getTagsFromArgs(matcher.group("tagArguments"))
-            );
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
-    }
-    
-    /**
-     * Parses arguments in the context of the add floating task command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareEvent(String args){
-        final Matcher matcher = EVENT_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EventCommand.MESSAGE_USAGE));
-        }
-        try {
-        	return new EventCommand(
-            		matcher.group("name"),
-            		matcher.group("period"),
-                    getTagsFromArgs(matcher.group("tagArguments"))
-            );
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
-    }
+
+	private Command checkDoubleDateTimeParam(final Matcher matcher) throws IllegalValueException {
+		String getDateTime, getName, secondDateTime;
+		getName = matcher.group("name");
+		getDateTime = matcher.group("dateTime");
+		
+		if (getName == null) {
+			getName = matcher.group("floating");
+			return new AddCommand(
+					getName,
+					"",
+		            getTagsFromArgs(matcher.group("tagArguments"))
+		    );
+		} else {
+			if (DateTime.isValidDate(getDateTime)) {
+				// check if secondary datetime parameter exist
+				Matcher secondMatch = TASK_DATA_ARGS_FORMAT.matcher(getName.trim());
+				if (secondMatch.matches()) {
+					secondDateTime = secondMatch.group("dateTime");
+					if (secondDateTime != null && DateTime.isValidDate(secondDateTime)) {
+						getName = secondMatch.group("name");
+						getDateTime = secondDateTime + " " + getDateTime;
+					}
+		        }
+				return new AddCommand(
+		    			getName,
+		    			getDateTime,
+		                getTagsFromArgs(matcher.group("tagArguments"))
+		        );
+			} else {
+				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+			}
+		}
+	}
 
     /**
      * Extracts the new person's tags from the add command's tag arguments string.
