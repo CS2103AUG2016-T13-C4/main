@@ -399,5 +399,59 @@ Use case ends.
 
 ## Appendix E : Product Survey
 
-{TODO: Add a summary of competing products}
+#### Google Calendar
+Google Calendar is a task manager and calendar of the search engine, Google. 
+<img src="images/Google_Calendar.png" width="300"><br>
+
+`Plus points`
+*Interface of the product is minimal and directs users to focus on the necessary components in penciling down an event, namely date, time, venue
+*It is easy to replicate events similar to existing ones, reducing users' efforts in penciling down an entirely new event
+*Display density allows user to choose the style of displaying calendar - enhances user experience
+*Event colour - allow user to classify events based on colour. This enhance the user experience
+
+`Down sides`
+*The product becomes unavailable offline as it's a web-based service, adding inconvenience to users when internet connection is lacking 
+*Unable to help user prioritise which event is most important if events overlap
+*Does not allow user to add "floating tasks" without entering date and time
+*No priority ranking for events penciled down
+
+`Insights`
+*For our product, enabling offline accessibility and easy penciling down recurring tasks are important
+
+
+#### Fantastical 2 
+Fantastical 2 for Mac is a personal and event manager. It allows natural language processing and full calendar view with different categories of events highlighted in varied colors. 
+<img src="images/fantastical2.png" width="300"><br>
+
+`Plus points`
+*Offline accessibility while cloud service enables cross-Apple platform syncing via common account
+*Different categories of events highlighted in different colors which allows users a faster overview of all tasks
+
+`Downsides`
+*The product is not available on Windows platform yet
+*Unable to recognize shortforms preferred by users
+
+`Insights`
+*For our product, highlighting tasks of different categories and providing cross-platform accessibility are important
+
+#### Wunderlist
+Wunderlist is a task manager that organizes, shares and reminds you of your to-dos. It is available in both Android and IOS systems as well as website platform.
+<img src="images/wunderlist.png" width="300"><br>
+
+`Plus points`
+*Available in both Android and IOS systems and almost all major device platforms: phones, laptops,websites
+*Able to add additional details to the event
+*Allows users to star events to label as high priority.
+*Flexible searching function which allows users to search for events based on event title as well as additional info typed on the event
+*Allows users sorting availability by due dates, and priority.
+*Allows users to attach file to the event, such as emails or documents that contain additional information on the current event can be linked to
+
+
+`Downsides`
+*Users can't copy past events for similar ones and doens't have a standard recurring structure
+*Calendar view is not available for quick overview of existing tasks
+
+`Insights`
+*For our product, it's important to have a flexible sorting function to allow users grasp information of their want
+
 
