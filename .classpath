@@ -33,5 +33,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gson Lib"/>
+	<classpathentry kind="lib" path="C:/Users/Qi Yong/workspace/main/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -166,7 +166,7 @@ public class LogicManagerTest {
         assertCommandBehavior(
                 "add Valid Name p/not_numbers e/valid@e.mail a/valid, address", DateTime.MESSAGE_DATE_CONSTRAINTS);
         assertCommandBehavior(
-                "add Valid Name p/12345 e/notAnEmail a/valid, address", DueDateTime.MESSAGE_TIME_CONSTRAINTS);
+                "add Valid Name p/12345 e/notAnEmail a/valid, address", DueDateTime.MESSAGE_DATE_CONSTRAINTS);
         assertCommandBehavior(
                 "add Valid Name p/12345 e/valid@e.mail a/valid, address t/invalid_-[.tag", Tag.MESSAGE_TAG_CONSTRAINTS);
 
@@ -417,7 +417,7 @@ public class LogicManagerTest {
             cmd.append("add ");
 
             cmd.append(p.getName().toString());
-            cmd.append(" p/").append(p.getDueDate());
+            cmd.append(" p/").append(p.getDateTime());
             cmd.append(" e/").append(p.getDueTime());
             cmd.append(" a/").append(p.getAddress());
 
