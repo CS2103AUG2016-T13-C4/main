@@ -331,6 +331,30 @@ Use case ends.
 > 2a1. SuperbToDo shows an error message and inform user on the correct syntax
   User case resume at step 1
 
+#### Use case: Add an event
+
+**MSS**
+
+1. User uses the "event" command to add a task
+2. SuperbToDo adds the event
+3. SuperbToDo informs user that the event has been added successfully <br>
+Use case ends.
+
+**Extensions**
+
+2a. SuperbTodo does not understand the user command
+
+> 2a1. SuperbToDo shows an error message and inform user on the correct syntax
+  User case resume at step 1
+
+#### Use case: List task
+
+**MSS**
+
+1. User request to list task
+2. SuperbToDo shows a list of task <br>
+Use case ends.
+
 #### Use case: Edit task
 
 **MSS**
@@ -348,10 +372,12 @@ Use case ends.
 > Use case ends
 
 3a. User gives an invalid command
+
 > 3a1. SuperbToDo shows an error message and inform user on the correct syntax
   Use case resumes at step 2
 
 3b. The given index is invalid
+
 > 3b1. SuperbToDo shows an error message
   Use case resumes at step 2
 
@@ -375,6 +401,25 @@ Use case ends.
 
 > 3a1. SuperbToDo shows an error message <br>
   Use case resumes at step 2
+
+#### Use case: Find task
+
+**MSS**
+
+1. User find a task by using the "find command"
+2. SuperbToDo shows a list of task related to user's search request <br>
+Use case ends.
+
+**Extensions**
+
+1a. User gives an invalid command
+
+> 1a1. SuperbToDo shows an error message and inform user on the correct syntax
+  Use case resumes at step 1
+
+2a. Unable to find any matching task
+
+> Use case ends
 
 {More to be added}
 
