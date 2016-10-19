@@ -166,7 +166,7 @@ public class LogicManagerTest {
         assertCommandBehavior(
                 "add Valid Name p/not_numbers e/valid@e.mail a/valid, address", DateTime.MESSAGE_DATE_CONSTRAINTS);
         assertCommandBehavior(
-                "add Valid Name p/12345 e/notAnEmail a/valid, address", DueTime.MESSAGE_TIME_CONSTRAINTS);
+                "add Valid Name p/12345 e/notAnEmail a/valid, address", DueDateTime.MESSAGE_TIME_CONSTRAINTS);
         assertCommandBehavior(
                 "add Valid Name p/12345 e/valid@e.mail a/valid, address t/invalid_-[.tag", Tag.MESSAGE_TAG_CONSTRAINTS);
 
@@ -385,7 +385,7 @@ public class LogicManagerTest {
         Task adam() throws Exception {
             TaskName name = new TaskName("Adam Brown");
             DateTime privatePhone = new DateTime("111111");
-            DueTime email = new DueTime("adam@gmail.com");
+            DueDateTime email = new DueDateTime("adam@gmail.com");
             Address privateAddress = new Address("111, alpha street");
             Tag tag1 = new Tag("tag1");
             Tag tag2 = new Tag("tag2");
@@ -404,7 +404,7 @@ public class LogicManagerTest {
             return new Task(
                     new TaskName("Person " + seed),
                     new DateTime("" + Math.abs(seed)),
-                    new DueTime(seed + "@email"),
+                    new DueDateTime(seed + "@email"),
                     new Address("House of " + seed),
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1)))
             );
@@ -503,7 +503,7 @@ public class LogicManagerTest {
             return new Task(
                     new TaskName(name),
                     new DateTime("1"),
-                    new DueTime("1@email"),
+                    new DueDateTime("1@email"),
                     new Address("House of 1"),
                     new UniqueTagList(new Tag("tag"))
             );

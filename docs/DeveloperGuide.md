@@ -273,26 +273,96 @@ Priorities: High (must have) - `* * *`, Medium (nice to have)  - `* *`,  Low (un
 Priority | As a ... | I want to ... | So that I can...
 -------- | :-------- | :--------- | :-----------
 `* * *` | new user | see usage instructions | refer to instructions when I forget how to use the App
-`* * *` | user | add a new person |
-`* * *` | user | delete a person | remove entries that I no longer need
-`* * *` | user | find a person by name | locate details of persons without having to go through the entire list
-`* *` | user | hide [private contact details](#private-contact-detail) by default | minimize chance of someone else seeing them by accident
-`*` | user with many persons in the address book | sort persons by name | locate a person easily
+`* * *` | user | add a new timed task | jot down task with known starting time or deadline
+`* * *` | user | add a new untimed task | jot down task with only task descriptions
+`* * *` | user | edit a task | modify content of tasks already added without needing to add a new task
+`* * *` | user | mark a task as done | label a task as finished once done
+`* * *` | user | mark a task as undone | change status of a finished task when more need to be done to the task
+`* * *` | user | list all tasks | view all tasks I need to do
+`* * *` | user | list untimed tasks | glance all tasks without specified starting time or deadline
+`* * *` | user | list timed tasks | view all tasks with known starting time or deadline
+`* * *` | user | list tasks with hashtags | view all tasks by a certain category quickly
+`* * *` | user | list overdue tasks | view all tasks that need to be finished ASAP
+`* * *` | user | list tasks for today | view all tasks just for today
+`* * *` | user | list tasks for tomorrow | view all tasks just for tomorrow
+`* * *` | user | delete a task | remove entries that I no longer need
+`* * *` | user | find a task by keyword | locate details of tasks without having to go through the entire list
+`* * *` | user | undo a command | cancel the last command carried out if I regret doing that
+`* * *` | user | redo a command | repeat the last command carried out without having to specify the exact command
+`* *` | user | add a hashtag to a task | categorize tasks and know what they’re about by a glance
+`* *` | user | list tasks for a certain week | view all tasks for the particular week and prioritize
+`* *` | user | exit the program | quickly quit the program without a mouse
+`*` | user | clear command line entry | quickly type what I intend without having to press backspace continuously
 
-{More to be added}
 
 ## Appendix B : Use Cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `SuperbToDo` and the **Actor** is the `user`, unless specified otherwise)
 
-#### Use case: Delete person
+#### Use case: Add timed task
 
 **MSS**
 
-1. User requests to list persons
-2. AddressBook shows a list of persons
-3. User requests to delete a specific person in the list
-4. AddressBook deletes the person <br>
+1. User uses the "add" command to add a task
+2. SuperbToDo adds the task
+3. SuperbToDo informs user that task has been added successfully <br>
+Use case ends.
+
+**Extensions**
+
+2a. SuperbTodo does not understand the user command
+
+> 2a1. SuperbToDo will show an error message and inform user on correct syntax
+  User case resume at step 1
+
+#### Use case: Add untimed/floating task
+
+**MSS**
+
+1. User uses the "addf" command to add a task
+2. SuperbToDo adds the task with no date and time
+3. SuperbToDo informs user that task has been added successfully <br>
+Use case ends.
+
+**Extensions**
+
+2a. SuperbTodo does not understand the user command
+
+> 2a1. SuperbToDo shows an error message and inform user on the correct syntax
+  User case resume at step 1
+
+#### Use case: Edit task
+
+**MSS**
+
+1. User request to list task
+2. SuperbToDo shows a list of task
+3. User requests to edit a specific task in the list using "edit" command
+4. SuperbToDo informs user the update is complete and reflect the changes <br>
+Use case ends.
+
+**Extensions**
+
+2a. The list is empty
+
+> Use case ends
+
+3a. User gives an invalid command
+> 3a1. SuperbToDo shows an error message and inform user on the correct syntax
+  Use case resumes at step 2
+
+3b. The given index is invalid
+> 3b1. SuperbToDo shows an error message
+  Use case resumes at step 2
+
+#### Use case: Delete task
+
+**MSS**
+
+1. User requests to list task
+2. SuperbToDo shows a list of tasks
+3. User requests to remove a specific task in the list
+4. SuperbToDo deletes the task <br>
 Use case ends.
 
 **Extensions**
@@ -303,7 +373,7 @@ Use case ends.
 
 3a. The given index is invalid
 
-> 3a1. AddressBook shows an error message <br>
+> 3a1. SuperbToDo shows an error message <br>
   Use case resumes at step 2
 
 {More to be added}

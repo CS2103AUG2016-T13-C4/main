@@ -8,26 +8,45 @@ import seedu.address.model.person.ReadOnlyTask;
 
 public class PersonCard extends UiPart{
 
-    private static final String FXML = "PersonListCard.fxml";
+    private static final String FXML = "TaskListCard.fxml";
 
+//    @FXML
+//    private HBox cardPane;
+//    @FXML
+//    private Label name;
+//    @FXML
+//    private Label id;
+//    @FXML
+//    private Label phone;
+//    @FXML
+//    private Label address;
+//    @FXML
+//    private Label email;
+//    @FXML
+//    private Label tags;
+
+    //my code
     @FXML
     private HBox cardPane;
     @FXML
-    private Label name;
+    private Label task;
     @FXML
     private Label id;
     @FXML
-    private Label phone;
+    private Label startdate;
     @FXML
-    private Label address;
+    private Label starttime;
     @FXML
-    private Label email;
+    private Label enddate;
     @FXML
-    private Label tags;
-
+    private Label endtime;
+    @FXML
+    private Label hashtag;
+    // end of my code
+    
     private ReadOnlyTask person;
     private int displayedIndex;
-
+    
     public PersonCard(){
 
     }
@@ -41,12 +60,20 @@ public class PersonCard extends UiPart{
 
     @FXML
     public void initialize() {
-        name.setText(person.getName().fullName);
+    	String dateMessage = "Date: ", timeMessage = "Time: ";
+    	if (person.getDueTime().date_value == "") {
+    		dateMessage = person.getDateTime().date_value;
+    		timeMessage = person.getDateTime().time_value;
+        } else {
+        	dateMessage += person.getDateTime().date_value + " to " + person.getDueTime().date_value;
+    		timeMessage += person.getDateTime().time_value + " to " + person.getDueTime().time_value;
+        }
+        task.setText(person.getName().fullName);
         id.setText(displayedIndex + ". ");
-        phone.setText(person.getDueDate().date_value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getDueDate().time_value);
-        tags.setText(person.tagsString());
+        startdate.setText(dateMessage);
+        starttime.setText(timeMessage);
+        //email.setText(person.getAddress().value);
+        //tags.setText(person.tagsString());
     }
 
     public HBox getLayout() {

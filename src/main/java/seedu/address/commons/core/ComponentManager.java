@@ -1,5 +1,6 @@
 package seedu.address.commons.core;
 
+import javafx.stage.Stage;
 import seedu.address.commons.events.BaseEvent;
 
 /**
@@ -24,5 +25,10 @@ public abstract class ComponentManager {
 
     protected void raise(BaseEvent event){
         eventsCenter.post(event);
+    }
+
+    public void start(Stage primaryStage) {
+        // TODO Auto-generated method stub
+        
     }
 }
