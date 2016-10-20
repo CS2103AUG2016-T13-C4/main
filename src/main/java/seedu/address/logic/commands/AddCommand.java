@@ -65,7 +65,7 @@ public class AddCommand extends Command {
             	return new Task(
             			new TaskName(name),
     	                new DateTime(),
-    	                new DueDateTime(dateList.get(0).toString()),
+    	                new DueDateTime(dateTimeParam),
     	                new Address(),
     	                new UniqueTagList(tagSet)
     	        );
