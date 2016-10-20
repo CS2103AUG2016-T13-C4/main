@@ -64,8 +64,8 @@ public class AddCommand extends Command {
             } else if (dateList.size() == 1) {
             	return new Task(
             			new TaskName(name),
-    	                new DateTime(dateList.get(0).toString()),
-    	                new DueDateTime(),
+    	                new DateTime(),
+    	                new DueDateTime(dateList.get(0).toString()),
     	                new Address(),
     	                new UniqueTagList(tagSet)
     	        );
