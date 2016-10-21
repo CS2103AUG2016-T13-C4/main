@@ -1,6 +1,8 @@
 package seedu.address;
 
 import com.google.common.eventbus.Subscribe;
+import com.google.gson.JsonSyntaxException;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -19,6 +21,7 @@ import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
+import seedu.address.storage.SuperbTodoIO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,25 +39,26 @@ public class MainApp extends Application {
 
     protected Ui ui;
     protected Logic logic;
-    protected Storage storage;
+    protected SuperbTodoIO storage;
     protected Model model;
     protected Config config;
     protected UserPrefs userPrefs;
 
     public MainApp() {}
 
+    
     @Override
     public void init() throws Exception {
         logger.info("=============================[ Initializing SuperbTodo ]===========================");
         super.init();
 
         config = initConfig(getApplicationParameter("config"));
-        storage = new StorageManager(config.getAddressBookFilePath(), config.getUserPrefsFilePath());
+        storage = new SuperbTodoIO(config.getAddressBookFilePath(),config.getUserPrefsFilePath());
 
         userPrefs = initPrefs(config);
 
         initLogging(config);
-
+        
         model = initModelManager(storage, userPrefs);
 
         logic = new LogicManager(model, storage);
@@ -70,21 +74,16 @@ public class MainApp extends Application {
     }
 
     // initialize with empty addressbook in case of no data, wrong file
-    private Model initModelManager(Storage storage, UserPrefs userPrefs) {
-        Optional<ReadOnlyAddressBook> addressBookOptional;
-        ReadOnlyAddressBook initialData;
+    private Model initModelManager(SuperbTodoIO storage, UserPrefs userPrefs) throws JsonSyntaxException, IOException {
+        AddressBook initialData;
         try {
-            addressBookOptional = storage.readAddressBook();
-            if(!addressBookOptional.isPresent()){
-                logger.info("Data file not found. Will be starting with an empty AddressBook");
-            }
-            initialData = addressBookOptional.orElse(new AddressBook());
-        } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
+            initialData = storage.loadTasksFromFile();
+        } catch (JsonSyntaxException e) {
+          logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
+          initialData = new AddressBook();
         } catch (IOException e) {
-            logger.warning("Problem while reading from the file. . Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
+          logger.warning("Problem while reading from the file. . Will be starting with an empty AddressBook");
+          initialData = new AddressBook();
         }
 
         return new ModelManager(initialData, userPrefs);
@@ -128,7 +127,6 @@ public class MainApp extends Application {
 
     protected UserPrefs initPrefs(Config config) {
         assert config != null;
-
         String prefsFilePath = config.getUserPrefsFilePath();
         logger.info("Using prefs file : " + prefsFilePath);
 
@@ -145,7 +143,7 @@ public class MainApp extends Application {
             initializedPrefs = new UserPrefs();
         }
 
-        //Update prefs file in case it was missing to begin with or there are new/unused fields
+//        Update prefs file in case it was missing to begin with or there are new/unused fields
         try {
             storage.saveUserPrefs(initializedPrefs);
         } catch (IOException e) {
@@ -188,3 +186,4 @@ public class MainApp extends Application {
         launch(args);
     }
 }
+

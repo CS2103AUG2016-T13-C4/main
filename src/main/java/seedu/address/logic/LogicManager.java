@@ -9,7 +9,7 @@ import seedu.address.logic.parser.Parser;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyTask;
 import seedu.address.storage.Storage;
-
+import seedu.address.storage.SuperbTodoIO;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +21,7 @@ public class LogicManager extends ComponentManager implements Logic {
     private final Model model;
     private final Parser parser;
 
-    public LogicManager(Model model, Storage storage) {
+    public LogicManager(Model model, SuperbTodoIO storage) {
         this.model = model;
         this.parser = new Parser();
     }

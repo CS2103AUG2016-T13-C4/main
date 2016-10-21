@@ -26,7 +26,9 @@ public class UniqueTagList implements Iterable<Tag> {
         }
     }
 
-    private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
+//    private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
+    public final ArrayList<Tag> internalList = new ArrayList<Tag>();
+
 
     /**
      * Constructs empty TagList.
@@ -124,7 +126,11 @@ public class UniqueTagList implements Iterable<Tag> {
         return internalList.iterator();
     }
 
-    public ObservableList<Tag> getInternalList() {
+//    public ObservableList<Tag> getInternalList() {
+//        return internalList;
+//    }
+    
+    public ArrayList<Tag> getInternalList() {
         return internalList;
     }
 

@@ -39,6 +39,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     public AddressBook(UniquePersonList persons, UniqueTagList tags) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
+    
+    public AddressBook(UniquePersonList persons) {
+        resetData(persons.getInternalList(), tags.getInternalList());
+    }
 
     public static ReadOnlyAddressBook getEmptyAddressBook() {
         return new AddressBook();
@@ -55,7 +59,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     public void setTags(Collection<Tag> tags) {
-        this.tags.getInternalList().setAll(tags);
+        this.tags.internalList.clear();
+        this.tags.internalList.addAll(tags);
+//        this.tags.getInternalList().setAll(tags);
     }
 
     public void resetData(Collection<? extends ReadOnlyTask> newPersons, Collection<Tag> newTags) {
@@ -130,6 +136,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public List<ReadOnlyTask> getPersonList() {
         return Collections.unmodifiableList(persons.getInternalList());
     }
+    
 
     @Override
     public List<Tag> getTagList() {

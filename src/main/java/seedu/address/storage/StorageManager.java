@@ -8,7 +8,6 @@ import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
@@ -82,7 +81,7 @@ public class StorageManager extends ComponentManager implements Storage {
     public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
-            saveAddressBook(event.data);
+        	SuperbTodoIO.saveTasksIntoFile(event.data);
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
         }

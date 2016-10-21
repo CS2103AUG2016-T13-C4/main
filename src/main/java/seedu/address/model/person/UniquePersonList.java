@@ -32,12 +32,17 @@ public class UniquePersonList implements Iterable<Task> {
      */
     public static class PersonNotFoundException extends Exception {}
 
-    private final static ObservableList<Task> internalList = FXCollections.observableArrayList();
+    private static ObservableList<Task> internalList = FXCollections.observableArrayList();
 
     /**
      * Constructs empty PersonList.
      */
     public UniquePersonList() {}
+
+    
+    public UniquePersonList(ObservableList<Task> tasklist) {
+    	this.internalList = tasklist;
+    }
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
