@@ -12,7 +12,7 @@
         <URL value="@Extensions.css" />
     </stylesheets>
     <children>
-        <ListView fx:id="personListView" VBox.vgrow="ALWAYS">
+        <ListView fx:id="taskListView" VBox.vgrow="ALWAYS">
          <VBox.margin>
             <Insets />
          </VBox.margin></ListView>

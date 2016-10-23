@@ -31,15 +31,7 @@
          </menus>
       </MenuBar>
       <AnchorPane fx:id="currentTimePanelPlaceholder" minHeight="15.0" prefHeight="15.0" VBox.vgrow="NEVER" />
-      <AnchorPane VBox.vgrow="NEVER">
-         <children>
-            <AnchorPane fx:id="taskscopePlaceholder" minHeight="30.0" prefHeight="30.0">
-               <children>
-                  <Label layoutX="360.0" layoutY="6.0" text="Task Scope" />
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
+      <AnchorPane fx:id="taskScopePlaceholder" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" VBox.vgrow="NEVER" />
       <AnchorPane maxHeight="20.0" minHeight="20.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" styleClass="anchor-pane" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
@@ -51,9 +43,9 @@
             <Label text="Hashtag" AnchorPane.rightAnchor="50.0" />
          </children>
       </AnchorPane>
-      <VBox fx:id="personList">
+      <VBox fx:id="taskList">
          <children>
-            <AnchorPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS" />
+            <AnchorPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS" />
          </children>
          <VBox.margin>
             <Insets left="20.0" right="20.0" />

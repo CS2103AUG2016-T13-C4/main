@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import seedu.address.model.person.ReadOnlyTask;
 
 public class TaskCard extends UiPart{
@@ -28,29 +27,29 @@ public class TaskCard extends UiPart{
     @FXML
     private Label hashtag;
     
-    private ReadOnlyTask person;
+    private ReadOnlyTask taskentry;
     private int displayedIndex;
     
     public TaskCard(){
 
     }
 
-    public static TaskCard load(ReadOnlyTask person, int displayedIndex){
+    public static TaskCard load(ReadOnlyTask taskentry, int displayedIndex){
         TaskCard card = new TaskCard();
-        card.person = person;
+        card.taskentry = taskentry;
         card.displayedIndex = displayedIndex;
         return UiPartLoader.loadUiPart(card);
     }
 
     @FXML
     public void initialize() {
-        task.setText(person.getName().fullName);
+        task.setText(taskentry.getName().fullName);
         id.setText(displayedIndex + ". ");
-        startdate.setText(person.getDateTime().date_value);
-        starttime.setText(person.getDateTime().time_value);
-        enddate.setText(person.getDueTime().date_value);
-        endtime.setText(person.getDueTime().time_value);
-        hashtag.setText(person.tagsString());
+        startdate.setText(taskentry.getDateTime().date_value);
+        starttime.setText(taskentry.getDateTime().time_value);
+        enddate.setText(taskentry.getDueTime().date_value);
+        endtime.setText(taskentry.getDueTime().time_value);
+        hashtag.setText(taskentry.tagsString());
     }
 
     public AnchorPane getLayout() {

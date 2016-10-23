@@ -26,7 +26,7 @@ public class TypicalTestTasks {
         try {
         	ab.addPerson(new Task(walk));
         	ab.addPerson(new Task(dinner));
-        } catch (UniquePersonList.DuplicatePersonException e) {
+        } catch (UniqueTaskList.DuplicatePersonException e) {
             assert false : "not possible";
         }
     }

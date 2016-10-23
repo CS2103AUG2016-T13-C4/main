@@ -82,7 +82,7 @@ public class SuperbTodoIO extends ComponentManager{
         	ArrayList<Task> tempList = gson.fromJson(jsonTasks, type);
         	ObservableList<Task> taskList = FXCollections.observableArrayList(tempList);
         	reader.close();
-        	return new AddressBook(new UniquePersonList(taskList));
+        	return new AddressBook(new UniqueTaskList(taskList));
 		} catch(IOException e) {
 			return new AddressBook();
 		}
@@ -96,7 +96,7 @@ public class SuperbTodoIO extends ComponentManager{
 		Gson gson = new Gson();
 		Type type = new TypeToken<ObservableList<Task>>() {
 		}.getType();
-		UniquePersonList tempList = addressBook.getUniquePersonList();
+		UniqueTaskList tempList = addressBook.getUniquePersonList();
 		ObservableList<Task> taskList = tempList.getInternalList();
 		String jsonTasks = gson.toJson(taskList,type);
 		PrintWriter writer = new PrintWriter(taskbookFilePath, "UTF-8");

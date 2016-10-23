@@ -39,14 +39,14 @@ public class MainWindow extends UiPart {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-   // private CurrentTImePanel currentTimePanel;
-    private TaskListPanel personListPanel;
+    private TaskListPanel taskListPanel;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
+    private TaskScope taskScopeBox;
 
-    // Handles to elements of this Ui container   
+    // Handles to elements of clock building   
     @FXML
     private static final String[] months = { "Jan", "Feb", "Mar", "Apr",
             "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -66,7 +66,13 @@ public class MainWindow extends UiPart {
     @FXML
     private final Label colon2 = new Label(":");
     
+    // Handles to elements of task scope display
+    @FXML
+    private Label taskScope; 
     
+    CommandBox commandInput;
+    
+    // Handles to elements of this Ui container 
     private VBox rootLayout;
     private Scene scene;
 
@@ -74,6 +80,9 @@ public class MainWindow extends UiPart {
 
     @FXML
     private AnchorPane currentTimePanelPlaceholder;
+    
+    @FXML
+    private AnchorPane taskScopePlaceholder;
 
     @FXML
     private AnchorPane commandBoxPlaceholder;
@@ -82,7 +91,7 @@ public class MainWindow extends UiPart {
     private MenuItem helpMenuItem;
 
     @FXML
-    private AnchorPane personListPanelPlaceholder;
+    private AnchorPane taskListPanelPlaceholder;
 
     @FXML
     private AnchorPane resultDisplayPlaceholder;
@@ -134,13 +143,14 @@ public class MainWindow extends UiPart {
         helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
     
-    
+    /** This method calls relevant methods to build clock and 
+     *  display current time to the sec inside time holder pane
+     */
     void clockFunction() {        
         //Load the clock function
         currentTimePanelPlaceholder.getChildren().addAll(buildClock());
         displayTime();
         timelineCall();
-
     }
     
     /**
@@ -148,7 +158,7 @@ public class MainWindow extends UiPart {
      *
      * @return currentTimePane HBox frame for displayTime()
      */
-    public HBox buildClock() {
+    private HBox buildClock() {
         HBox clock = new HBox();
         clock.setLayoutX(20.0);
         clock.setSnapToPixel(true);
@@ -200,7 +210,7 @@ public class MainWindow extends UiPart {
      *
      */
     
-    public void timelineCall() {
+    private void timelineCall() {
         final Timeline time = new Timeline();
         time.setCycleCount(Timeline.INDEFINITE);
         time.getKeyFrames().add(
@@ -212,9 +222,57 @@ public class MainWindow extends UiPart {
                 }));
         time.play();
     }
+    
+    /** This method displays task scope as entered by the user
+     * 
+     */
+    
+//    void setDefaultTaskScope() {
+//        taskScope.setText("Viewing all tasks for now");
+//    }
+//    
+//    @FXML
+//    private void taskScopeChanger() {       
+//        if (commandInput.getCommandText().equals("list") 
+////            || commandInput.getCommandText().equals("list tday")
+////            || commandInput.getCommandText().equals("ls today")
+////            || commandInput.getCommandText().equals("ls tdy")
+//                ) {
+//            taskScope.setText("Viewing today's tasks");}
+//        } else if (commandInput.getCommandText().equals("list tomorrow") 
+//            || commandInput.getCommandText().equals("list tmr")
+//            || commandInput.getCommandText().equals("list tmw")
+//            || commandInput.getCommandText().equals("ls tomorrow")
+//            || commandInput.getCommandText().equals("ls tmr")
+//            || commandInput.getCommandText().equals("ls tmw")) {
+//            taskScope.setText("Viewing tomorrow's tasks");
+//        } else if (commandInput.getCommandText().equals("list this week")
+//            || commandInput.getCommandText().equals("ls this week")) {
+//            taskScope.setText("Viewing this week's tasks");
+//        } else if (commandInput.getCommandText().equals("list next week")
+//                || commandInput.getCommandText().equals("ls next week")) {
+//                taskScope.setText("Viewing next week's tasks");
+//        } else if (commandInput.getCommandText().equals("list next week")
+//                || commandInput.getCommandText().equals("ls next week")) {
+//                taskScope.setText("Viewing next week's tasks");
+//        } else if (commandInput.getCommandText().equals("list undone")
+//                || commandInput.getCommandText().equals("ls undone")) {
+//                taskScope.setText("Viewing undone tasks");
+//        } else if (commandInput.getCommandText().equals("list done")
+//                || commandInput.getCommandText().equals("ls done")) {
+//                taskScope.setText("Viewing done tasks");
+//        } else if (commandInput.getCommandText().equals("list all")
+//                || commandInput.getCommandText().equals("ls all")) {
+//                taskScope.setText("Viewing all tasks");
+//        } 
+//    }
+    
 
+    /**
+     * This method loads various components into SuperbTodo
+     */
     void fillInnerParts() {
-        personListPanel = TaskListPanel.load(primaryStage, getPersonListPlaceholder(), logic.getFilteredPersonList());
+        taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getFilteredPersonList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
     }
@@ -227,8 +285,8 @@ public class MainWindow extends UiPart {
         return resultDisplayPlaceholder;
     }
 
-    public AnchorPane getPersonListPlaceholder() {
-        return personListPanelPlaceholder;
+    public AnchorPane getTaskListPlaceholder() {
+        return taskListPanelPlaceholder;
     }
 
     public void hide() {
@@ -282,8 +340,8 @@ public class MainWindow extends UiPart {
         raise(new ExitAppRequestEvent());
     }
 
-    public TaskListPanel getPersonListPanel() {
-        return this.personListPanel;
+    public TaskListPanel getTaskListPanel() {
+        return this.taskListPanel;
     }
 
 }
