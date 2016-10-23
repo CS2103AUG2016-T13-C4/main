@@ -3,6 +3,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane styleClass="anchor-pane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.CommandBox">
-   <TextField fx:id="commandTextField" onAction="#handleCommandInputChanged" promptText="What's your To-dos today?" />
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.CommandBox">
+   <TextField fx:id="commandTextField" onAction="#handleCommandInputChanged" promptText="What's your To-dos today?" stylesheets="@DarkTheme.css" />
 </AnchorPane>

@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
 import seedu.address.logic.Logic;
@@ -47,8 +48,8 @@ public class CommandBox extends UiPart {
     private void addToPlaceholder() {
         SplitPane.setResizableWithParent(placeHolderPane, false);
         placeHolderPane.getChildren().add(commandTextField);
-        FxViewUtil.applyAnchorBoundaryParameters(commandPane, 10.0, 10.0, 0.0, 0.0);
-        FxViewUtil.applyAnchorBoundaryParameters(commandTextField, 10.0, 10.0, 0.0, 0.0);
+        FxViewUtil.applyAnchorBoundaryParameters(commandPane, 0.0, 0.0, 0.0, 0.0);
+        FxViewUtil.applyAnchorBoundaryParameters(commandTextField, 0.0, 0.0, 0.0, 0.0);
     }
 
     @Override
@@ -109,6 +110,13 @@ public class CommandBox extends UiPart {
      */
     private void setStyleToIndicateIncorrectCommand() {
         commandTextField.getStyleClass().add("error");
+    }
+    
+    /**
+     * Gets input text of the command field
+     */    
+    String getCommandText() {
+        return commandTextField.getText();
     }
 
 }

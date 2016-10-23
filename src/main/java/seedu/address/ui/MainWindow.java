@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import seedu.address.commons.core.Config;
@@ -160,12 +161,18 @@ public class MainWindow extends UiPart {
      */
     private HBox buildClock() {
         HBox clock = new HBox();
+        //sets clock position
         clock.setLayoutX(20.0);
         clock.setSnapToPixel(true);
         clock.setSpacing(5.0);
-        colon1.setTextFill(Color.RED);
-        colon2.setTextFill(Color.RED);
-        date_string.setTextFill(Color.RED);
+        //formats the labels
+        colon1.setTextFill(Color.web("#f7cacf"));
+        colon1.setFont(Font.font("Century Gothic", 16.0));
+        colon2.setTextFill(Color.web("#f7cacf"));
+        colon2.setFont(Font.font("Century Gothic", 16.0));
+        date_string.setTextFill(Color.web("#a8dbec"));
+        date_string.setFont(Font.font("Century Gothic", 16.0));
+        //builds the clock
         clock.getChildren().addAll(date_string,currentHour, colon1, currentMin, colon2,
               currentSec );
         return clock;
@@ -180,7 +187,8 @@ public class MainWindow extends UiPart {
         c = Calendar.getInstance();
 
         currentHour.setText(Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
-        currentHour.setTextFill(Color.RED);
+        currentHour.setTextFill(Color.web("#f7cacf"));
+        currentHour.setFont(Font.font("Century Gothic", 16.0));
 
         String minute = "";
         if (c.get(Calendar.MINUTE) < 10) {
@@ -189,7 +197,8 @@ public class MainWindow extends UiPart {
             minute = Integer.toString(c.get(Calendar.MINUTE));
         }
         currentMin.setText(minute);
-        currentMin.setTextFill(Color.RED);
+        currentMin.setTextFill(Color.web("#f7cacf"));
+        currentMin.setFont(Font.font("Century Gothic", 16.0));
 
         String sec = "";
         if (c.get(Calendar.SECOND) < 10) {
@@ -198,7 +207,8 @@ public class MainWindow extends UiPart {
             sec = Integer.toString(c.get(Calendar.SECOND));
         }
         currentSec.setText(sec);
-        currentSec.setTextFill(Color.RED);
+        currentSec.setTextFill(Color.web("#f7cacf"));
+        currentSec.setFont(Font.font("Century Gothic", 16.0));
 
         date_string.setText(c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
@@ -343,5 +353,10 @@ public class MainWindow extends UiPart {
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
     }
+    
+
+//    void highlightCurrentSelection(ReadOnlyTask person) {
+//        browserPanel.loadPersonPage(person);
+//    }
 
 }

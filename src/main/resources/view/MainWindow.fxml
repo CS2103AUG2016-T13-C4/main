@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -9,14 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minWidth="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
-
-         <stylesheets>
-      <URL value="@DarkTheme.css" />
-      <URL value="@Extensions.css" />
-   </stylesheets>
+<VBox minWidth="800.0" prefWidth="800.0" styleClass="vbox" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
    <children>
-      <MenuBar minHeight="30.0" prefHeight="30.0" styleClass="anchor-pane" VBox.vgrow="NEVER">
+      <MenuBar minHeight="30.0" prefHeight="30.0" VBox.vgrow="NEVER">
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
@@ -32,15 +26,15 @@
       </MenuBar>
       <AnchorPane fx:id="currentTimePanelPlaceholder" minHeight="15.0" prefHeight="15.0" VBox.vgrow="NEVER" />
       <AnchorPane fx:id="taskScopePlaceholder" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" VBox.vgrow="NEVER" />
-      <AnchorPane maxHeight="20.0" minHeight="20.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" styleClass="anchor-pane" VBox.vgrow="NEVER">
+      <AnchorPane maxHeight="20.0" minHeight="20.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <Label layoutX="18.0" layoutY="2.0" text="Task" AnchorPane.leftAnchor="200.0" />
-            <Label text="Start" AnchorPane.rightAnchor="310.0" />
-            <Label text="End" AnchorPane.rightAnchor="180.0" />
-            <Label text="Hashtag" AnchorPane.rightAnchor="50.0" />
+            <Label layoutX="18.0" layoutY="2.0" styleClass="label-scope" text="Task" textFill="#4c539f" AnchorPane.leftAnchor="200.0" />
+            <Label styleClass="label-scope" text="Start" AnchorPane.rightAnchor="310.0" />
+            <Label styleClass="label-scope" text="End" AnchorPane.rightAnchor="180.0" />
+            <Label styleClass="label-scope" text="Hashtag" AnchorPane.rightAnchor="50.0" />
          </children>
       </AnchorPane>
       <VBox fx:id="taskList">
@@ -54,14 +48,14 @@
             <Insets bottom="5.0" top="5.0" />
          </padding>
       </VBox>
-      <AnchorPane fx:id="commandBoxPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER">
+      <AnchorPane fx:id="commandBoxPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="anchorpane-command" VBox.vgrow="NEVER">
          <VBox.margin>
-            <Insets left="20.0" right="20.0" />
+            <Insets />
          </VBox.margin>
       </AnchorPane>
-       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER">
+       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="anchorpane-result" VBox.vgrow="NEVER">
          <VBox.margin>
-            <Insets left="20.0" right="20.0" />
+            <Insets />
          </VBox.margin>
        </AnchorPane>
    </children>
