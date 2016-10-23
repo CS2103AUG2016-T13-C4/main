@@ -1,13 +1,23 @@
 package seedu.address.ui;
 
+import java.util.Calendar;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
@@ -29,22 +39,41 @@ public class MainWindow extends UiPart {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private BrowserPanel browserPanel;
+   // private CurrentTImePanel currentTimePanel;
     private PersonListPanel personListPanel;
     private ResultDisplay resultDisplay;
-    private StatusBarFooter statusBarFooter;
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
 
-    // Handles to elements of this Ui container
+    // Handles to elements of this Ui container   
+    @FXML
+    private static final String[] months = { "Jan", "Feb", "Mar", "Apr",
+            "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+    @FXML
+    private Calendar c;
+    @FXML
+    private final Label date_string = new Label();
+    @FXML
+    private final Label currentHour = new Label();
+    @FXML
+    private final Label currentMin = new Label();
+    @FXML
+    private final Label currentSec = new Label();
+    @FXML
+    private final Label colon1 = new Label(":");
+    @FXML
+    private final Label colon2 = new Label(":");
+    
+    
     private VBox rootLayout;
     private Scene scene;
 
     private String addressBookName;
 
     @FXML
-    private AnchorPane browserPlaceholder;
+    private AnchorPane currentTimePanelPlaceholder;
 
     @FXML
     private AnchorPane commandBoxPlaceholder;
@@ -57,9 +86,6 @@ public class MainWindow extends UiPart {
 
     @FXML
     private AnchorPane resultDisplayPlaceholder;
-
-    @FXML
-    private AnchorPane statusbarPlaceholder;
 
 
     public MainWindow() {
@@ -99,33 +125,103 @@ public class MainWindow extends UiPart {
         setWindowDefaultSize(prefs);
         scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
-
+        
+        
         setAccelerators();
     }
-
+   
     private void setAccelerators() {
         helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
+    
+    
+    void clockFunction() {        
+        //Load the clock function
+        currentTimePanelPlaceholder.getChildren().addAll(buildClock());
+        displayTime();
+        timelineCall();
+
+    }
+    
+    /**
+     * This method builds the structure of the current time and date display
+     *
+     * @return currentTimePane HBox frame for displayTime()
+     */
+    public HBox buildClock() {
+        HBox clock = new HBox();
+        clock.setLayoutX(20.0);
+        clock.setSnapToPixel(true);
+        clock.setSpacing(5.0);
+        colon1.setTextFill(Color.RED);
+        colon2.setTextFill(Color.RED);
+        date_string.setTextFill(Color.RED);
+        clock.getChildren().addAll(date_string,currentHour, colon1, currentMin, colon2,
+              currentSec );
+        return clock;
+    }
+    
+    /**
+     * This method fills the content of the HBox clock using current time
+     * it will be called once every second on the timeline
+     *
+     */
+    private void displayTime() {
+        c = Calendar.getInstance();
+
+        currentHour.setText(Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+        currentHour.setTextFill(Color.RED);
+
+        String minute = "";
+        if (c.get(Calendar.MINUTE) < 10) {
+            minute = "0" + c.get(Calendar.MINUTE);
+        } else {
+            minute = Integer.toString(c.get(Calendar.MINUTE));
+        }
+        currentMin.setText(minute);
+        currentMin.setTextFill(Color.RED);
+
+        String sec = "";
+        if (c.get(Calendar.SECOND) < 10) {
+            sec = "0" + c.get(Calendar.SECOND);
+        } else {
+            sec = Integer.toString(c.get(Calendar.SECOND));
+        }
+        currentSec.setText(sec);
+        currentSec.setTextFill(Color.RED);
+
+        date_string.setText(c.get(Calendar.DATE) + " "
+                + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
+
+    }
+    
+    /**
+     * This method creates the timeline call when loading the pane
+     *
+     */
+    
+    public void timelineCall() {
+        final Timeline time = new Timeline();
+        time.setCycleCount(Timeline.INDEFINITE);
+        time.getKeyFrames().add(
+                new KeyFrame(Duration.millis(1000),
+                        new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent evt) {
+                        displayTime();
+                    }
+                }));
+        time.play();
+    }
 
     void fillInnerParts() {
-       // browserPanel = BrowserPanel.load(browserPlaceholder);
-        
         personListPanel = PersonListPanel.load(primaryStage, getPersonListPlaceholder(), logic.getFilteredPersonList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
-        
-        
-      //  statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getAddressBookFilePath());
-        
     }
 
     private AnchorPane getCommandBoxPlaceholder() {
         return commandBoxPlaceholder;
     }
-
-//    private AnchorPane getStatusbarPlaceholder() {
-//        return statusbarPlaceholder;
-//    }
 
     private AnchorPane getResultDisplayPlaceholder() {
         return resultDisplayPlaceholder;
@@ -190,11 +286,4 @@ public class MainWindow extends UiPart {
         return this.personListPanel;
     }
 
-    public void loadPersonPage(ReadOnlyTask person) {
-        browserPanel.loadPersonPage(person);
-    }
-
-    public void releaseResources() {
-        browserPanel.freeResources();
-    }
 }

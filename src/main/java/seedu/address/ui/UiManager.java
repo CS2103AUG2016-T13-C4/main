@@ -51,6 +51,7 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow = MainWindow.load(primaryStage, config, prefs, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            mainWindow.clockFunction();
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
@@ -117,10 +118,10 @@ public class UiManager extends ComponentManager implements Ui {
         mainWindow.getPersonListPanel().scrollTo(event.targetIndex);
     }
 
-    @Subscribe
-    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event){
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        mainWindow.loadPersonPage(event.getNewSelection());
-    }
+//    @Subscribe
+//    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event){
+//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+//        mainWindow.loadPersonPage(event.getNewSelection());
+//    }
 
 }
