@@ -40,7 +40,7 @@ public class MainWindow extends UiPart {
 
     // Independent Ui parts residing in this Ui container
    // private CurrentTImePanel currentTimePanel;
-    private PersonListPanel personListPanel;
+    private TaskListPanel personListPanel;
     private ResultDisplay resultDisplay;
     private CommandBox commandBox;
     private Config config;
@@ -214,7 +214,7 @@ public class MainWindow extends UiPart {
     }
 
     void fillInnerParts() {
-        personListPanel = PersonListPanel.load(primaryStage, getPersonListPlaceholder(), logic.getFilteredPersonList());
+        personListPanel = TaskListPanel.load(primaryStage, getPersonListPlaceholder(), logic.getFilteredPersonList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
     }
@@ -282,7 +282,7 @@ public class MainWindow extends UiPart {
         raise(new ExitAppRequestEvent());
     }
 
-    public PersonListPanel getPersonListPanel() {
+    public TaskListPanel getPersonListPanel() {
         return this.personListPanel;
     }
 
