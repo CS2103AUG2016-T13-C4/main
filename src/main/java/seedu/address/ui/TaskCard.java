@@ -3,6 +3,7 @@ package seedu.address.ui;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import seedu.address.model.person.ReadOnlyTask;
 
@@ -10,24 +11,8 @@ public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
 
-//    @FXML
-//    private HBox cardPane;
-//    @FXML
-//    private Label name;
-//    @FXML
-//    private Label id;
-//    @FXML
-//    private Label phone;
-//    @FXML
-//    private Label address;
-//    @FXML
-//    private Label email;
-//    @FXML
-//    private Label tags;
-
-    //my code
     @FXML
-    private HBox cardPane;
+    private AnchorPane cardPane;
     @FXML
     private Label task;
     @FXML
@@ -42,7 +27,6 @@ public class TaskCard extends UiPart{
     private Label endtime;
     @FXML
     private Label hashtag;
-    // end of my code
     
     private ReadOnlyTask person;
     private int displayedIndex;
@@ -67,17 +51,15 @@ public class TaskCard extends UiPart{
         enddate.setText(person.getDueTime().date_value);
         endtime.setText(person.getDueTime().time_value);
         hashtag.setText(person.tagsString());
-        //email.setText(person.getAddress().value);
-        //tags.setText(person.tagsString());
     }
 
-    public HBox getLayout() {
+    public AnchorPane getLayout() {
         return cardPane;
     }
 
     @Override
     public void setNode(Node node) {
-        cardPane = (HBox)node;
+        cardPane = (AnchorPane)node;
     }
 
     @Override

@@ -1,54 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<HBox fx:id="cardPane" prefHeight="60.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="cardPane" prefHeight="50.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane alignment="CENTER" prefHeight="60.0" prefWidth="760.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="60.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label fx:id="startdate" alignment="TOP_CENTER" text="\$startdate" />
-                  <Label fx:id="starttime" alignment="BASELINE_CENTER" text="\$starttime" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <children>
-                  <Label fx:id="enddate" alignment="TOP_CENTER" text="\$enddate" />
-                  <Label fx:id="endtime" alignment="BASELINE_CENTER" text="\$endtime" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <children>
-                  <Label fx:id="hashtag" text="\$hashtag" />
-               </children>
-            </VBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <children>
-                  <Label fx:id="id" />
-                  <Label fx:id="task" text="\$task" />
-               </children>
-            </HBox>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </GridPane>
+      <Label fx:id="id" layoutX="20.0" layoutY="42.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="task" layoutX="20.0" layoutY="42.0" text="\$task" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="startdate" alignment="TOP_CENTER" layoutX="238.0" layoutY="83.0" text="\$startdate" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="5.0" />
+      <Label fx:id="starttime" alignment="BASELINE_CENTER" layoutX="238.0" layoutY="100.0" text="\$starttime" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="286.0" />
+      <Label fx:id="enddate" alignment="TOP_CENTER" layoutX="341.0" layoutY="83.0" text="\$enddate" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="5.0" />
+      <Label fx:id="endtime" alignment="BASELINE_CENTER" layoutX="341.0" layoutY="100.0" text="\$endtime" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="156.0" />
+      <Label fx:id="hashtag" layoutX="420.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0" />
    </children>
-</HBox>
+</AnchorPane>
