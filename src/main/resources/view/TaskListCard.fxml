@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -13,4 +14,7 @@
       <Label fx:id="endtime" alignment="BASELINE_CENTER" layoutX="341.0" layoutY="100.0" text="\$endtime" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="156.0" />
       <Label fx:id="hashtag" layoutX="420.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0" />
    </children>
+   <padding>
+      <Insets bottom="5.0" top="5.0" />
+   </padding>
 </AnchorPane>

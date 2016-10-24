@@ -1,14 +1,15 @@
 .vbox {
-	-fx-border-color: #4c539f;
-	-fx-background-color: #ffffff;
-	-fx-border-width: 2px;
+	-fx-background-color: white;
+	-fx-border-color: #a8dbec;
+	-fx-border-width: 3px;
 	-fx-font-family: "Century Gothic", Century Gothic;
+	
 }
 
 .anchorpane-command {
 	-fx-background-color: #ffffff;
 	-fx-font-color: #4c539f;
-	-fx-border-color: #4c539f;
+	-fx-border-color: #a8dbec;
 	-fx-border-width: 2px;
 }
 
@@ -43,8 +44,8 @@
 .text-field {
     -fx-font-size: 12pt;
     -fx-font-family: "Century Gothic", Century Gothic;
-    -fx-text-fill: #4c539f;
-    -fx-prompt-text-fill: derive(#4c539f, 5%);
+    -fx-text-fill: #f7cacf;
+    -fx-prompt-text-fill: #f7cacf;
 }
 
 .tab-pane {
@@ -95,24 +96,20 @@
 }
 
 
-/* .list-cell {
-    -fx-label-padding: 0 0 0 0;
-    -fx-graphic-text-gap : 0;
-    -fx-padding: 0 0 0 0;
-}*/
-
-.list-cell .label {
+.list-cell:even .label {
     -fx-text-fill: white;
+}
+
+.list-cell:odd .label {
+	-fx-text-fill:#4c539f;
 }
 
 
 .list-view .list-cell:even {
--fx-background-color: derive(#b9c1e0, 20%);
--fx-padding : 5px;
+-fx-background-color: derive(#a8dbec,5%);
 }
 .list-view .list-cell:odd {
--fx-background-color: derive(#b9c1e0, 2%);
--fx-padding : 5px;
+-fx-background-color: white;
 }
 
 .cell_big_label {
@@ -156,21 +153,22 @@
 }
 
 .context-menu {
-    -fx-background-color: derive(#4c539f, 50%);
+    -fx-background-color: #f7cacf;
 }
 
 .context-menu .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #a8dbec;
 }
 
 .menu-bar {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #a8dbec;
+
 }
 
 .menu-bar .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Century Gothic", Century Gothic;
-    -fx-text-fill:#4c539f ;
+    -fx-text-fill: white;
 }
 
 .menu .left-container {
@@ -273,15 +271,15 @@
     -fx-padding: 8 1 8 1;
 }
 
-#cardPane {
-    -fx-padding: 0 0 5 5 ;
-}
+/* #cardPane {
+    -fx-effect: innershadow(gaussian, black, 5, 5, 5, 5);
+}*/
 
 #commandTypeLabel {
     -fx-font-size: 11px;
     -fx-text-fill: #F70D1A;
 }
 
-#filterField, #personListPanel {
+#filterField, #personListPanel #personPage{
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }

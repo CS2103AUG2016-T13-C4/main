@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
+import seedu.address.commons.util.FxViewUtil;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.ReadOnlyTask;
@@ -186,7 +187,7 @@ public class MainWindow extends UiPart {
     private void displayTime() {
         c = Calendar.getInstance();
 
-        currentHour.setText(Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+        currentHour.setText("      Now is " + Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
         currentHour.setTextFill(Color.web("#f7cacf"));
         currentHour.setFont(Font.font("Century Gothic", 16.0));
 
@@ -210,7 +211,7 @@ public class MainWindow extends UiPart {
         currentSec.setTextFill(Color.web("#f7cacf"));
         currentSec.setFont(Font.font("Century Gothic", 16.0));
 
-        date_string.setText(c.get(Calendar.DATE) + " "
+        date_string.setText("Today is " + c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
 
     }
