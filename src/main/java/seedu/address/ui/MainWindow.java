@@ -46,7 +46,8 @@ public class MainWindow extends UiPart {
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
-    private TaskScope taskScopeBox;
+//error
+//    private TaskScope taskScopeBox;
 
     // Handles to elements of clock building   
     @FXML
