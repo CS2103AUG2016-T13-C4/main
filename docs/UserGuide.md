@@ -43,9 +43,9 @@ Format: `help`
 #### Adding a task: `add`
 Adds a timed task<br>
 Format: 
-*`add <task description> at/by <time> on <date>`
-*`add <task description> on <date> at/by <time>` 
-*`add <task description> on/at/by <date> <time>`
+* `add <task description> at/by <time> on <date>`
+* `add <task description> on <date> at/by <time>` 
+* `add <task description> on/at/by <date> <time>`
 
 > A timed task has a specified completion date and/or time. 
 
@@ -56,7 +56,7 @@ Examples:
 
 Adds an untimed task<br>
 Format: 
-*`add <task description>` 
+* `add <task description>` 
 
 > An untimed task doesn't have a specified completion date and time.
 
@@ -66,7 +66,7 @@ Examples:
 
 Adds a recurring task<br>
 Format: 
-*`add <task description> each <calendar day> at/by <time> ^<no. of weeks the task recurs>` 
+* `add <task description> each <calendar day> at/by <time> ^<no. of weeks the task recurs>` 
 
 > A recurring task takes place each calendar day(s) for the specified number of weeks. 
 
@@ -76,7 +76,7 @@ Examples:
 
 Adds hashtag<br>
 Format: 
-*`#<hashtag>` 
+* `#<hashtag>` 
 
 > To add hashtag(s) to task entries. 
 
@@ -87,7 +87,7 @@ Examples:
 #### Editing a task: `edit`
 Edits a task already in the list<br>
 Format: 
-*`edit <index> <new description> at/on/by <new date/time> #<new hashtags>`
+* `edit <index> <new description> at/on/by <new date/time> #<new hashtags>`
 
 > New input will replace old task entry completely.   
 
@@ -127,29 +127,29 @@ Examples:
 #### Listing of tasks : `list`
 Lists all tasks<br>
 Format: 
-*`list all`
-*`list`
+* `list all`
+* `list`
 
 > Lists all undone tasks. 
 
 
 Lists untimed tasks<br>
 Format: 
-*`list untimed` 
+* `list untimed` 
 
 > Lists all untimed tasks. 
 
 
 Lists timed tasks<br>
 Format: 
-*`list timed` 
+* `list timed` 
 
 > Lists all timed tasks. 
 
 
 Lists tasks with hashtags<br>
 Format: 
-*`list #<keyword>` 
+* `list #<keyword>` 
 
 > Lists all tasks with specified hashtags. 
 
@@ -158,16 +158,16 @@ Examples:
 
 Lists overdue tasks<br>
 Format: 
-*`list overdue`
+* `list overdue`
 
 > Lists tasks not finished by the specified completion date/time. 
 
 
 Lists tasks for a certain week<br>
 Format: 
-*`list week <no. of the certain week>`
-*`list this week`
-*`list next week` 
+* `list week <no. of the certain week>`
+* `list this week`
+* `list next week` 
 
 > Lists tasks to be done in a specified week. 
 
@@ -176,30 +176,30 @@ Examples:
 
 Lists tasks for today<br>
 Format: 
-*`list today`
-*`list tdy`
+* `list today`
+* `list tdy`
 
 > Lists tasks to be done today. 
 
 
 Lists tasks for tomorrow<br>
 Format: 
-*`list tomorrow`
-*`list tmr`
-*`list tmw`
+* `list tomorrow`
+* `list tmr`
+* `list tmw`
 
 > Lists tasks to be done tomorrow. 
 
 Lists tasks for a certain timestamp<br>
 Format: 
-*`list <date>`
-*`list <time>`
+* `list <date>`
+* `list <time>`
 
 > Lists tasks to be done by the specified timestamp. 
 
 Examples: 
-*`list Sep 16`
-*`list 7pm`
+* `list Sep 16`
+* `list 7pm`
 
 #### Search for a task: `find`
 Search for a task using a keyword.<br>
@@ -239,12 +239,14 @@ Examples:
 #### Undo a command: `undo`
 Returns the system to the state before the execution of the last command.<br>
 Format: 
-*`undo`
-*`undo 1`
+* `undo`
+* `undo 1`
 
 Returns the system to the state before the execution of the last few commands.<br>
+
+
 Format: 
-*`undo <no. of commands to retract>`
+* `undo <no. of commands to retract>`
 
 > Undo the last few commands carried out and return the system to the then state. 
 
@@ -254,7 +256,7 @@ Examples:
 #### Redo a command: `redo`
 Returns the system to the state before the execution of the last undo command.<br>
 Format: 
-*`redo`
+* `redo`
 
 
 #### Clearing all entries : `clear`
@@ -284,10 +286,10 @@ Clear | `clear`
 Done | `done INDEX`
 Edit | `edit <index> <new description> at/on/by <new date/time> #<new hashtags>`
 Find | `find KEYWORD [MORE_KEYWORDS]`
-List | `list`
+List | `list all`, `list KEYWORD`
 Help | `help`
 Redo | `redo`
 Remove | `remove INDEX`
-Undo | `undo`
+Undo | `undo`, `undo <no. of commands to retract>`
 Undone | `undone INDEX`
 
