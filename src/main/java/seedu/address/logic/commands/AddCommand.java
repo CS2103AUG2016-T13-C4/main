@@ -20,7 +20,6 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to SuperbTodo. "
-    		//add <task description> at/by <time> on <date>
             + "Format: <task description> at/by <time> on <date> [t/TAG]\n"
             + "Example: " + COMMAND_WORD
             + " Finish homework by 23:59 on 11 Oct t/school t/important";
@@ -46,7 +45,7 @@ public class AddCommand extends Command {
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
     }
 
-	private Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
+	public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
 		if (dateTimeParam.equals("")) {
         	// floating task
         	 return new Task(
@@ -81,7 +80,7 @@ public class AddCommand extends Command {
         }
 	}
 
-    private List retrieveDate(String period) {
+    private static List retrieveDate(String period) {
 		assert period != null;
         period = period.trim();
         Parser parser = new Parser();
@@ -93,7 +92,7 @@ public class AddCommand extends Command {
     public CommandResult execute() {
         assert model != null;
         try {
-            model.addPerson(toAdd);
+            model.addTask(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicatePersonException e) {
             return new CommandResult(MESSAGE_DUPLICATE_PERSON);

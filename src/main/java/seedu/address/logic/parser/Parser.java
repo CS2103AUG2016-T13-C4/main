@@ -63,6 +63,9 @@ public class Parser {
 
         case SelectCommand.COMMAND_WORD:
             return prepareSelect(arguments);
+            
+        case EditCommand.COMMAND_WORD:
+            return prepareEdit(arguments);
 
         case DeleteCommand.COMMAND_WORD:
             return prepareDelete(arguments);
@@ -99,20 +102,22 @@ public class Parser {
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
+        
         try {
-        	return checkDoubleDateTimeParam(matcher);
+        	return checkDoubleDateTimeParamAndAdd(matcher);
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
     }
 
-	private Command checkDoubleDateTimeParam(final Matcher matcher) throws IllegalValueException {
+	private Command checkDoubleDateTimeParamAndAdd(final Matcher matcher) throws IllegalValueException {
 		String getDateTime, getName, secondDateTime;
 		getName = matcher.group("name");
 		getDateTime = matcher.group("dateTime");
 		
 		if (getName == null) {
 			getName = matcher.group("floating");
+			
 			return new AddCommand(
 					getName,
 					"",
@@ -130,6 +135,43 @@ public class Parser {
 					}
 		        }
 				return new AddCommand(
+		    			getName,
+		    			getDateTime,
+		                getTagsFromArgs(matcher.group("tagArguments"))
+		        );
+			} else {
+				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+			}
+		}
+	}
+	
+	private Command checkDoubleDateTimeParamAndEdit(final Matcher matcher, int target) throws IllegalValueException {
+		String getDateTime, getName, secondDateTime;
+		getName = matcher.group("name");
+		getDateTime = matcher.group("dateTime");
+		
+		if (getName == null) {
+			getName = matcher.group("floating");
+			
+			return new EditCommand(
+					target,
+					getName,
+					"",
+		            getTagsFromArgs(matcher.group("tagArguments"))
+		    );
+		} else {
+			if (DateTime.isValidDate(getDateTime)) {
+				// check if secondary datetime parameter exist
+				Matcher secondMatch = TASK_DATA_ARGS_FORMAT.matcher(getName.trim());
+				if (secondMatch.matches()) {
+					secondDateTime = secondMatch.group("dateTime");
+					if (secondDateTime != null && DateTime.isValidDate(secondDateTime)) {
+						getName = secondMatch.group("name");
+						getDateTime = secondDateTime + " " + getDateTime;
+					}
+		        }
+				return new EditCommand(
+						target,
 		    			getName,
 		    			getDateTime,
 		                getTagsFromArgs(matcher.group("tagArguments"))
@@ -169,6 +211,33 @@ public class Parser {
         }
 
         return new DeleteCommand(index.get());
+    }
+    
+    /**
+     * Parses arguments in the context of the edit person command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareEdit(String args) {
+    	Optional<Integer> index = parseIndex(args.trim().substring(0, 1));
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+
+    	final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim().substring(1).trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+        
+        try {
+        	return checkDoubleDateTimeParamAndEdit(matcher, index.get());
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+
     }
 
     /**

@@ -24,8 +24,8 @@ public class TypicalTestTasks {
     public static void loadAddressBookWithSampleData(AddressBook ab) {
 
         try {
-        	ab.addPerson(new Task(walk));
-        	ab.addPerson(new Task(dinner));
+        	ab.addTask(new Task(walk));
+        	ab.addTask(new Task(dinner));
         } catch (UniqueTaskList.DuplicatePersonException e) {
             assert false : "not possible";
         }

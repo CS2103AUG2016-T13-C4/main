@@ -30,7 +30,7 @@ public class UniqueTaskList implements Iterable<Task> {
      * Signals that an operation targeting a specified person in the list would fail because
      * there is no such matching person in the list.
      */
-    public static class PersonNotFoundException extends Exception {}
+    public static class TaskNotFoundException extends Exception {}
 
     private static ObservableList<Task> internalList = FXCollections.observableArrayList();
 
@@ -68,15 +68,32 @@ public class UniqueTaskList implements Iterable<Task> {
     /**
      * Removes the equivalent person from the list.
      *
-     * @throws PersonNotFoundException if no such person could be found in the list.
+     * @throws TaskNotFoundException if no such person could be found in the list.
      */
-    public boolean remove(ReadOnlyTask toRemove) throws PersonNotFoundException {
+    public boolean remove(ReadOnlyTask toRemove) throws TaskNotFoundException {
         assert toRemove != null;
         final boolean personFoundAndDeleted = internalList.remove(toRemove);
         if (!personFoundAndDeleted) {
-            throw new PersonNotFoundException();
+            throw new TaskNotFoundException();
         }
         return personFoundAndDeleted;
+    }
+    
+    /**
+     * Replace the equivalent task from the list.
+     *
+     * @throws TaskNotFoundException if no such person could be found in the list.
+     */
+    public boolean edit(ReadOnlyTask target, Task toReplace) throws TaskNotFoundException {
+        assert toReplace != null;
+        assert target != null;
+        
+        final boolean personFoundAndReplaced = internalList.contains(target);
+        if (!personFoundAndReplaced) {
+            throw new TaskNotFoundException();
+        }
+        internalList.set(internalList.indexOf(target), toReplace);
+        return true;
     }
 
     public static ObservableList<Task> getInternalList() {
