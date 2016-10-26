@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.*;
-import seedu.address.model.person.DateTime;
+import seedu.address.model.task.DateTime;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.exceptions.IllegalValueException;
 

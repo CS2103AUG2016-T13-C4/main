@@ -1,27 +1,27 @@
 package seedu.address.storage;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.*;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JAXB-friendly version of the Person.
+ * JAXB-friendly version of the Task.
  */
 public class XmlAdaptedPerson {
 
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
-    private String phone;
+    private String date;
     @XmlElement(required = true)
     private String email;
     @XmlElement(required = true)
-    private String address;
+    private String time;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -39,9 +39,8 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(ReadOnlyTask source) {
         name = source.getName().fullName;
-        phone = source.getDateTime().date_value;
-        email = source.getAddress().value;
-        address = source.getDateTime().time_value;
+        date = source.getDateTime().date_value;
+        time = source.getDateTime().time_value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -49,7 +48,7 @@ public class XmlAdaptedPerson {
     }
 
     /**
-     * Converts this jaxb-friendly adapted person object into the model's Person object.
+     * Converts this jaxb-friendly adapted task object into the model's Task object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
@@ -59,10 +58,9 @@ public class XmlAdaptedPerson {
             personTags.add(tag.toModelType());
         }
         final TaskName name = new TaskName(this.name);
-        final DateTime phone = new DateTime(this.phone);
+        final DateTime phone = new DateTime(this.date);
         final DueDateTime email = new DueDateTime(this.email);
-        final Address address = new Address(this.address);
         final UniqueTagList tags = new UniqueTagList(personTags);
-        return new Task(name, phone, email, address, tags);
+        return new Task(name, phone, email, tags);
     }
 }

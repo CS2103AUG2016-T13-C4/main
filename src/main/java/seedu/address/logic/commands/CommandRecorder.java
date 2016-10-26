@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.person.Task;
+import seedu.address.model.task.Task;
 
 /**
  * This class records down the command carried out 

@@ -34,7 +34,7 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.SuperbToDo;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.*;
+import seedu.address.model.task.*;
 
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.*;

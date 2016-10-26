@@ -1,9 +1,10 @@
-package seedu.address.model.person;
+package seedu.address.model.task;
 
 import seedu.address.model.tag.UniqueTagList;
 
+//@@author A0135763B-reused
 /**
- * A read-only immutable interface for a Person in the addressbook.
+ * A read-only immutable interface for a Task in SuperbToDo.
  * Implementations should guarantee: details are present and not null, field values are validated.
  */
 public interface ReadOnlyTask {
@@ -11,11 +12,10 @@ public interface ReadOnlyTask {
     TaskName getName();
     DateTime getDateTime();
     DueDateTime getDueTime();
-    Address getAddress();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,
-     * changes on the returned list will not affect the person's internal tags.
+     * changes on the returned list will not affect the task's internal tags.
      */
     UniqueTagList getTags();
 
@@ -27,12 +27,13 @@ public interface ReadOnlyTask {
                 || (other != null // this is first to avoid NPE below
                 && other.getName().equals(this.getName()) // state checks here onwards
                 && other.getDateTime().equals(this.getDateTime())
-                && other.getDueTime().equals(this.getDueTime())
-                && other.getAddress().equals(this.getAddress()));
+                && other.getDueTime().equals(this.getDueTime()));
     }
 
     /**
-     * Formats the person as text, showing all contact details.
+     * Formats the task as text, showing all task details.
+     * 
+     * This function is updated to only show non-empty details as information
      */
     default String getAsText() {
         final StringBuilder builder = new StringBuilder();
@@ -56,7 +57,7 @@ public interface ReadOnlyTask {
     }
 
     /**
-     * Returns a string representation of this Person's tags
+     * Returns a string representation of this Task's tags
      */
     default String tagsString() {
         final StringBuffer buffer = new StringBuffer();

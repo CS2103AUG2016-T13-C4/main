@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.task;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import com.joestelmach.natty.*;
@@ -8,9 +8,9 @@ import java.util.List;
  * Represents a Task's date and time in SuperbTodo.
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
-public class DueDateTime {
+public class DateTime {
 
-    public static final String MESSAGE_DATE_CONSTRAINTS = "Task's DueTime should be a valid number representing date and time";
+    public static final String MESSAGE_DATE_CONSTRAINTS = "Task's dateTime should be a valid number representing date and time";
 
     public final String date_value;
     public final String time_value;
@@ -20,14 +20,15 @@ public class DueDateTime {
      *
      * @throws IllegalValueException if given date string is invalid.
      */
-    public DueDateTime(String date) throws IllegalValueException {
+    public DateTime(String date) throws IllegalValueException {
         assert date != null;
         date = date.trim();
-        Parser parser = new Parser();
-    	List<DateGroup> dateParser = parser.parse(date);
-        if (!isValidDate(dateParser)) {
+        if (!isValidDate(date)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
+        
+        Parser parser = new Parser();
+    	List<DateGroup> dateParser = parser.parse(date);
         this.date_value = formatDate(dateParser.get(0).getDates().toString());
         if (date.toLowerCase().equals("today")) {
         	this.time_value = "23:59 Hrs";
@@ -39,7 +40,7 @@ public class DueDateTime {
     /**
      * Empty constructor
      */
-    public DueDateTime() {
+    public DateTime() {
         this.date_value = "";
         this.time_value = "";
     }
@@ -57,8 +58,11 @@ public class DueDateTime {
     /**
      * Returns true if a given string is a valid date.
      */
-    public static boolean isValidDate(List<DateGroup> test) {
-    	if (!test.isEmpty()) {
+    public static boolean isValidDate(String test) {
+    	Parser parser = new Parser();
+    	List<DateGroup> dateParser = parser.parse(test);
+    	
+    	if (!dateParser.isEmpty()) {
     		return true;
     	} else {
     		return false;
@@ -73,8 +77,8 @@ public class DueDateTime {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DueDateTime // instanceof handles nulls
-                && this.date_value.equals(((DueDateTime) other).date_value)); // state check
+                || (other instanceof DateTime // instanceof handles nulls
+                && this.date_value.equals(((DateTime) other).date_value)); // state check
     }
 
     @Override
@@ -83,4 +87,3 @@ public class DueDateTime {
     }
 
 }
-

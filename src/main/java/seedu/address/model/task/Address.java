@@ -1,4 +1,11 @@
-package seedu.address.model.person;
+//@@author A0135763B-unused
+
+/*
+ * This is an unused class that is left behind from the addressbookLvl4 code base.
+ * 
+ * This class is kept here for the purpose of reusing it as a new feature
+ */
+package seedu.address.model.task;
 
 
 import seedu.address.commons.exceptions.IllegalValueException;
