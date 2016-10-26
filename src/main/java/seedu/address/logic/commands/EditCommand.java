@@ -62,6 +62,10 @@ public class EditCommand extends Command {
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
+        
+        commandRecorder.editRecorder("edit", personToEdit, toEdit, targetIndex, toEdit.getName(), toEdit.getDateTime(), toEdit.getDueTime(), 
+                toEdit.getTags());
+        undoCommand.add(commandRecorder);
 
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit));
     }

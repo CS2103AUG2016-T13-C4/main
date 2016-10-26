@@ -8,14 +8,9 @@ import seedu.address.model.tag.UniqueTagList;
 import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.CommandRecorder;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
 
-import com.joestelmach.natty.DateGroup;
-import com.joestelmach.natty.Parser;
 
 
 public class UndoCommand extends Command {
@@ -27,66 +22,71 @@ public class UndoCommand extends Command {
             + "Example: " + COMMAND_WORD;
       
     LogicManager logicM;
-    Parser parser;
+    TaskName name = new TaskName("buy grocery");
+    DateTime dateTime = new DateTime("3pm today");
+    DueDateTime dueDateTime = new DueDateTime("5pm tmr");
+    UniqueTagList tags;
+    Address address = new Address("address");
+    Task taskInit = new Task(name, dateTime, dueDateTime, address, tags);
     
     // Exception messages
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
-    private static final String MESSAGE_EXCEPTION_DONE = "Nothing to be done";
-    private static final String MESSAGE_EXCEPTION_UNDONE = "Nothing to undone";
+    private static final String MESSAGE_EXCEPTION_ADD = "Nothing to be added";
+    private static final String MESSAGE_EXCEPTION_EDIT = "Nothing to be edit";
+//    private static final String MESSAGE_EXCEPTION_DONE = "Nothing to be done";
+//    private static final String MESSAGE_EXCEPTION_UNDONE = "Nothing to undone";
 
     // list of commands
     private static final String COMMAND_ADD = "add";
     private static final String COMMAND_REMOVE = "Remove";
     private static final String COMMAND_EDIT = "edit";
-    private static final String COMMAND_DONE = "done";
-    private static final String COMMAND_UNDONE = "undone";
+//    private static final String COMMAND_DONE = "done";
+//    private static final String COMMAND_UNDONE = "undone";
 
     
-    // list of list names
-    private static final String LIST_DONE = "finished tasks";
-    private static final String LIST_UNDONE = "unfinished tasks";
-    private static final String LIST_REMOVE = "removed tasks";
+//    // list of list names
+//    private static final String LIST_DONE = "finished tasks";
+//    private static final String LIST_UNDONE = "unfinished tasks";
+//    private static final String LIST_REMOVE = "removed tasks";
 
     // list of feedbacks
     private static final String FEEDBACK_SUCCESSFUL_UNDO = "Undoing action";
     private static final String FEEDBACK_SUCCESSFUL_REDO = "Redoing action";
     private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "You have reached the last undo";
 
-    private static UndoCommand selectedCommand;
     public static Stack<CommandRecorder> undoStack;
     public static Stack<CommandRecorder> redoStack;
-    public static Vector<ReadOnlyTask> storedTasksUndone;
-    public static Vector<ReadOnlyTask> storedTasksDone;
+    public static Vector<Task> storedTasksUndone;
+    public static Vector<Task> storedTasksDone;
 
     
-    private UndoCommand (Vector<ReadOnlyTask> storedTasksUndone, Vector<ReadOnlyTask> storedTasksDone) {
-        undoStack = new Stack<CommandRecorder>();
-        redoStack = new Stack<CommandRecorder>();
-        this.storedTasksUndone = storedTasksUndone;
-        this.storedTasksDone = storedTasksDone;
-    }
-    
-    
-    
+//    private UndoCommand (Vector<ReadOnlyTask> storedTasksUndone, Vector<ReadOnlyTask> storedTasksDone) {
+//        undoStack = new Stack<CommandRecorder>();
+//        redoStack = new Stack<CommandRecorder>();
+//        this.storedTasksUndone = storedTasksUndone;
+//        this.storedTasksDone = storedTasksDone;
+//    }
     
     public UndoCommand() {
-        
+        undoStack = new Stack<CommandRecorder>();
+        redoStack = new Stack<CommandRecorder>();
+        this.storedTasksUndone.add(taskInit);
     }
 
     // Getters for RedoCommand use
-    public static Stack<CommandRecorder> getundoStack() {
+    public static Stack<CommandRecorder> getUndoStack() {
         return undoStack;
     }
     
-    public static Stack<CommandRecorder> getredoStack() {
+    public static Stack<CommandRecorder> getRedoStack() {
         return redoStack;
     }
     
-    public static Vector<ReadOnlyTask> getstoredTasksUndone() {
+    public static Vector<Task> getStoredTasksUndone() {
         return storedTasksUndone;
     }
     
-    public static Vector<ReadOnlyTask> getstoredTasksDone() {
+    public static Vector<Task> getStoredTasksDone() {
         return storedTasksDone;
     }
 
@@ -99,24 +99,8 @@ public class UndoCommand extends Command {
     public void add(CommandRecorder userInputAction) {
         undoStack.push(userInputAction);
         redoStack.clear();
-        storedTasksUndone.add(userInputAction.gettaskPrev());
+        storedTasksUndone.add(userInputAction.getTask());
     }
-
-    /**
-     * Singleton constructor for the UndoCommand.
-     * 
-     * @param storedTasksUndone
-     *            list of tasks sorted by undone
-     * @param storedTasksDone
-     *            list of tasks sorted by done
-     * @return UndoCommand the UndoCommand object
-     */
-//    public static UndoCommand getInstance(Vector<ReadOnlyTask> storedTasksUndone,Vector<ReadOnlyTask> storedTasksDone) {
-//        if (selectedCommand == null) {
-//            selectedCommand = new UndoCommand(storedTasksUndone, storedTasksDone);
-//        }
-//        return selectedCommand;
-//    }
 
     /**
      * Undo the previous command carried out by user.
@@ -126,42 +110,35 @@ public class UndoCommand extends Command {
     
     @Override
     public CommandResult execute() {
-
         assert undoStack != null;
-        
-        // parser parses the commands for execution
-        //modelmanager saves the data
-        //commandrecorder records down what are the content of the commands
-        //call all the established commands to do it
+
         if (!undoStack.isEmpty()) {
             CommandRecorder prevAction = undoStack.pop();
             redoStack.push(prevAction);
 
             switch (prevAction.getCommand()) {
-//            case COMMAND_EDIT:
-//                assert prevAction.gettaskAfter() != null
-//                && prevAction.gettaskPrev() != null;
-//                return undoEditCommand(prevAction);
+            case COMMAND_EDIT:
+                assert prevAction.getTask() != null;
+                return undoEditCommand(prevAction);
             case COMMAND_ADD:
-                assert prevAction.gettaskPrev() != null;
+                assert prevAction.getTask() != null;
                 try {
                     return undoAddCommand(prevAction);
                 } catch (TaskNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
-                }
+                }               
             case COMMAND_REMOVE:
-                assert prevAction.gettaskPrev() != null
-                && prevAction.getlistTypePrev() != null;
+                assert prevAction.getTask() != null;
                 return undoRemoveCommand(prevAction);
-            case COMMAND_UNDONE:
-                assert prevAction.getlistTypePrev() != null
-                && prevAction.gettaskPrev() != null;
-                return undoUndoneCommand(prevAction);
-            case COMMAND_DONE:
-                assert prevAction.getlistTypePrev() != null
-                && prevAction.gettaskPrev() != null;
-                return undoDoneCommand(prevAction);
+                
+//            case COMMAND_UNDONE:
+//                assert prevAction.getlistTypePrev() != null
+//                && prevAction.getTask() != null;
+//                return undoUndoneCommand(prevAction);
+//            case COMMAND_DONE:
+//                assert prevAction.getlistTypePrev() != null
+//                && prevAction.getTask() != null;
+//                return undoDoneCommand(prevAction);
             }
         }
         return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);
@@ -176,60 +153,16 @@ public class UndoCommand extends Command {
      * @throws TaskNotFoundException 
      */
     public CommandResult undoAddCommand(CommandRecorder prevAction) throws TaskNotFoundException {
-        storedTasksUndone.remove(storedTasksUndone.lastElement());
-        logicM.execute(prevAction.getCommand() + " " + prevAction.getindexPrev());       
+        if (prevAction.getIndex() != null) {
+            storedTasksUndone.remove(storedTasksUndone.lastElement());
+            logicM.execute("remove" + " " + prevAction.getIndex()); 
+        } else {
+            throw new IllegalArgumentException(MESSAGE_EXCEPTION_REMOVE);
+        }
+       
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
     
-    /**
-     * Redo Add command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public CommandResult redoAddCommand(CommandRecorder nextAction) {
-        storedTasksUndone.add(nextAction.gettaskPrev());
-        logicM.execute(nextAction.getCommand() + " " + nextAction.getlistTypePrev());
-        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
-    }
-
-
-
-    /**
-     * Undo undone command
-     * 
-     * @param previousAction
-     *            user's input event
-     * @return successful feedback message
-     */
-    public CommandResult undoUndoneCommand(CommandRecorder previousAction) {
-        if (previousAction.getlistTypePrev().equals(LIST_UNDONE)) {
-            storedTasksDone.add(previousAction.gettaskPrev());
-            storedTasksUndone.remove(previousAction.gettaskPrev());
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_UNDONE);
-        }
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-    }
-    
-    /**
-     * Undo done command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public CommandResult undoDoneCommand(CommandRecorder prevAction) {
-        if (prevAction.getlistTypePrev().equals(LIST_DONE)) {
-            storedTasksDone.remove(prevAction.gettaskPrev());
-            storedTasksUndone.add(prevAction.gettaskPrev());
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_DONE);
-        }
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-    }
-
     /**
      * Undo Remove command
      * 
@@ -238,16 +171,14 @@ public class UndoCommand extends Command {
      * @return successful feedback message
      */
     public CommandResult undoRemoveCommand(CommandRecorder prevAction) {
-        if (prevAction.getlistTypePrev().equals(LIST_REMOVE)) {
+        if (prevAction.getNamePrev() != null) {           
+            storedTasksUndone.add(prevAction.getTask());
             redoAddCommand(prevAction);
-            storedTasksUndone.add(prevAction.getindexPrev(),prevAction.gettaskPrev());
         } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_REMOVE);
+            throw new IllegalArgumentException(MESSAGE_EXCEPTION_ADD);
         }
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
-
-
 
     /**
      * Undo Edit command
@@ -257,13 +188,74 @@ public class UndoCommand extends Command {
      * @return successful feedback message
      */
     public CommandResult undoEditCommand(CommandRecorder prevAction) {
-        storedTasksUndone.remove(prevAction.gettaskAfter());
-        storedTasksUndone.add(prevAction.gettaskPrev());
+        if (prevAction.getIndex() != null) {
+            ReadOnlyTask forEdit = prevAction.getPersonToEdit(); // last task list before edit command
+            storedTasksUndone.remove(prevAction.getTask());
+            logicM.execute("edit" + " " + prevAction.getIndex() + " " + prevAction.getNamePrev()
+            + " " + prevAction.getDateTimePrev() + " " + prevAction.getDueDateTimePrev()
+            + " " + prevAction.getTagsPrev());
+        } else {
+            throw new IllegalArgumentException(MESSAGE_EXCEPTION_EDIT);
+        }
+        
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
-    
+        
+    /**
+     * Redo Add command
+     * 
+     * @param prevAction
+     *            user's input CommandRecorder
+     * @return successful feedback message
+     */
+    public CommandResult redoAddCommand(CommandRecorder nextAction) {
+        if (nextAction.getIndex() != null) { 
+            storedTasksUndone.add(nextAction.getTask());
+            logicM.execute("add" + " " + nextAction.getNamePrev()
+            + " " + nextAction.getDateTimePrev() + " " + nextAction.getDueDateTimePrev() 
+            + " " + nextAction.getTagsPrev());
+        } else {
+            throw new IllegalArgumentException(MESSAGE_EXCEPTION_ADD);
+        }
+        
+        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
+    }
 
+//    /**
+//     * Undo undone command
+//     * 
+//     * @param previousAction
+//     *            user's input event
+//     * @return successful feedback message
+//     */
+//    public CommandResult undoUndoneCommand(CommandRecorder previousAction) {
+//        if (previousAction.getlistTypePrev().equals(LIST_UNDONE)) {
+//            storedTasksDone.add(previousAction.gettaskPrev());
+//            storedTasksUndone.remove(previousAction.gettaskPrev());
+//        } else {
+//            throw new IllegalArgumentException(MESSAGE_EXCEPTION_UNDONE);
+//        }
+//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+//    }
+//    
+//    /**
+//     * Undo done command
+//     * 
+//     * @param prevAction
+//     *            user's input CommandRecorder
+//     * @return successful feedback message
+//     */
+//    public CommandResult undoDoneCommand(CommandRecorder prevAction) {
+//        if (prevAction.getlistTypePrev().equals(LIST_DONE)) {
+//            storedTasksDone.remove(prevAction.gettaskPrev());
+//            storedTasksUndone.add(prevAction.gettaskPrev());
+//        } else {
+//            throw new IllegalArgumentException(MESSAGE_EXCEPTION_DONE);
+//        }
+//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+//    }
 
+   
 //    /**
 //     * Remove the Singleton instance for unit testing purposes
 //     */

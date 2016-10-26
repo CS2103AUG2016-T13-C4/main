@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.person.ReadOnlyTask;
+import seedu.address.model.person.Task;
 import seedu.address.model.person.UniqueTaskList.TaskNotFoundException;
 
 /**
@@ -44,8 +45,11 @@ public class DeleteCommand extends Command {
             assert false : "The target task cannot be missing";
         }
         
+        Task forRemoval = new Task(personToDelete.getName(), personToDelete.getDateTime(),personToDelete.getDueTime(), 
+                personToDelete.getAddress(), personToDelete.getTags());
         
-        commandRecorder.removeRecorder("remove", personToDelete/*, listTypePrev, indexPrev*/);
+        commandRecorder.removeRecorder("remove", forRemoval, targetIndex, forRemoval.getName(), forRemoval.getDateTime(),
+                forRemoval.getDueTime(), forRemoval.getTags());
         undoCommand.add(commandRecorder);
         
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));

@@ -9,24 +9,16 @@ public class RedoCommand extends Command{
           //undo a command just carried out
           + "Format: Redo\n"
           + "Example: " + COMMAND_WORD;
-    
- // Exception messages
+
+    // Exception messages
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
-    private static final String MESSAGE_EXCEPTION_DONE = "Nothing to be done";
-    private static final String MESSAGE_EXCEPTION_UNDONE = "Nothing to undone";
+    private static final String MESSAGE_EXCEPTION_ADD = "Nothing to be added";
+    private static final String MESSAGE_EXCEPTION_EDIT = "Nothing to be edit";
 
     // list of commands
     private static final String COMMAND_ADD = "add";
     private static final String COMMAND_REMOVE = "Remove";
     private static final String COMMAND_EDIT = "edit";
-    private static final String COMMAND_DONE = "done";
-    private static final String COMMAND_UNDONE = "undone";
-
-    
-    // list of list names
-    private static final String LIST_DONE = "finished tasks";
-    private static final String LIST_UNDONE = "unfinished tasks";
-    private static final String LIST_REMOVE = "removed tasks";
 
     // list of feedbacks
     private static final String FEEDBACK_SUCCESSFUL_UNDO = "Undoing action";
@@ -42,70 +34,25 @@ public class RedoCommand extends Command{
     
     @Override
     public CommandResult execute() {
-        if (!UndoCommand.getredoStack().isEmpty()) {
-            CommandRecorder nextAction = UndoCommand.getredoStack().pop();
-            UndoCommand.getundoStack().push(nextAction);
+        if (!UndoCommand.getRedoStack().isEmpty()) {
+            CommandRecorder nextAction = UndoCommand.getRedoStack().pop();
+            UndoCommand.getUndoStack().push(nextAction);
 
             switch (nextAction.getCommand()) {
             case COMMAND_EDIT:
-                assert nextAction.gettaskAfter() != null
-                && nextAction.gettaskPrev() != null;
+                assert nextAction.getTask() != null;
                 return redoEditCommand(nextAction);
             case COMMAND_ADD:
-                assert nextAction.gettaskPrev() != null;
-                return redoAddCommand(nextAction);
+                assert nextAction.getTask() != null;
+                return redoAddCommand(nextAction);                            
             case COMMAND_REMOVE:
-                assert nextAction.gettaskPrev() != null;
+                assert nextAction.getTask() != null;
                 return redoRemoveCommand(nextAction);
-            case COMMAND_DONE:
-                assert nextAction.gettaskPrev() != null
-                && nextAction.getlistTypePrev() != null;
-                return redoDoneCommand(nextAction);
-            case COMMAND_UNDONE:
-                assert nextAction.gettaskPrev() != null
-                && nextAction.getlistTypePrev() != null;
-                return redoUndoneCommand(nextAction);
             }
-        }
-
+        }    
         return new CommandResult(FEEDBACK_UNSUCCESSFUL_REDO);
     }
     
-
-    /**
-     * Redo undone command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    private CommandResult redoUndoneCommand(CommandRecorder nextAction) {
-        if (nextAction.getlistTypePrev().equals(LIST_DONE)) {
-            UndoCommand.getstoredTasksUndone().add(nextAction.gettaskPrev());
-            UndoCommand.getstoredTasksDone().remove(nextAction.gettaskPrev());
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_UNDONE);
-        }
-        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
-    }
-
-    /**
-     * Redo done command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    private CommandResult redoDoneCommand(CommandRecorder nextAction) {
-        if (nextAction.getlistTypePrev().equals(LIST_UNDONE)) {
-            UndoCommand.getstoredTasksUndone().remove(nextAction.gettaskPrev());
-            UndoCommand.getstoredTasksDone().add(nextAction.gettaskPrev());
-            undoAddCommand(nextAction);
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_DONE);
-        }
-        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
-    }
 
     /**
      * Redo Remove command
@@ -115,7 +62,7 @@ public class RedoCommand extends Command{
      * @return successful feedback message
      */
     private CommandResult redoRemoveCommand(CommandRecorder nextAction) {
-        if (nextAction.getlistTypePrev().equals(LIST_DONE)) {
+        if (nextAction.getIndex() != null) {
             undoAddCommand(nextAction);
         } else {
             throw new IllegalArgumentException(MESSAGE_EXCEPTION_REMOVE);
@@ -131,7 +78,7 @@ public class RedoCommand extends Command{
      * @return successful feedback message
      */
     private CommandResult redoAddCommand(CommandRecorder nextAction) {
-        UndoCommand.getstoredTasksUndone().add(nextAction.gettaskPrev());
+        UndoCommand.getStoredTasksUndone().add(nextAction.getTask());
         return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
     }
 
@@ -143,8 +90,7 @@ public class RedoCommand extends Command{
      * @return successful feedback message
      */
     private CommandResult redoEditCommand(CommandRecorder nextAction) {
-        UndoCommand.getstoredTasksUndone().add(nextAction.gettaskAfter());
-        UndoCommand.getstoredTasksUndone().remove(nextAction.gettaskPrev());
+        UndoCommand.getStoredTasksUndone().add(nextAction.getTask());
         return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
     }
     
@@ -157,7 +103,7 @@ public class RedoCommand extends Command{
      * @return successful feedback message
      */
     private CommandResult undoAddCommand(CommandRecorder prevAction) {
-        UndoCommand.getstoredTasksUndone().remove(prevAction.gettaskPrev());
+        UndoCommand.getStoredTasksUndone().remove(prevAction.getTask());
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
     

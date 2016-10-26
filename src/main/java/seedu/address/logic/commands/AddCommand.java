@@ -94,7 +94,8 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
-            commandRecorder.addRecorder("add", toAdd);
+            commandRecorder.addRecorder("add", toAdd, toAdd.getName(), toAdd.getDateTime(), toAdd.getDueTime(), 
+                    toAdd.getTags());
             undoCommand.add(commandRecorder);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicatePersonException e) {
