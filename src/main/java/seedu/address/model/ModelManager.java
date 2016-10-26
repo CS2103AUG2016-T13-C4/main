@@ -4,7 +4,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.util.StringUtil;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.model.person.Task;
 import seedu.address.model.person.ReadOnlyTask;
@@ -21,73 +21,73 @@ import java.util.logging.Logger;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private final SuperbTodo superbtodo;
     private final FilteredList<Task> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given AddressBook
-     * AddressBook and its variables should not be null
+     * Initializes a ModelManager with the given Superbtodo
+     * Superbtodo and its variables should not be null
      */
-    public ModelManager(AddressBook src, UserPrefs userPrefs) {
+    public ModelManager(SuperbTodo src, UserPrefs userPrefs) {
         super();
         assert src != null;
         assert userPrefs != null;
 
         logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
 
-        addressBook = new AddressBook(src);
-        filteredPersons = new FilteredList<>(addressBook.getPersons());
+        superbtodo = new SuperbTodo(src);
+        filteredPersons = new FilteredList<>(superbtodo.getPersons());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new SuperbTodo(), new UserPrefs());
     }
 
-    public ModelManager(ReadOnlyAddressBook initialData, UserPrefs userPrefs) {
-        addressBook = new AddressBook(initialData);
-        filteredPersons = new FilteredList<>(addressBook.getPersons());
-    }
-
-    @Override
-    public void resetData(ReadOnlyAddressBook newData) {
-        addressBook.resetData(newData);
-        indicateAddressBookChanged();
+    public ModelManager(ReadOnlySuperbTodo initialData, UserPrefs userPrefs) {
+        superbtodo = new SuperbTodo(initialData);
+        filteredPersons = new FilteredList<>(superbtodo.getPersons());
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return addressBook;
+    public void resetData(ReadOnlySuperbTodo newData) {
+        superbtodo.resetData(newData);
+        indicateSuperbTodoChanged();
+    }
+
+    @Override
+    public ReadOnlySuperbTodo getSuperbTodo() {
+        return superbtodo;
     }
 
     /** Raises an event to indicate the model has changed */
-    private void indicateAddressBookChanged() {
-        raise(new AddressBookChangedEvent(addressBook));
+    private void indicateSuperbTodoChanged() {
+        raise(new SuperbTodoChangedEvent(superbtodo));
     }
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
-        addressBook.removeTask(target);
-        indicateAddressBookChanged();
+        superbtodo.removeTask(target);
+        indicateSuperbTodoChanged();
     }
     
     @Override
     public synchronized void editTask(ReadOnlyTask target, Task task) throws TaskNotFoundException {
-        addressBook.editTask(target, task);
+        superbtodo.editTask(target, task);
         updateFilteredListToShowAll();
-        indicateAddressBookChanged();
+        indicateSuperbTodoChanged();
     }
 
     @Override
-    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicatePersonException {
-        addressBook.addTask(task);
+    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
+        superbtodo.addTask(task);
         updateFilteredListToShowAll();
-        indicateAddressBookChanged();
+        indicateSuperbTodoChanged();
     }
 
     //=========== Filtered Person List Accessors ===============================================================
 
     @Override
-    public UnmodifiableObservableList<ReadOnlyTask> getFilteredPersonList() {
+    public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
         return new UnmodifiableObservableList<>(filteredPersons);
     }
 
@@ -97,7 +97,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateFilteredPersonList(Set<String> keywords){
+    public void updateFilteredTaskList(Set<String> keywords){
         updateFilteredPersonList(new PredicateExpression(new NameQualifier(keywords)));
     }
 
