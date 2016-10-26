@@ -8,7 +8,7 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.core.ComponentManager;
 
 import java.util.Set;
@@ -43,25 +43,25 @@ public class ModelManager extends ComponentManager implements Model {
         this(new SuperbTodo(), new UserPrefs());
     }
 
-    public ModelManager(ReadOnlyAddressBook initialData, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlySuperbTodo initialData, UserPrefs userPrefs) {
         addressBook = new SuperbTodo(initialData);
         filteredPersons = new FilteredList<>(addressBook.getPersons());
     }
 
     @Override
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlySuperbTodo newData) {
         addressBook.resetData(newData);
         indicateAddressBookChanged();
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
+    public ReadOnlySuperbTodo getAddressBook() {
         return addressBook;
     }
 
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
-        raise(new AddressBookChangedEvent(addressBook));
+        raise(new SuperbTodoChangedEvent(addressBook));
     }
 
     @Override

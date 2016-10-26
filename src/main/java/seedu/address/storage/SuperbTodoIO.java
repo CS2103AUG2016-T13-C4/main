@@ -28,11 +28,11 @@ import java.io.UnsupportedEncodingException;
 
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.SuperbTodo;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlySuperbTodo;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.task.*;
 
@@ -92,7 +92,7 @@ public class SuperbTodoIO extends ComponentManager{
 	/**
 	 * Use Gson library and PrintWriter to save content in temporary arraylist into the local file in JSON format
 	*/
-	public static void saveTasksIntoFile(ReadOnlyAddressBook addressBook) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void saveTasksIntoFile(ReadOnlySuperbTodo addressBook) throws FileNotFoundException, UnsupportedEncodingException {
 		Gson gson = new Gson();
 		Type type = new TypeToken<ObservableList<Task>>() {
 		}.getType();
@@ -105,7 +105,7 @@ public class SuperbTodoIO extends ComponentManager{
 	}
 	
     @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
+    public void handleAddressBookChangedEvent(SuperbTodoChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
         	SuperbTodoIO.saveTasksIntoFile(event.data);

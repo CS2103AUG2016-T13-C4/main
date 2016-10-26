@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .equals comparison)
  */
-public class SuperbTodo implements ReadOnlyAddressBook {
+public class SuperbTodo implements ReadOnlySuperbTodo {
 
     private final UniqueTaskList task;
     private final UniqueTagList tags;
@@ -29,7 +29,7 @@ public class SuperbTodo implements ReadOnlyAddressBook {
     /**
      * Task and Tags are copied into SuperbToDo
      */
-    public SuperbTodo(ReadOnlyAddressBook toBeCopied) {
+    public SuperbTodo(ReadOnlySuperbTodo toBeCopied) {
         this(toBeCopied.getUniquePersonList(), toBeCopied.getUniqueTagList());
     }
 
@@ -44,7 +44,7 @@ public class SuperbTodo implements ReadOnlyAddressBook {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
 
-    public static ReadOnlyAddressBook getEmptyAddressBook() {
+    public static ReadOnlySuperbTodo getEmptyAddressBook() {
         return new SuperbTodo();
     }
 
@@ -69,7 +69,7 @@ public class SuperbTodo implements ReadOnlyAddressBook {
         setTags(newTags);
     }
 
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlySuperbTodo newData) {
         resetData(newData.getPersonList(), newData.getTagList());
     }
 
