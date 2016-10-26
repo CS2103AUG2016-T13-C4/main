@@ -15,6 +15,10 @@ import seedu.address.model.SuperbTodo;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlySuperbTodo;
+<<<<<<< HEAD
+=======
+import seedu.address.model.person.*;
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
@@ -69,7 +73,11 @@ public class LogicManagerTest {
         logic = new LogicManager(model, new SuperbTodoIO(tempAddressBookFile, tempPreferencesFile));
         EventsCenter.getInstance().registerHandler(this);
 
+<<<<<<< HEAD
         latestSavedAddressBook = new SuperbTodo(model.getAddressBook()); // last saved assumed to be up to date before.
+=======
+        latestSavedAddressBook = new SuperbTodo(model.getSuperbTodo()); // last saved assumed to be up to date before.
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
         helpShown = false;
         targetedJumpIndex = -1; // non yet
     }
@@ -111,10 +119,10 @@ public class LogicManagerTest {
 
         //Confirm the ui display elements should contain the right data
         assertEquals(expectedMessage, result.feedbackToUser);
-        assertEquals(expectedShownList, model.getFilteredPersonList());
+        assertEquals(expectedShownList, model.getFilteredTaskList());
 
         //Confirm the state of data (saved and in-memory) is as expected
-        assertEquals(expectedAddressBook, model.getAddressBook());
+        assertEquals(expectedAddressBook, model.getSuperbTodo());
         assertEquals(expectedAddressBook, latestSavedAddressBook);
     }
 
@@ -256,7 +264,7 @@ public class LogicManagerTest {
             model.addTask(p);
         }
 
-        assertCommandBehavior(commandWord + " 3", expectedMessage, model.getAddressBook(), personList);
+        assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), personList);
     }
 
     @Test
@@ -283,7 +291,7 @@ public class LogicManagerTest {
                 expectedAB,
                 expectedAB.getPersonList());
         assertEquals(1, targetedJumpIndex);
-        assertEquals(model.getFilteredPersonList().get(1), threePersons.get(1));
+        assertEquals(model.getFilteredTaskList().get(1), threePersons.get(1));
     }
 
 

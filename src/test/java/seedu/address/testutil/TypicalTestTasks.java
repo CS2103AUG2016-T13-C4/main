@@ -2,7 +2,11 @@ package seedu.address.testutil;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.SuperbTodo;
+<<<<<<< HEAD
 import seedu.address.model.task.*;
+=======
+import seedu.address.model.person.*;
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
 
 /**
  *
@@ -26,7 +30,7 @@ public class TypicalTestTasks {
         try {
         	ab.addTask(new Task(walk));
         	ab.addTask(new Task(dinner));
-        } catch (UniqueTaskList.DuplicatePersonException e) {
+        } catch (UniqueTaskList.DuplicateTaskException e) {
             assert false : "not possible";
         }
     }

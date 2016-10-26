@@ -3,7 +3,7 @@ package seedu.address.commons.events.model;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.ReadOnlySuperbTodo;
 
-/** Indicates the AddressBook in the model has changed*/
+/** Indicates the SuperbTodo in the model has changed*/
 public class SuperbTodoChangedEvent extends BaseEvent {
 
     public final ReadOnlySuperbTodo data;

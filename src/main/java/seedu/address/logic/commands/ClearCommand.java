@@ -16,7 +16,11 @@ public class ClearCommand extends Command {
     @Override
     public CommandResult execute() {
         assert model != null;
+<<<<<<< HEAD
         model.resetData(SuperbTodo.getEmptyAddressBook());
+=======
+        model.resetData(SuperbTodo.getEmptySuperbTodo());
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
