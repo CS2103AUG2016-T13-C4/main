@@ -33,7 +33,9 @@ import seedu.address.model.person.ReadOnlyTask;
  */
 public class MainWindow extends UiPart {
 
-    private static final String ICON = "/images/address_book_32.png";
+    // @@author A0113992B
+    private static final String ICON = "/images/SuperbTodo.png";
+    // @@author
     private static final String FXML = "MainWindow.fxml";
     public static final int MIN_HEIGHT = 600;
     public static final int MIN_WIDTH = 800;
@@ -46,9 +48,8 @@ public class MainWindow extends UiPart {
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
-//error
-//    private TaskScope taskScopeBox;
 
+    // @@author A0113992B
     // Handles to elements of clock building   
     @FXML
     private static final String[] months = { "Jan", "Feb", "Mar", "Apr",
@@ -57,13 +58,13 @@ public class MainWindow extends UiPart {
     @FXML
     private Calendar c;
     @FXML
-    private final Label date_string = new Label();
+    private final Label dateToday = new Label();
     @FXML
-    private final Label currentHour = new Label();
+    private final Label hourNow = new Label();
     @FXML
-    private final Label currentMin = new Label();
+    private final Label minNow = new Label();
     @FXML
-    private final Label currentSec = new Label();
+    private final Label secNow = new Label();
     @FXML
     private final Label colon1 = new Label(":");
     @FXML
@@ -72,6 +73,7 @@ public class MainWindow extends UiPart {
     // Handles to elements of task scope display
     @FXML
     private Label taskScope; 
+    // @@author 
     
     CommandBox commandInput;
     
@@ -146,6 +148,7 @@ public class MainWindow extends UiPart {
         helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
     
+    // @@author A0113992B
     /** This method calls relevant methods to build clock and 
      *  display current time to the sec inside time holder pane
      */
@@ -172,11 +175,11 @@ public class MainWindow extends UiPart {
         colon1.setFont(Font.font("Century Gothic", 16.0));
         colon2.setTextFill(Color.web("#f7cacf"));
         colon2.setFont(Font.font("Century Gothic", 16.0));
-        date_string.setTextFill(Color.web("#a8dbec"));
-        date_string.setFont(Font.font("Century Gothic", 16.0));
+        dateToday.setTextFill(Color.web("#a8dbec"));
+        dateToday.setFont(Font.font("Century Gothic", 16.0));
         //builds the clock
-        clock.getChildren().addAll(date_string,currentHour, colon1, currentMin, colon2,
-              currentSec );
+        clock.getChildren().addAll(dateToday,hourNow, colon1, minNow, colon2,
+              secNow );
         return clock;
     }
     
@@ -188,9 +191,9 @@ public class MainWindow extends UiPart {
     private void displayTime() {
         c = Calendar.getInstance();
 
-        currentHour.setText("      Now is " + Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
-        currentHour.setTextFill(Color.web("#f7cacf"));
-        currentHour.setFont(Font.font("Century Gothic", 16.0));
+        hourNow.setText("      Now is " + Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+        hourNow.setTextFill(Color.web("#f7cacf"));
+        hourNow.setFont(Font.font("Century Gothic", 16.0));
 
         String minute = "";
         if (c.get(Calendar.MINUTE) < 10) {
@@ -198,9 +201,9 @@ public class MainWindow extends UiPart {
         } else {
             minute = Integer.toString(c.get(Calendar.MINUTE));
         }
-        currentMin.setText(minute);
-        currentMin.setTextFill(Color.web("#f7cacf"));
-        currentMin.setFont(Font.font("Century Gothic", 16.0));
+        minNow.setText(minute);
+        minNow.setTextFill(Color.web("#f7cacf"));
+        minNow.setFont(Font.font("Century Gothic", 16.0));
 
         String sec = "";
         if (c.get(Calendar.SECOND) < 10) {
@@ -208,11 +211,11 @@ public class MainWindow extends UiPart {
         } else {
             sec = Integer.toString(c.get(Calendar.SECOND));
         }
-        currentSec.setText(sec);
-        currentSec.setTextFill(Color.web("#f7cacf"));
-        currentSec.setFont(Font.font("Century Gothic", 16.0));
+        secNow.setText(sec);
+        secNow.setTextFill(Color.web("#f7cacf"));
+        secNow.setFont(Font.font("Century Gothic", 16.0));
 
-        date_string.setText("Today is " + c.get(Calendar.DATE) + " "
+        dateToday.setText("Today is " + c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
 
     }
@@ -228,12 +231,14 @@ public class MainWindow extends UiPart {
         time.getKeyFrames().add(
                 new KeyFrame(Duration.millis(1000),
                         new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent evt) {
+                    public void handle(ActionEvent e) {
                         displayTime();
                     }
                 }));
         time.play();
     }
+    // @@author 
+    
     
     /** This method displays task scope as entered by the user
      * 
@@ -289,9 +294,11 @@ public class MainWindow extends UiPart {
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
     }
 
+    // @@author A0113992B  
     private AnchorPane getCommandBoxPlaceholder() {
         return commandBoxPlaceholder;
     }
+    // @@author 
 
     private AnchorPane getResultDisplayPlaceholder() {
         return resultDisplayPlaceholder;
