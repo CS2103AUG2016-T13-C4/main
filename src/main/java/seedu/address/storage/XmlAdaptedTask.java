@@ -9,17 +9,18 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
+//@@author A0135763B-reused
 /**
  * JAXB-friendly version of the Task.
  */
-public class XmlAdaptedPerson {
+public class XmlAdaptedTask {
 
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
     private String date;
     @XmlElement(required = true)
-    private String email;
+    private String duedate;
     @XmlElement(required = true)
     private String time;
 
@@ -29,17 +30,18 @@ public class XmlAdaptedPerson {
     /**
      * No-arg constructor for JAXB use.
      */
-    public XmlAdaptedPerson() {}
+    public XmlAdaptedTask() {}
 
 
     /**
-     * Converts a given Person into this class for JAXB use.
+     * Converts a given Task into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created XmlAdaptedPerson
+     * @param source future changes to this will not affect the created XmlAdaptedTask
      */
-    public XmlAdaptedPerson(ReadOnlyTask source) {
+    public XmlAdaptedTask(ReadOnlyTask source) {
         name = source.getName().fullName;
         date = source.getDateTime().date_value;
+        duedate = source.getDueTime().date_value;
         time = source.getDateTime().time_value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
@@ -50,7 +52,7 @@ public class XmlAdaptedPerson {
     /**
      * Converts this jaxb-friendly adapted task object into the model's Task object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public Task toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
@@ -58,9 +60,9 @@ public class XmlAdaptedPerson {
             personTags.add(tag.toModelType());
         }
         final TaskName name = new TaskName(this.name);
-        final DateTime phone = new DateTime(this.date);
-        final DueDateTime email = new DueDateTime(this.email);
+        final DateTime date = new DateTime(this.date);
+        final DueDateTime duedate = new DueDateTime(this.duedate);
         final UniqueTagList tags = new UniqueTagList(personTags);
-        return new Task(name, phone, email, tags);
+        return new Task(name, date, duedate, tags);
     }
 }
