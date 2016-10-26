@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .equals comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class SuperbToDo implements ReadOnlyAddressBook {
 
     private final UniqueTaskList task;
     private final UniqueTagList tags;
@@ -24,28 +24,28 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags = new UniqueTagList();
     }
 
-    public AddressBook() {}
+    public SuperbToDo() {}
 
     /**
-     * Persons and Tags are copied into this addressbook
+     * Task and Tags are copied into SuperbToDo
      */
-    public AddressBook(ReadOnlyAddressBook toBeCopied) {
+    public SuperbToDo(ReadOnlyAddressBook toBeCopied) {
         this(toBeCopied.getUniquePersonList(), toBeCopied.getUniqueTagList());
     }
 
     /**
-     * Persons and Tags are copied into this addressbook
+     * Task and Tags are copied into SuperbToDo
      */
-    public AddressBook(UniqueTaskList persons, UniqueTagList tags) {
+    public SuperbToDo(UniqueTaskList persons, UniqueTagList tags) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
     
-    public AddressBook(UniqueTaskList persons) {
+    public SuperbToDo(UniqueTaskList persons) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
 
     public static ReadOnlyAddressBook getEmptyAddressBook() {
-        return new AddressBook();
+        return new SuperbToDo();
     }
 
 //// list overwrite operations
@@ -54,7 +54,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return task.getInternalList();
     }
 
-    public void setPersons(List<Task> persons) {
+    public void setTasks(List<Task> persons) {
         this.task.getInternalList().setAll(persons);
     }
 
@@ -65,7 +65,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     public void resetData(Collection<? extends ReadOnlyTask> newPersons, Collection<Tag> newTags) {
-        setPersons(newPersons.stream().map(Task::new).collect(Collectors.toList()));
+        setTasks(newPersons.stream().map(Task::new).collect(Collectors.toList()));
         setTags(newTags);
     }
 
@@ -166,9 +166,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddressBook // instanceof handles nulls
-                && this.task.equals(((AddressBook) other).task)
-                && this.tags.equals(((AddressBook) other).tags));
+                || (other instanceof SuperbToDo // instanceof handles nulls
+                && this.task.equals(((SuperbToDo) other).task)
+                && this.tags.equals(((SuperbToDo) other).tags));
     }
 
     @Override

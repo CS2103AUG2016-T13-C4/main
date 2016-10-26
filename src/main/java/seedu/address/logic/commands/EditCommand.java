@@ -23,7 +23,7 @@ public class EditCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 by 28 October 2016 on 3pm t/Important";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Task: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Task from: %1$s";
 
     public final int targetIndex;
     private final Task toEdit;
@@ -62,8 +62,11 @@ public class EditCommand extends Command {
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
-
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit));
+        
+        String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit);
+        formatOutput = String.format(formatOutput + " to ", toEdit);
+        
+        return new CommandResult(formatOutput);
     }
 
 }

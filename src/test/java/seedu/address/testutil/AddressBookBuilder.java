@@ -2,7 +2,7 @@ package seedu.address.testutil;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.AddressBook;
+import seedu.address.model.SuperbToDo;
 import seedu.address.model.person.Task;
 import seedu.address.model.person.UniqueTaskList;
 
@@ -13,9 +13,9 @@ import seedu.address.model.person.UniqueTaskList;
  */
 public class AddressBookBuilder {
 
-    private AddressBook addressBook;
+    private SuperbToDo addressBook;
 
-    public AddressBookBuilder(AddressBook addressBook){
+    public AddressBookBuilder(SuperbToDo addressBook){
         this.addressBook = addressBook;
     }
 
@@ -29,7 +29,7 @@ public class AddressBookBuilder {
         return this;
     }
 
-    public AddressBook build(){
+    public SuperbToDo build(){
         return addressBook;
     }
 }

@@ -71,7 +71,7 @@ public class DateTime {
 
     @Override
     public String toString() {
-        return date_value;
+    	return date_value + " (" + time_value + ")";
     }
 
     @Override

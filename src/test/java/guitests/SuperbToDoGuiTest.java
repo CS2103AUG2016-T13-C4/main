@@ -10,7 +10,7 @@ import org.junit.rules.TestName;
 import org.testfx.api.FxToolkit;
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
-import seedu.address.model.AddressBook;
+import seedu.address.model.SuperbToDo;
 import seedu.address.model.person.ReadOnlyTask;
 import seedu.address.testutil.TestUtil;
 import seedu.address.testutil.TypicalTestTasks;
@@ -75,8 +75,8 @@ public abstract class SuperbToDoGuiTest {
      * Override this in child classes to set the initial local data.
      * Return null to use the data in the file specified in {@link #getDataFileLocation()}
      */
-    protected AddressBook getInitialData() {
-        AddressBook ab = TestUtil.generateEmptyAddressBook();
+    protected SuperbToDo getInitialData() {
+        SuperbToDo ab = TestUtil.generateEmptyAddressBook();
         TypicalTestTasks.loadAddressBookWithSampleData(ab);
         return ab;
     }
