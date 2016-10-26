@@ -1,24 +1,20 @@
+// @@author A0113992B
 package seedu.address.logic.commands;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-<<<<<<< HEAD
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
-=======
-import seedu.address.model.person.*;
-import seedu.address.model.person.UniqueTaskList.TaskNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.logic.LogicManager;
->>>>>>> UndoCommandUpdateV2
 import seedu.address.logic.commands.CommandRecorder;
 
 import java.util.Stack;
 import java.util.Vector;
 
 
-
+// @@author A0113992B
 public class UndoCommand extends Command {
       public static final String COMMAND_WORD = "undo";
 
@@ -28,12 +24,12 @@ public class UndoCommand extends Command {
             + "Example: " + COMMAND_WORD;
       
     LogicManager logicM;
-    TaskName name = new TaskName("buy grocery");
-    DateTime dateTime = new DateTime("3pm today");
-    DueDateTime dueDateTime = new DueDateTime("5pm tmr");
-    UniqueTagList tags;
-    Address address = new Address("address");
-    Task taskInit = new Task(name, dateTime, dueDateTime, address, tags);
+//    String name = "watch a movie";
+//    DateTime dateTime = new DateTime("3pm today");
+//    DueDateTime dueDateTime = new DueDateTime("5pm tmr");
+//    UniqueTagList tags;
+    ReadOnlyTask readonlytaskInit;
+    Task taskInit = new Task(readonlytaskInit);
     
     // Exception messages
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
@@ -128,11 +124,7 @@ public class UndoCommand extends Command {
                 return undoEditCommand(prevAction);
             case COMMAND_ADD:
                 assert prevAction.getTask() != null;
-                try {
-                    return undoAddCommand(prevAction);
-                } catch (TaskNotFoundException e) {
-                    e.printStackTrace();
-                }               
+                return undoAddCommand(prevAction);               
             case COMMAND_REMOVE:
                 assert prevAction.getTask() != null;
                 return undoRemoveCommand(prevAction);
@@ -158,7 +150,7 @@ public class UndoCommand extends Command {
      * @return successful feedback message
      * @throws TaskNotFoundException 
      */
-    public CommandResult undoAddCommand(CommandRecorder prevAction) throws TaskNotFoundException {
+    public CommandResult undoAddCommand(CommandRecorder prevAction) {
         if (prevAction.getIndex() != null) {
             storedTasksUndone.remove(storedTasksUndone.lastElement());
             logicM.execute("remove" + " " + prevAction.getIndex()); 

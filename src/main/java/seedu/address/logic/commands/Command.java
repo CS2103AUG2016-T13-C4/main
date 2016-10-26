@@ -11,9 +11,10 @@ import seedu.address.model.Model;
  */
 public abstract class Command {
     protected Model model;
+    //@@author A0113992B
     protected CommandRecorder commandRecorder;
     protected UndoCommand undoCommand;
-
+    //@@author A0135763B-reused
     /**
      * Constructs a feedback message to summarise an operation that displayed a listing of tasks.
      *

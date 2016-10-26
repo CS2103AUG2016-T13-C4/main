@@ -1,17 +1,10 @@
 package seedu.address.logic.commands;
 
-<<<<<<< HEAD
 import seedu.address.model.task.Task;
-=======
-import seedu.address.model.person.Address;
-import seedu.address.model.person.DateTime;
-import seedu.address.model.person.DueDateTime;
-import seedu.address.model.person.ReadOnlyTask;
-import seedu.address.model.person.Task;
-import seedu.address.model.person.TaskName;
-import seedu.address.model.tag.UniqueTagList;
->>>>>>> UndoCommandUpdateV2
 
+import seedu.address.model.task.*;
+import seedu.address.model.tag.UniqueTagList;
+// @@author A0113992B
 /**
  * This class records down the command carried out 
  * and the task created. 

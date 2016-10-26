@@ -22,3 +22,4 @@ Export-Package: guitests,
  seedu.address.storage,
  seedu.address.testutil,
  seedu.address.ui
+Import-Package: seedu.address.logic.commands

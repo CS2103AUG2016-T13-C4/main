@@ -45,7 +45,6 @@ public class AddCommand extends Command {
         
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
     }
-<<<<<<< HEAD
     
     //@@author A0135763B
     /**
@@ -56,12 +55,7 @@ public class AddCommand extends Command {
      * 
      * @throws IllegalValueException if any of the raw values are invalid
      */
-	public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
-=======
-
-
     public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
->>>>>>> UndoCommandUpdateV2
 		if (dateTimeParam.equals("")) {
         	// floating task
         	 return new Task(
@@ -119,9 +113,11 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
+          //@@author A0113992B
             commandRecorder.addRecorder("add", toAdd, toAdd.getName(), toAdd.getDateTime(), toAdd.getDueTime(), 
                     toAdd.getTags());
             undoCommand.add(commandRecorder);
+          //@@author A0135763B
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

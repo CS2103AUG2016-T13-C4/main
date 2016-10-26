@@ -2,14 +2,11 @@ package seedu.address.logic.commands;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
-<<<<<<< HEAD
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
-=======
-import seedu.address.model.person.ReadOnlyTask;
-import seedu.address.model.person.Task;
-import seedu.address.model.person.UniqueTaskList.TaskNotFoundException;
->>>>>>> UndoCommandUpdateV2
+import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 //@@author A0135763B-reused
 /**
@@ -50,20 +47,18 @@ public class DeleteCommand extends Command {
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
-<<<<<<< HEAD
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
-=======
-        
-        Task forRemoval = new Task(personToDelete.getName(), personToDelete.getDateTime(),personToDelete.getDueTime(), 
-                personToDelete.getAddress(), personToDelete.getTags());
+        // @@author A0113992B
+        Task forRemoval = new Task(personToDelete.getName(), personToDelete.getDateTime(),
+                                   personToDelete.getDueTime(), personToDelete.getTags());
         
         commandRecorder.removeRecorder("remove", forRemoval, targetIndex, forRemoval.getName(), forRemoval.getDateTime(),
                 forRemoval.getDueTime(), forRemoval.getTags());
         undoCommand.add(commandRecorder);
         
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
->>>>>>> UndoCommandUpdateV2
+        //@@author A0135763B-reused
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
+
     }
 
 }
