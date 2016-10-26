@@ -11,6 +11,7 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+//@@author A0135763B
 /**
  * Edit a task identified using it's last displayed index from SuperbTodo.
  */
@@ -19,11 +20,11 @@ public class EditCommand extends Command {
     public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edit the task identified by the index number used in the last person listing.\n"
+            + ": Edit the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 by 28 October 2016 on 3pm t/Important";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Task from: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Task to: %1$s";
 
     public final int targetIndex;
     private final Task toEdit;
@@ -52,7 +53,7 @@ public class EditCommand extends Command {
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
-            return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         ReadOnlyTask personToEdit = lastShownList.get(targetIndex - 1);
@@ -63,8 +64,7 @@ public class EditCommand extends Command {
             assert false : "The target task cannot be missing";
         }
         
-        String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit);
-        formatOutput = String.format(formatOutput + " to ", toEdit);
+        String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, toEdit);
         
         return new CommandResult(formatOutput);
     }

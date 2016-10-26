@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.*;
+
 import seedu.address.model.task.DateTime;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+//@@author A0135763B-reused
 /**
  * Parses user input.
  */
@@ -102,7 +104,17 @@ public class Parser {
             return new IncorrectCommand(ive.getMessage());
         }
     }
-
+    
+    /**
+     * Helper function for an add command.
+     * This function serves the purpose of checking the string twice if the date and time object are separated
+     * E.g: by 3pm on Sunday
+     *
+     * Any subsequent time period string will be considered as part of task name
+     *
+     * @param regex matcher object
+     * @return the prepared command
+     */
 	private Command checkDoubleDateTimeParamAndAdd(final Matcher matcher) throws IllegalValueException {
 		String getDateTime, getName, secondDateTime;
 		getName = matcher.group("name");
@@ -138,6 +150,16 @@ public class Parser {
 		}
 	}
 	
+	/**
+     * Helper function for an edit command.
+     * This function serves the purpose of checking the string twice if the date and time object are separated
+     * E.g: by 3pm on Sunday
+     *
+     * Any subsequent time period string will be considered as part of task name
+     *
+     * @param regex matcher object, target index to modify
+     * @return the prepared command
+     */
 	private Command checkDoubleDateTimeParamAndEdit(final Matcher matcher, int target) throws IllegalValueException {
 		String getDateTime, getName, secondDateTime;
 		getName = matcher.group("name");
@@ -176,7 +198,7 @@ public class Parser {
 	}
 
     /**
-     * Extracts the new person's tags from the add command's tag arguments string.
+     * Extracts the new tasks's tags from the add command's tag arguments string.
      * Merges duplicate tag strings.
      */
     private static Set<String> getTagsFromArgs(String tagArguments) throws IllegalValueException {
@@ -190,7 +212,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the delete person command.
+     * Parses arguments in the context of the delete task command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -207,7 +229,7 @@ public class Parser {
     }
     
     /**
-     * Parses arguments in the context of the edit person command.
+     * Parses arguments in the context of the edit task command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -234,7 +256,8 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the select person command.
+     * CURRENTLY UNUSED
+     * Parses arguments in the context of the select task command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -268,7 +291,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the find person command.
+     * Parses arguments in the context of the find task command.
      *
      * @param args full command args string
      * @return the prepared command

@@ -3,10 +3,17 @@ package seedu.address.storage;
 import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
+<<<<<<< HEAD
 import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlySuperbTodo;
+=======
+import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.storage.DataSavingExceptionEvent;
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.model.ReadOnlyAddressBook;
+>>>>>>> parent of 9af9e38... Delete unused files
 import seedu.address.model.UserPrefs;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +37,11 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     public StorageManager(String addressBookFilePath, String userPrefsFilePath) {
+<<<<<<< HEAD
         this(new XmlSuperbTodoStorage(addressBookFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
+=======
+        this(new XmlAddressBookStorage(addressBookFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
+>>>>>>> parent of 9af9e38... Delete unused files
     }
 
     // ================ UserPrefs methods ==============================
@@ -54,23 +65,39 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
+<<<<<<< HEAD
     public Optional<ReadOnlySuperbTodo> readAddressBook() throws DataConversionException, IOException {
+=======
+    public Optional<ReadOnlyAddressBook> readAddressBook() throws DataConversionException, IOException {
+>>>>>>> parent of 9af9e38... Delete unused files
         return readAddressBook(addressBookStorage.getAddressBookFilePath());
     }
 
     @Override
+<<<<<<< HEAD
     public Optional<ReadOnlySuperbTodo> readAddressBook(String filePath) throws DataConversionException, IOException {
+=======
+    public Optional<ReadOnlyAddressBook> readAddressBook(String filePath) throws DataConversionException, IOException {
+>>>>>>> parent of 9af9e38... Delete unused files
         logger.fine("Attempting to read data from file: " + filePath);
         return addressBookStorage.readAddressBook(filePath);
     }
 
     @Override
+<<<<<<< HEAD
     public void saveAddressBook(ReadOnlySuperbTodo addressBook) throws IOException {
+=======
+    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
+>>>>>>> parent of 9af9e38... Delete unused files
         saveAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
     }
 
     @Override
+<<<<<<< HEAD
     public void saveAddressBook(ReadOnlySuperbTodo addressBook, String filePath) throws IOException {
+=======
+    public void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException {
+>>>>>>> parent of 9af9e38... Delete unused files
         logger.fine("Attempting to write to data file: " + filePath);
         addressBookStorage.saveAddressBook(addressBook, filePath);
     }
@@ -78,7 +105,11 @@ public class StorageManager extends ComponentManager implements Storage {
 
     @Override
     @Subscribe
+<<<<<<< HEAD
     public void handleAddressBookChangedEvent(SuperbTodoChangedEvent event) {
+=======
+    public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
+>>>>>>> parent of 9af9e38... Delete unused files
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
         	SuperbTodoIO.saveTasksIntoFile(event.data);

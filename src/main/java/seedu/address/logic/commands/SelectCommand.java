@@ -6,6 +6,12 @@ import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.commons.core.UnmodifiableObservableList;
 
+//@@author A0135763B-unused
+
+/*
+ * Unused command, not part of current user story
+ * Kept here for potential future use/reference
+ */
 /**
  * Selects a person identified using it's last displayed index from the address book.
  */
@@ -33,7 +39,7 @@ public class SelectCommand extends Command {
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
-            return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex - 1));

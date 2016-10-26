@@ -1,8 +1,8 @@
 package seedu.address.logic.commands;
 
-
+//@@author A0135763B-reused
 /**
- * Lists all persons in the address book to the user.
+ * Lists all tasks in SuperbTodo to the user.
  */
 public class ListCommand extends Command {
 
