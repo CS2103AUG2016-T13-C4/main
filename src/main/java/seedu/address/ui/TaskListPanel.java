@@ -15,7 +15,7 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.commons.core.LogsCenter;
 
 import java.util.logging.Logger;
-
+//@@author A0113992B-reused
 /**
  * Panel containing the list of persons.
  */

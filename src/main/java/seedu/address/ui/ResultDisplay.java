@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seedu.address.commons.util.FxViewUtil;
-
+//@@author A0113992B-reused
 /**
  * A ui for the status bar that is displayed at the bottom of the application.
  */

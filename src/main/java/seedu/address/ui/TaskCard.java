@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import seedu.address.model.task.ReadOnlyTask;
-
+//@@author A0113992B
 public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
@@ -55,7 +55,7 @@ public class TaskCard extends UiPart{
     public AnchorPane getLayout() {
         return cardPane;
     }
-
+ // @@author A0113992B-reused
     @Override
     public void setNode(Node node) {
         cardPane = (AnchorPane)node;
