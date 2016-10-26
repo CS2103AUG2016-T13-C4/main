@@ -2,8 +2,10 @@ package seedu.address.logic.commands;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.*;
+import seedu.address.model.person.UniqueTaskList.TaskNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.CommandRecorder;
 
 import java.util.HashSet;
@@ -23,6 +25,9 @@ public class UndoCommand extends Command {
             //undo a command just carried out
             + "Format: Undo\n"
             + "Example: " + COMMAND_WORD;
+      
+    LogicManager logicM;
+    Parser parser;
     
     // Exception messages
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
@@ -46,17 +51,15 @@ public class UndoCommand extends Command {
     private static final String FEEDBACK_SUCCESSFUL_UNDO = "Undoing action";
     private static final String FEEDBACK_SUCCESSFUL_REDO = "Redoing action";
     private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "You have reached the last undo";
-    private static final String FEEDBACK_UNSUCCESSFUL_REDO = "You have reached the last redo";
 
     private static UndoCommand selectedCommand;
-    private static Stack<CommandRecorder> undoStack;
+    public static Stack<CommandRecorder> undoStack;
+    public static Stack<CommandRecorder> redoStack;
+    public static Vector<ReadOnlyTask> storedTasksUndone;
+    public static Vector<ReadOnlyTask> storedTasksDone;
 
-    private static Stack<CommandRecorder> redoStack;
-    private static Vector<Task> storedTasksUndone;
-
-    private static Vector<Task> storedTasksDone;
-
-    private UndoCommand (Vector<Task> storedTasksUndone, Vector<Task> storedTasksDone) {
+    
+    private UndoCommand (Vector<ReadOnlyTask> storedTasksUndone, Vector<ReadOnlyTask> storedTasksDone) {
         undoStack = new Stack<CommandRecorder>();
         redoStack = new Stack<CommandRecorder>();
         this.storedTasksUndone = storedTasksUndone;
@@ -64,8 +67,13 @@ public class UndoCommand extends Command {
     }
     
     
-    // Getters
     
+    
+    public UndoCommand() {
+        
+    }
+
+    // Getters for RedoCommand use
     public static Stack<CommandRecorder> getundoStack() {
         return undoStack;
     }
@@ -74,23 +82,24 @@ public class UndoCommand extends Command {
         return redoStack;
     }
     
-    public static Vector<Task> getstoredTasksUndone() {
+    public static Vector<ReadOnlyTask> getstoredTasksUndone() {
         return storedTasksUndone;
     }
     
-    public static Vector<Task> getstoredTasksDone() {
+    public static Vector<ReadOnlyTask> getstoredTasksDone() {
         return storedTasksDone;
     }
 
     /**
      * Add user's input CommandRecorder into a stack for undo/redo purposes.
      * 
-     * @param CommandRecorderAction
+     * @param userInputAction
      *            user's input CommandRecorder
      */
-    public void add(CommandRecorder CommandRecorderAction) {
-        undoStack.push(CommandRecorderAction);
+    public void add(CommandRecorder userInputAction) {
+        undoStack.push(userInputAction);
         redoStack.clear();
+        storedTasksUndone.add(userInputAction.gettaskPrev());
     }
 
     /**
@@ -102,12 +111,12 @@ public class UndoCommand extends Command {
      *            list of tasks sorted by done
      * @return UndoCommand the UndoCommand object
      */
-    public static UndoCommand getInstance(Vector<Task> storedTasksUndone,Vector<Task> storedTasksDone) {
-        if (selectedCommand == null) {
-            selectedCommand = new UndoCommand(storedTasksUndone, storedTasksDone);
-        }
-        return selectedCommand;
-    }
+//    public static UndoCommand getInstance(Vector<ReadOnlyTask> storedTasksUndone,Vector<ReadOnlyTask> storedTasksDone) {
+//        if (selectedCommand == null) {
+//            selectedCommand = new UndoCommand(storedTasksUndone, storedTasksDone);
+//        }
+//        return selectedCommand;
+//    }
 
     /**
      * Undo the previous command carried out by user.
@@ -117,18 +126,30 @@ public class UndoCommand extends Command {
     
     @Override
     public CommandResult execute() {
+
+        assert undoStack != null;
+        
+        // parser parses the commands for execution
+        //modelmanager saves the data
+        //commandrecorder records down what are the content of the commands
+        //call all the established commands to do it
         if (!undoStack.isEmpty()) {
             CommandRecorder prevAction = undoStack.pop();
             redoStack.push(prevAction);
 
             switch (prevAction.getCommand()) {
-            case COMMAND_EDIT:
-                assert prevAction.gettaskAfter() != null
-                && prevAction.gettaskPrev() != null;
-                return undoEditCommand(prevAction);
+//            case COMMAND_EDIT:
+//                assert prevAction.gettaskAfter() != null
+//                && prevAction.gettaskPrev() != null;
+//                return undoEditCommand(prevAction);
             case COMMAND_ADD:
                 assert prevAction.gettaskPrev() != null;
-                return undoAddCommand(prevAction);
+                try {
+                    return undoAddCommand(prevAction);
+                } catch (TaskNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             case COMMAND_REMOVE:
                 assert prevAction.gettaskPrev() != null
                 && prevAction.getlistTypePrev() != null;
@@ -145,6 +166,33 @@ public class UndoCommand extends Command {
         }
         return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);
      }
+    
+    /**
+     * Undo Add command
+     * 
+     * @param prevAction
+     *            user's input CommandRecorder
+     * @return successful feedback message
+     * @throws TaskNotFoundException 
+     */
+    public CommandResult undoAddCommand(CommandRecorder prevAction) throws TaskNotFoundException {
+        storedTasksUndone.remove(storedTasksUndone.lastElement());
+        logicM.execute(prevAction.getCommand() + " " + prevAction.getindexPrev());       
+        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+    }
+    
+    /**
+     * Redo Add command
+     * 
+     * @param prevAction
+     *            user's input CommandRecorder
+     * @return successful feedback message
+     */
+    public CommandResult redoAddCommand(CommandRecorder nextAction) {
+        storedTasksUndone.add(nextAction.gettaskPrev());
+        logicM.execute(nextAction.getCommand() + " " + nextAction.getlistTypePrev());
+        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
+    }
 
 
 
@@ -155,7 +203,7 @@ public class UndoCommand extends Command {
      *            user's input event
      * @return successful feedback message
      */
-    private CommandResult undoUndoneCommand(CommandRecorder previousAction) {
+    public CommandResult undoUndoneCommand(CommandRecorder previousAction) {
         if (previousAction.getlistTypePrev().equals(LIST_UNDONE)) {
             storedTasksDone.add(previousAction.gettaskPrev());
             storedTasksUndone.remove(previousAction.gettaskPrev());
@@ -172,7 +220,7 @@ public class UndoCommand extends Command {
      *            user's input CommandRecorder
      * @return successful feedback message
      */
-    private CommandResult undoDoneCommand(CommandRecorder prevAction) {
+    public CommandResult undoDoneCommand(CommandRecorder prevAction) {
         if (prevAction.getlistTypePrev().equals(LIST_DONE)) {
             storedTasksDone.remove(prevAction.gettaskPrev());
             storedTasksUndone.add(prevAction.gettaskPrev());
@@ -189,7 +237,7 @@ public class UndoCommand extends Command {
      *            user's input CommandRecorder
      * @return successful feedback message
      */
-    private CommandResult undoRemoveCommand(CommandRecorder prevAction) {
+    public CommandResult undoRemoveCommand(CommandRecorder prevAction) {
         if (prevAction.getlistTypePrev().equals(LIST_REMOVE)) {
             redoAddCommand(prevAction);
             storedTasksUndone.add(prevAction.getindexPrev(),prevAction.gettaskPrev());
@@ -199,17 +247,7 @@ public class UndoCommand extends Command {
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
 
-    /**
-     * Undo Add command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    private CommandResult undoAddCommand(CommandRecorder prevAction) {
-        storedTasksUndone.remove(prevAction.gettaskPrev());
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-    }
+
 
     /**
      * Undo Edit command
@@ -218,28 +256,18 @@ public class UndoCommand extends Command {
      *            user's input CommandRecorder
      * @return successful feedback message
      */
-    private CommandResult undoEditCommand(CommandRecorder prevAction) {
+    public CommandResult undoEditCommand(CommandRecorder prevAction) {
         storedTasksUndone.remove(prevAction.gettaskAfter());
         storedTasksUndone.add(prevAction.gettaskPrev());
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
     
-    /**
-     * Redo Add command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    private CommandResult redoAddCommand(CommandRecorder nextAction) {
-        storedTasksUndone.add(nextAction.gettaskPrev());
-        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
-    }
 
-    /**
-     * Remove the Singleton instance for unit testing purposes
-     */
-    protected void clearStateForTesting() {
-        selectedCommand = null;
-    }
+
+//    /**
+//     * Remove the Singleton instance for unit testing purposes
+//     */
+//    public void clearStateForTesting() {
+//        selectedCommand = null;
+//    }
 }

@@ -45,7 +45,8 @@ public class AddCommand extends Command {
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
     }
 
-	public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
+
+    public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
 		if (dateTimeParam.equals("")) {
         	// floating task
         	 return new Task(
@@ -93,6 +94,8 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
+            commandRecorder.addRecorder("add", toAdd);
+            undoCommand.add(commandRecorder);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicatePersonException e) {
             return new CommandResult(MESSAGE_DUPLICATE_PERSON);

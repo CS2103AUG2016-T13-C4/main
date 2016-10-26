@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import seedu.address.model.person.ReadOnlyTask;
 import seedu.address.model.person.Task;
 
 /**
@@ -26,11 +27,12 @@ public class CommandRecorder {
 
     private String command;
     private String listTypePrev, listTypeAfter;
-    private Task taskPrev, taskAfter;
+    private ReadOnlyTask taskPrev, taskAfter;
     private int indexPrev;
 
+    
     // Called when the command is add 
-    public CommandRecorder(String command, Task task) {
+    public void addRecorder(String command, ReadOnlyTask task) {
         taskPrev = task;
         this.command = command;
 
@@ -40,7 +42,7 @@ public class CommandRecorder {
     }
 
     // Called when the command is remove
-    public CommandRecorder(String command, Task task, String listTypePrev, int indexPrev) {
+    public void removeRecorder(String command, ReadOnlyTask task) {
         this.command = command;
 
         if (!(command.equals(COMMAND_REMOVE))) {
@@ -48,12 +50,12 @@ public class CommandRecorder {
         }
 
         taskPrev = task;
-        this.indexPrev = indexPrev;
-        this.listTypePrev = listTypePrev;
+//        this.indexPrev = indexPrev;
+//        this.listTypePrev = listTypePrev;
     }
 
     // Called when the command is edit
-    public CommandRecorder(String command, Task taskPrev, Task taskAfter) {
+    public void editRecorder(String command, Task taskPrev, Task taskAfter) {
         this.command = command;
 
         if (!command.equals(COMMAND_EDIT)) {
@@ -65,7 +67,7 @@ public class CommandRecorder {
     }
     
     // Called when the command is done or undone
-    public CommandRecorder(String command, Task task, String listTypePrev, String listTypeAfter) {
+    public void doneRecorder(String command, Task task, String listTypePrev, String listTypeAfter) {
         this.command = command;
 
         if (!(command.equals(COMMAND_UNDONE)) && !(command.equals(COMMAND_DONE))) {
@@ -85,11 +87,11 @@ public class CommandRecorder {
         return command;
     }
     
-    public Task gettaskPrev() {
+    public ReadOnlyTask gettaskPrev() {
         return taskPrev;
     }
     
-    public Task gettaskAfter() {
+    public ReadOnlyTask gettaskAfter() {
         return taskAfter;
     }
 

@@ -22,7 +22,7 @@ public class DeleteCommand extends Command {
     public final int targetIndex;
 
     public DeleteCommand(int targetIndex) {
-        this.targetIndex = targetIndex;
+        this.targetIndex = targetIndex;       
     }
 
 
@@ -43,7 +43,11 @@ public class DeleteCommand extends Command {
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
-
+        
+        
+        commandRecorder.removeRecorder("remove", personToDelete/*, listTypePrev, indexPrev*/);
+        undoCommand.add(commandRecorder);
+        
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
     }
 
