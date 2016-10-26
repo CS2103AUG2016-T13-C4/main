@@ -75,15 +75,15 @@ public class MainApp extends Application {
 
     // initialize with empty addressbook in case of no data, wrong file
     private Model initModelManager(SuperbTodoIO storage, UserPrefs userPrefs) throws JsonSyntaxException, IOException {
-        AddressBook initialData;
+        SuperbTodo initialData;
         try {
             initialData = storage.loadTasksFromFile();
         } catch (JsonSyntaxException e) {
           logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
-          initialData = new AddressBook();
+          initialData = new SuperbTodo();
         } catch (IOException e) {
           logger.warning("Problem while reading from the file. . Will be starting with an empty AddressBook");
-          initialData = new AddressBook();
+          initialData = new SuperbTodo();
         }
 
         return new ModelManager(initialData, userPrefs);

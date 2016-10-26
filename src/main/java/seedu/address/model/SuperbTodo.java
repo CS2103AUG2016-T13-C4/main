@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .equals comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class SuperbTodo implements ReadOnlySuperbTodo {
 
     private final UniqueTaskList task;
     private final UniqueTagList tags;
@@ -24,28 +24,28 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags = new UniqueTagList();
     }
 
-    public AddressBook() {}
+    public SuperbTodo() {}
 
     /**
-     * Persons and Tags are copied into this addressbook
+     * Persons and Tags are copied into this superbtodo
      */
-    public AddressBook(ReadOnlyAddressBook toBeCopied) {
+    public SuperbTodo(ReadOnlySuperbTodo toBeCopied) {
         this(toBeCopied.getUniquePersonList(), toBeCopied.getUniqueTagList());
     }
 
     /**
-     * Persons and Tags are copied into this addressbook
+     * Persons and Tags are copied into this superbtodo
      */
-    public AddressBook(UniqueTaskList persons, UniqueTagList tags) {
+    public SuperbTodo(UniqueTaskList persons, UniqueTagList tags) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
     
-    public AddressBook(UniqueTaskList persons) {
+    public SuperbTodo(UniqueTaskList persons) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
 
-    public static ReadOnlyAddressBook getEmptyAddressBook() {
-        return new AddressBook();
+    public static ReadOnlySuperbTodo getEmptySuperbTodo() {
+        return new SuperbTodo();
     }
 
 //// list overwrite operations
@@ -69,7 +69,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         setTags(newTags);
     }
 
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlySuperbTodo newData) {
         resetData(newData.getPersonList(), newData.getTagList());
     }
 
@@ -80,9 +80,9 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Also checks the new person's tags and updates {@link #tags} with any new tags found,
      * and updates the Tag objects in the person to point to those in {@link #tags}.
      *
-     * @throws UniqueTaskList.DuplicatePersonException if an equivalent person already exists.
+     * @throws UniqueTaskList.DuplicateTaskException if an equivalent person already exists.
      */
-    public void addTask(Task p) throws UniqueTaskList.DuplicatePersonException {
+    public void addTask(Task p) throws UniqueTaskList.DuplicateTaskException {
         syncTagsWithMasterList(p);
         task.add(p);
     }
@@ -166,9 +166,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddressBook // instanceof handles nulls
-                && this.task.equals(((AddressBook) other).task)
-                && this.tags.equals(((AddressBook) other).tags));
+                || (other instanceof SuperbTodo // instanceof handles nulls
+                && this.task.equals(((SuperbTodo) other).task)
+                && this.tags.equals(((SuperbTodo) other).tags));
     }
 
     @Override
