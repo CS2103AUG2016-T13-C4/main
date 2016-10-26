@@ -31,7 +31,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
-import seedu.address.model.SuperbToDo;
+import seedu.address.model.SuperbTodo;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.task.*;
@@ -65,9 +65,9 @@ public class SuperbTodoIO extends ComponentManager{
     		return true;
     }
 	
-	public static SuperbToDo loadTasksFromFile() throws IOException, JsonSyntaxException {
+	public static SuperbTodo loadTasksFromFile() throws IOException, JsonSyntaxException {
 		if (!IsFileExist()) {
-			return new SuperbToDo();
+			return new SuperbTodo();
 		}
 		Gson gson = new Gson();
 		String jsonTasks = "";
@@ -82,9 +82,9 @@ public class SuperbTodoIO extends ComponentManager{
         	ArrayList<Task> tempList = gson.fromJson(jsonTasks, type);
         	ObservableList<Task> taskList = FXCollections.observableArrayList(tempList);
         	reader.close();
-        	return new SuperbToDo(new UniqueTaskList(taskList));
+        	return new SuperbTodo(new UniqueTaskList(taskList));
 		} catch(IOException e) {
-			return new SuperbToDo();
+			return new SuperbTodo();
 		}
 	}
 	

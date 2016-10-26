@@ -4,7 +4,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-import seedu.address.model.SuperbToDo;
+import seedu.address.model.SuperbTodo;
 
 /**
  * A utility class to help with building Addressbook objects.
@@ -13,9 +13,9 @@ import seedu.address.model.SuperbToDo;
  */
 public class AddressBookBuilder {
 
-    private SuperbToDo addressBook;
+    private SuperbTodo addressBook;
 
-    public AddressBookBuilder(SuperbToDo addressBook){
+    public AddressBookBuilder(SuperbTodo addressBook){
         this.addressBook = addressBook;
     }
 
@@ -29,7 +29,7 @@ public class AddressBookBuilder {
         return this;
     }
 
-    public SuperbToDo build(){
+    public SuperbTodo build(){
         return addressBook;
     }
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Represents a storage for {@link seedu.address.model.SuperbToDo}.
+ * Represents a storage for {@link seedu.address.model.SuperbTodo}.
  */
 public interface AddressBookStorage {
 

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .equals comparison)
  */
-public class SuperbToDo implements ReadOnlyAddressBook {
+public class SuperbTodo implements ReadOnlyAddressBook {
 
     private final UniqueTaskList task;
     private final UniqueTagList tags;
@@ -24,28 +24,28 @@ public class SuperbToDo implements ReadOnlyAddressBook {
         tags = new UniqueTagList();
     }
 
-    public SuperbToDo() {}
+    public SuperbTodo() {}
 
     /**
      * Task and Tags are copied into SuperbToDo
      */
-    public SuperbToDo(ReadOnlyAddressBook toBeCopied) {
+    public SuperbTodo(ReadOnlyAddressBook toBeCopied) {
         this(toBeCopied.getUniquePersonList(), toBeCopied.getUniqueTagList());
     }
 
     /**
      * Task and Tags are copied into SuperbToDo
      */
-    public SuperbToDo(UniqueTaskList persons, UniqueTagList tags) {
+    public SuperbTodo(UniqueTaskList persons, UniqueTagList tags) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
     
-    public SuperbToDo(UniqueTaskList persons) {
+    public SuperbTodo(UniqueTaskList persons) {
         resetData(persons.getInternalList(), tags.getInternalList());
     }
 
     public static ReadOnlyAddressBook getEmptyAddressBook() {
-        return new SuperbToDo();
+        return new SuperbTodo();
     }
 
 //// list overwrite operations
@@ -166,9 +166,9 @@ public class SuperbToDo implements ReadOnlyAddressBook {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof SuperbToDo // instanceof handles nulls
-                && this.task.equals(((SuperbToDo) other).task)
-                && this.tags.equals(((SuperbToDo) other).tags));
+                || (other instanceof SuperbTodo // instanceof handles nulls
+                && this.task.equals(((SuperbTodo) other).task)
+                && this.tags.equals(((SuperbTodo) other).tags));
     }
 
     @Override

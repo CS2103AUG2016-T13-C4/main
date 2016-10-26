@@ -21,30 +21,30 @@ import java.util.logging.Logger;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final SuperbToDo addressBook;
+    private final SuperbTodo addressBook;
     private final FilteredList<Task> filteredPersons;
 
     /**
      * Initializes a ModelManager with the given AddressBook
      * AddressBook and its variables should not be null
      */
-    public ModelManager(SuperbToDo src, UserPrefs userPrefs) {
+    public ModelManager(SuperbTodo src, UserPrefs userPrefs) {
         super();
         assert src != null;
         assert userPrefs != null;
 
         logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
 
-        addressBook = new SuperbToDo(src);
+        addressBook = new SuperbTodo(src);
         filteredPersons = new FilteredList<>(addressBook.getPersons());
     }
 
     public ModelManager() {
-        this(new SuperbToDo(), new UserPrefs());
+        this(new SuperbTodo(), new UserPrefs());
     }
 
     public ModelManager(ReadOnlyAddressBook initialData, UserPrefs userPrefs) {
-        addressBook = new SuperbToDo(initialData);
+        addressBook = new SuperbTodo(initialData);
         filteredPersons = new FilteredList<>(addressBook.getPersons());
     }
 

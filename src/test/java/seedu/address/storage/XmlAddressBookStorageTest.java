@@ -7,7 +7,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
-import seedu.address.model.SuperbToDo;
+import seedu.address.model.SuperbTodo;
 import seedu.address.model.task.Task;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.testutil.TypicalTestTasks;
@@ -62,13 +62,13 @@ public class XmlAddressBookStorageTest {
     public void readAndSaveAddressBook_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
         TypicalTestTasks td = new TypicalTestTasks();
-        SuperbToDo original = td.getTypicalSuperbToDo();
+        SuperbTodo original = td.getTypicalSuperbToDo();
         XmlAddressBookStorage xmlAddressBookStorage = new XmlAddressBookStorage(filePath);
 
         //Save in new file and read back
         xmlAddressBookStorage.saveAddressBook(original, filePath);
         ReadOnlyAddressBook readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
-        assertEquals(original, new SuperbToDo(readBack));
+        assertEquals(original, new SuperbTodo(readBack));
 /*
         //Modify data, overwrite exiting file, and read back
         original.addPerson(new Task(TypicalTestTasks.hoon));
@@ -98,7 +98,7 @@ public class XmlAddressBookStorageTest {
     @Test
     public void saveAddressBook_nullFilePath_assertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveAddressBook(new SuperbToDo(), null);
+        saveAddressBook(new SuperbTodo(), null);
     }
 
 
