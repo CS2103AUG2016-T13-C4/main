@@ -64,9 +64,17 @@ public class EditCommand extends Command {
             assert false : "The target task cannot be missing";
         }
         
+<<<<<<< HEAD
         String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, toEdit);
         
         return new CommandResult(formatOutput);
+=======
+        commandRecorder.editRecorder("edit", personToEdit, toEdit, targetIndex, toEdit.getName(), toEdit.getDateTime(), toEdit.getDueTime(), 
+                toEdit.getTags());
+        undoCommand.add(commandRecorder);
+
+        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit));
+>>>>>>> UndoCommandUpdateV2
     }
 
 }

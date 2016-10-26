@@ -1,6 +1,16 @@
 package seedu.address.logic.commands;
 
+<<<<<<< HEAD
 import seedu.address.model.task.Task;
+=======
+import seedu.address.model.person.Address;
+import seedu.address.model.person.DateTime;
+import seedu.address.model.person.DueDateTime;
+import seedu.address.model.person.ReadOnlyTask;
+import seedu.address.model.person.Task;
+import seedu.address.model.person.TaskName;
+import seedu.address.model.tag.UniqueTagList;
+>>>>>>> UndoCommandUpdateV2
 
 /**
  * This class records down the command carried out 
@@ -25,57 +35,84 @@ public class CommandRecorder {
     private static final String EXCEPTION_DONEUNDONE = "This constructor is for done or undone command";
 
     private String command;
-    private String listTypePrev, listTypeAfter;
-    private Task taskPrev, taskAfter;
-    private int indexPrev;
+    int index;
+    Task taskPrev;
+    ReadOnlyTask personToEdit;
+    TaskName namePrev, nameNext;
+    DateTime dateTimePrev, dateTimeNext;
+    DueDateTime dueDateTimePrev, dueDateTimeNext;
+    UniqueTagList tagsPrev, tagsNext;
 
+    public CommandRecorder() {
+        this.command = "";
+    }
+    
     // Called when the command is add 
-    public CommandRecorder(String command, Task task) {
-        taskPrev = task;
+    public void addRecorder(String command, Task task, TaskName name, DateTime dateTime, 
+            DueDateTime dueDateTime, UniqueTagList tags) {
+        
         this.command = command;
 
         if (!(command.equals(COMMAND_ADD))) {
             throw new IllegalArgumentException(EXCEPTION_ADD);
         }
+        
+        this.taskPrev = task;
+        this.namePrev = name;
+        this.dateTimePrev = dateTime;
+        this.dueDateTimePrev = dueDateTime;
+        this.tagsPrev = tags;
     }
 
     // Called when the command is remove
-    public CommandRecorder(String command, Task task, String listTypePrev, int indexPrev) {
+    public void removeRecorder(String command, Task task, int indexForRemoval, TaskName name, DateTime dateTime, 
+            DueDateTime dueDateTime, UniqueTagList tags) {
         this.command = command;
 
         if (!(command.equals(COMMAND_REMOVE))) {
             throw new IllegalArgumentException(EXCEPTION_REMOVE);
         }
+        
+        this.taskPrev = task;
+        this.namePrev = name;
+        this.index = indexForRemoval;
+        this.dateTimePrev = dateTime;
+        this.dueDateTimePrev = dueDateTime;
+        this.tagsPrev = tags;
 
-        taskPrev = task;
-        this.indexPrev = indexPrev;
-        this.listTypePrev = listTypePrev;
     }
 
     // Called when the command is edit
-    public CommandRecorder(String command, Task taskPrev, Task taskAfter) {
+    public void editRecorder(String command, ReadOnlyTask personToEdit, Task task, int indexForEdit, TaskName name, DateTime dateTime, 
+            DueDateTime dueDateTime, UniqueTagList tags) {
         this.command = command;
 
         if (!command.equals(COMMAND_EDIT)) {
             throw new IllegalArgumentException(EXCEPTION_EDIT);
         }
-
-        this.taskPrev = taskPrev;
-        this.taskAfter = taskAfter;
+        
+        this.personToEdit = personToEdit;
+        this.taskPrev = task;
+        this.namePrev = name;
+        this.index = indexForEdit;
+        this.dateTimePrev = dateTime;
+        this.dueDateTimePrev = dueDateTime;
+        this.tagsPrev = tags;
     }
     
+//  Feature undone yet  
     // Called when the command is done or undone
-    public CommandRecorder(String command, Task task, String listTypePrev, String listTypeAfter) {
-        this.command = command;
-
-        if (!(command.equals(COMMAND_UNDONE)) && !(command.equals(COMMAND_DONE))) {
-            throw new IllegalArgumentException(EXCEPTION_DONEUNDONE);
-        }
-
-        taskPrev = task;
-        this.listTypePrev = listTypePrev;
-        this.listTypeAfter = listTypeAfter;
-    }
+//    public void doneRecorder(String command, Task task, String listTypePrev, String listTypeAfter) {
+//        this.command = command;
+//
+//        if (!(command.equals(COMMAND_UNDONE)) && !(command.equals(COMMAND_DONE))) {
+//            throw new IllegalArgumentException(EXCEPTION_DONEUNDONE);
+//        }
+//
+//        taskPrev = task;
+//        this.listTypePrev = listTypePrev;
+//        this.listTypeAfter = listTypeAfter;
+//    }
 
  
     /** 
@@ -85,24 +122,33 @@ public class CommandRecorder {
         return command;
     }
     
-    public Task gettaskPrev() {
-        return taskPrev;
+    public ReadOnlyTask getPersonToEdit() {
+        return personToEdit;
     }
     
-    public Task gettaskAfter() {
-        return taskAfter;
-    }
-
-    public int getindexPrev() {
-        return indexPrev;
+    public Task getTask() {
+        return  taskPrev;
     }
     
-    public String getlistTypePrev() {
-        return listTypePrev;
+    public String getIndex() {
+        String s = String.format("%1$d", index);
+        return s;
     }
     
-    public String getlistTypeAfter() {
-        return listTypeAfter;
+    public TaskName getNamePrev() {
+        return namePrev;
     }
     
+    public DateTime getDateTimePrev() {
+        return dateTimePrev;
+    }
+    
+    public DueDateTime getDueDateTimePrev() {
+        return dueDateTimePrev;
+    }
+    
+    public UniqueTagList getTagsPrev() {
+        return tagsPrev;
+    }
+   
 }
