@@ -92,7 +92,7 @@ The _Sequence Diagram_ below shows how the components interact for the scenario 
 command `delete 3`.
 
 <!--- @@author A0113992B --->
-<img src="images/SDforDeletePerson.png" width="1500">
+<img src="images/SDforDeleteTask.png" width="1500">
 
 <!--- @@author A0113992B-reused --->
 >Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed,
@@ -100,7 +100,7 @@ command `delete 3`.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates
 being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time. <br>
-<img src="images/SDforDeletePersonEventHandling.png" width="1500">
+<img src="images/SDforDeleteTaskEventHandling.png" width="1500">
 
 > Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having
   to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct 
