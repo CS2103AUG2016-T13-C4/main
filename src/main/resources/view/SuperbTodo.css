@@ -1,0 +1,100 @@
+/* @@author A0113992B */
+
+.vbox-outer {
+	-fx-background-color: white;
+	-fx-border-color: #a8dbec;
+	-fx-border-width: 3px;
+	-fx-font-family: "Century Gothic";
+}
+
+.anchorpane-command {
+	-fx-border-color: #a8dbec;
+	-fx-border-width: 2px;
+}
+
+.label-scope {
+	-fx-font-size: 12pt;
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: #4c539f;
+	
+}
+
+.label-header {
+    -fx-font-size: 16pt;
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: #4c539f;
+}
+
+.text-field {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: #f7cacf;
+    -fx-prompt-text-fill: #f7cacf;
+}
+
+.list-cell:filled:selected {
+	-fx-background-color:#4c539f; 
+}
+
+.list-cell:even .label {
+    -fx-text-fill: #a8dbec;
+}
+
+.list-cell:odd .label {
+	-fx-text-fill: white;
+}
+
+
+.list-view .list-cell:even {
+	-fx-control-inner-background: white;
+}
+.list-view .list-cell:odd {
+	-fx-control-inner-background: #a8dbec,5%;
+}
+
+.result-display {
+    -fx-control-inner-background: #a8dbec;
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: #f7cacf;
+}
+
+.menu-bar {
+    -fx-background-color: #a8dbec;
+}
+
+.menu-bar .label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: white;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #4c539f;
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1 8 1;
+}
+
+
+#commandTypeLabel {
+    -fx-font-size: 11px;
+    -fx-text-fill: #F70D1A;
+}

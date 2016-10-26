@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class UiManager extends ComponentManager implements Ui {
     private static final Logger logger = LogsCenter.getLogger(UiManager.class);
-    private static final String ICON_APPLICATION = "/images/address_book_32.png";
+    private static final String ICON_APPLICATION = "/images/SuperbTodo.png";
 
     private Logic logic;
     private Config config;
@@ -52,7 +52,9 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow = MainWindow.load(primaryStage, config, prefs, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+            // @@author A0113992B
             mainWindow.clockFunction();
+            // @@author 
             //mainWindow.setDefaultTaskScope();
 
         } catch (Throwable e) {

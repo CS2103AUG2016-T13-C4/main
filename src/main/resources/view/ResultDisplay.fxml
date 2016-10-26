@@ -2,5 +2,5 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.ResultDisplay" />
+<!-- @@author A0113992B -->
+<AnchorPane styleClass="anchorpane-result" stylesheets="@SuperbTodo.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.ResultDisplay" />
