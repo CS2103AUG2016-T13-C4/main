@@ -70,8 +70,8 @@ public class MainApp extends Application {
         Map<String, String> applicationParameters = getParameters().getNamed();
         return applicationParameters.get(parameterName);
     }
-
-    // initialize with empty addressbook in case of no data, wrong file
+    //@@author A0133945B
+    // initialize with empty TaskBook in case of no data, wrong file
     private Model initModelManager(SuperbTodoIO storage, UserPrefs userPrefs) throws JsonSyntaxException, IOException {
         SuperbTodo initialData;
         try {
