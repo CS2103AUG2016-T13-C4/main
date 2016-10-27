@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.model.SuperbTodo;
 import seedu.address.model.ReadOnlySuperbTodo;
 import seedu.address.model.UserPrefs;
@@ -92,14 +94,17 @@ public class SuperbTodoIO extends ComponentManager{
 	
 	/**
 	 * Use Gson library and PrintWriter to save content in temporary arraylist into the local file in JSON format
+	 * @throws IOException 
 	*/
-	public static void saveTasksIntoFile(ReadOnlySuperbTodo addressBook) throws FileNotFoundException, UnsupportedEncodingException {
+	public static void saveTasksIntoFile(ReadOnlySuperbTodo addressBook) throws IOException {
 		Gson gson = new Gson();
 		Type type = new TypeToken<ObservableList<Task>>() {
 		}.getType();
 		UniqueTaskList tempList = addressBook.getUniquePersonList();
 		ObservableList<Task> taskList = tempList.getInternalList();
 		String jsonTasks = gson.toJson(taskList,type);
+        File file = new File(taskbookFilePath);
+        FileUtil.createIfMissing(file);
 		PrintWriter writer = new PrintWriter(taskbookFilePath, "UTF-8");
 		writer.println(jsonTasks);
 		writer.close();
