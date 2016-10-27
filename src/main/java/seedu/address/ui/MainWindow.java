@@ -9,9 +9,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -70,11 +74,15 @@ public class MainWindow extends UiPart {
     @FXML
     private final Label colon2 = new Label(":");
     
+    // Handles to elements of buttons
+    @FXML
+    Button buttonMin, buttonMax, buttonClose;
+    Image imgMin, imgMax, imgClose;
+    
     // Handles to elements of task scope display
     @FXML
     private Label taskScope; 
-    // @@author A0113992B-reused
-    
+    // @@author A0113992B-reused   
     CommandBox commandInput;
     
     // Handles to elements of this Ui container 
@@ -140,12 +148,22 @@ public class MainWindow extends UiPart {
         scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         
-        
         setAccelerators();
+        elementSetter();
     }
    
     private void setAccelerators() {
         helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+    }
+    
+    /** This method initialize settings for all the buttons
+     * 
+     */
+    private void elementSetter() {    
+        buttonMin.setStyle("-fx-background-image: url('/images/min1.png')");
+        buttonMax.setStyle("-fx-background-image: url('/images/max1.png')"); 
+        buttonClose.setStyle("-fx-background-image: url('/images/close1.png')");
+        
     }
     
     // @@author A0113992B
@@ -364,8 +382,83 @@ public class MainWindow extends UiPart {
     }
     
 
-//    void highlightCurrentSelection(ReadOnlyTask person) {
-//        browserPanel.loadPersonPage(person);
-//    }
+    /**
+     * This method sets the action of the minimise button when mouse enters, exits and clicks
+     *
+     * @param primaryStage      the current stage that is being shown
+     */
+    @FXML
+    private void setActionMinButton() {
+        buttonMin.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonMin.setStyle("-fx-background-image: url('/images/min2.png')");
+            }
+        });
+        buttonMin.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonMin.setStyle("-fx-background-image: url('/images/min2.png')");
+            }
+        });
+        buttonMin.setOnMouseExited(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonMin.setStyle("-fx-background-image: url('/images/min1.png')");
+            }
+        });
+        buttonMin.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                primaryStage.setIconified(true);
+            }
+        });
+    }
 
+    /**
+     * This method sets the action of the maximise button when mouse enters, exits and clicks
+     *
+     * @param primaryStage      the current stage that is being shown
+     */
+    @FXML
+    private void setActionMaxButton() {
+        buttonMax.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonMax.setStyle("-fx-background-image: url('/images/max2.png')");
+            }
+        });
+        buttonMax.setOnMouseExited(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonMax.setStyle("-fx-background-image: url('/images/max1.png')");
+            }
+        });
+        buttonMax.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                primaryStage.setMaximized(true);
+            }
+        });
+    };
+    
+    /**
+     * This method sets the action of the close button when mouse enters, exits and clicks
+     *
+     * @param primaryStage      the current stage that is being shown
+     */
+    @FXML
+    private void setActionCloseButton() {
+        buttonClose.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonClose.setStyle("-fx-background-image: url('/images/close2.png')");
+            }
+        });
+        buttonClose.setOnMouseExited(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                buttonClose.setStyle("-fx-background-image: url('/images/close1.png')");
+            }
+        });
+        buttonClose.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent evt) {
+                primaryStage.close();
+            }
+        });
+    }
+
+    
+   
 }

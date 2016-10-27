@@ -13,7 +13,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
-//import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
+//import seedu.superbtodo.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;

@@ -1,33 +1,43 @@
 /* @@author A0113992B */
+.button-menu {
+	-fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
 
 .vbox-outer {
 	-fx-background-color: white;
-	-fx-border-color: #4c539f;
+	-fx-border-color: #5e64b1;
 	-fx-border-width: 3px;
 	-fx-font-family: "Arial Rounded MT Bold";
 }
 
 .vbox-taskpanel {
-	-fx-border-color: derive(#4c539f,20%);
+	-fx-border-color: derive(#5e64b1,20%);
 	-fx-border-width: 1px;
 }
 
 .anchorpane-command {
-	-fx-border-color: #4c539f;
+	-fx-border-color: #5e64b1;
 	-fx-border-width: 2px;
+}
+
+.anchorpane-menu {
+	-fx-background-color:#5e64b1; 
 }
 
 .label-scope {
 	-fx-font-size: 12pt;
     -fx-font-family: "Arial Rounded MT Bold";
-    -fx-text-fill: #4c539f;
+    -fx-text-fill: #5e64b1;
 	
 }
 
 .label-header {
     -fx-font-size: 16pt;
     -fx-font-family: "Arial Rounded MT Bold";
-    -fx-text-fill: #4c539f;
+    -fx-text-fill: #5e64b1;
 }
 
 .text-field {
@@ -38,30 +48,29 @@
 }
 
 .list-cell:filled:selected {
-	-fx-background-color:#b2e3f4; 
+	-fx-background-color:#a3d6e8; 
 }
 
 
 .list-cell:even .label {
-    -fx-text-fill: #4c539f;
+    -fx-text-fill: white;
     -fx-font-size: 12pt;
 }
 
 .list-cell:odd .label {
-	-fx-text-fill: white;
+	-fx-text-fill: #5e64b1;
 	-fx-font-size: 12pt;
 }
 
-
 .list-view .list-cell:even {
-	-fx-control-inner-background: white;
+	-fx-control-inner-background: #5e64b1;
 }
 .list-view .list-cell:odd {
-	-fx-control-inner-background: #4c539f,5%;
+	-fx-control-inner-background: white;
 }
 
 .result-display {
-    -fx-control-inner-background: #4c539f;
+    -fx-control-inner-background: #5e64b1;
     -fx-text-fill: white;
 }
 
@@ -70,7 +79,7 @@
 }
 
 .menu-bar {
-    -fx-background-color: #4c539f;
+    -fx-background-color: #5e64b1;
 }
 
 .menu-bar .label {
@@ -80,7 +89,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #4c539f;
+    -fx-background-color: #5e64b1;
     -fx-background-insets: 3;
 }
 
