@@ -1,6 +1,6 @@
 <!--- @@author A0113992B-reused --->
 # User Guide
-<img src = "docs/images/UiMockup.png" width="1ooo"> </br>
+<img src="docs/images/UiMockup.png" width="1000"><br>
 * [Quick Start](#quick-start)
 * [Features](#features)
 * [FAQ](#faq)
