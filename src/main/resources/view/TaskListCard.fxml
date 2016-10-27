@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <!-- @@author A0113992B -->
-<AnchorPane fx:id="cardPane" prefHeight="50.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane fx:id="cardPane" minHeight="50.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="id" layoutX="20.0" layoutY="42.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="task" layoutX="20.0" layoutY="42.0" text="\$task" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="startdate" alignment="TOP_CENTER" layoutX="238.0" layoutY="83.0" text="\$startdate" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="5.0" />
-      <Label fx:id="starttime" alignment="BASELINE_CENTER" layoutX="238.0" layoutY="100.0" text="\$starttime" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="286.0" />
-      <Label fx:id="enddate" alignment="TOP_CENTER" layoutX="341.0" layoutY="83.0" text="\$enddate" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="5.0" />
-      <Label fx:id="endtime" alignment="BASELINE_CENTER" layoutX="341.0" layoutY="100.0" text="\$endtime" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="156.0" />
-      <Label fx:id="hashtag" layoutX="420.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="task" layoutX="20.0" layoutY="42.0" maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="-Infinity" minWidth="220.0" prefWidth="300.0" text="\$task" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="startdate" alignment="CENTER" layoutX="238.0" layoutY="83.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$startdate" textAlignment="JUSTIFY" AnchorPane.rightAnchor="257.0" AnchorPane.topAnchor="6.0" />
+      <Label fx:id="starttime" alignment="CENTER" layoutX="238.0" layoutY="100.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$starttime" textAlignment="JUSTIFY" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="263.0" />
+      <Label fx:id="enddate" alignment="CENTER" layoutX="341.0" layoutY="83.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$enddate" textAlignment="JUSTIFY" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="6.0" />
+      <Label fx:id="endtime" alignment="CENTER" layoutX="341.0" layoutY="100.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$endtime" textAlignment="JUSTIFY" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="133.0" />
+      <Label fx:id="hashtag" alignment="CENTER" layoutX="420.0" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
    </children>
-   <padding>
-      <Insets bottom="5.0" top="5.0" />
-   </padding>
 </AnchorPane>

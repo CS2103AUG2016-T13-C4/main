@@ -44,7 +44,7 @@ public class MainWindow extends UiPart {
 
     // Independent Ui parts residing in this Ui container
     private TaskListPanel taskListPanel;
-    private ResultDisplay resultDisplay;
+    private ResultDisplay resultDisplay; 
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
@@ -172,11 +172,11 @@ public class MainWindow extends UiPart {
         clock.setSpacing(5.0);
         //formats the labels
         colon1.setTextFill(Color.web("#f7cacf"));
-        colon1.setFont(Font.font("Century Gothic", 16.0));
+        colon1.setFont(Font.font("Arial Rounded MT Bold", 18.0));
         colon2.setTextFill(Color.web("#f7cacf"));
-        colon2.setFont(Font.font("Century Gothic", 16.0));
-        dateToday.setTextFill(Color.web("#a8dbec"));
-        dateToday.setFont(Font.font("Century Gothic", 16.0));
+        colon2.setFont(Font.font("Arial Rounded MT Bold", 18.0));
+        dateToday.setTextFill(Color.web("#f7cacf"));
+        dateToday.setFont(Font.font("Arial Rounded MT Bold", 18.0));
         //builds the clock
         clock.getChildren().addAll(dateToday,hourNow, colon1, minNow, colon2,
               secNow );
@@ -193,7 +193,7 @@ public class MainWindow extends UiPart {
 
         hourNow.setText("      Now is " + Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
         hourNow.setTextFill(Color.web("#f7cacf"));
-        hourNow.setFont(Font.font("Century Gothic", 16.0));
+        hourNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
 
         String minute = "";
         if (c.get(Calendar.MINUTE) < 10) {
@@ -203,7 +203,7 @@ public class MainWindow extends UiPart {
         }
         minNow.setText(minute);
         minNow.setTextFill(Color.web("#f7cacf"));
-        minNow.setFont(Font.font("Century Gothic", 16.0));
+        minNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
 
         String sec = "";
         if (c.get(Calendar.SECOND) < 10) {
@@ -213,7 +213,7 @@ public class MainWindow extends UiPart {
         }
         secNow.setText(sec);
         secNow.setTextFill(Color.web("#f7cacf"));
-        secNow.setFont(Font.font("Century Gothic", 16.0));
+        secNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
 
         dateToday.setText("Today is " + c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));

@@ -2,46 +2,54 @@
 
 .vbox-outer {
 	-fx-background-color: white;
-	-fx-border-color: #a8dbec;
+	-fx-border-color: #4c539f;
 	-fx-border-width: 3px;
-	-fx-font-family: "Century Gothic";
+	-fx-font-family: "Arial Rounded MT Bold";
+}
+
+.vbox-taskpanel {
+	-fx-border-color: derive(#4c539f,20%);
+	-fx-border-width: 1px;
 }
 
 .anchorpane-command {
-	-fx-border-color: #a8dbec;
+	-fx-border-color: #4c539f;
 	-fx-border-width: 2px;
 }
 
 .label-scope {
 	-fx-font-size: 12pt;
-    -fx-font-family: "Century Gothic";
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: #4c539f;
 	
 }
 
 .label-header {
     -fx-font-size: 16pt;
-    -fx-font-family: "Century Gothic";
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: #4c539f;
 }
 
 .text-field {
     -fx-font-size: 12pt;
-    -fx-font-family: "Century Gothic";
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: #f7cacf;
     -fx-prompt-text-fill: #f7cacf;
 }
 
 .list-cell:filled:selected {
-	-fx-background-color:#4c539f; 
+	-fx-background-color:#b2e3f4; 
 }
 
+
 .list-cell:even .label {
-    -fx-text-fill: #a8dbec;
+    -fx-text-fill: #4c539f;
+    -fx-font-size: 12pt;
 }
 
 .list-cell:odd .label {
 	-fx-text-fill: white;
+	-fx-font-size: 12pt;
 }
 
 
@@ -49,11 +57,11 @@
 	-fx-control-inner-background: white;
 }
 .list-view .list-cell:odd {
-	-fx-control-inner-background: #a8dbec,5%;
+	-fx-control-inner-background: #4c539f,5%;
 }
 
 .result-display {
-    -fx-control-inner-background: #a8dbec;
+    -fx-control-inner-background: #4c539f;
     -fx-text-fill: white;
 }
 
@@ -62,12 +70,12 @@
 }
 
 .menu-bar {
-    -fx-background-color: #a8dbec;
+    -fx-background-color: #4c539f;
 }
 
 .menu-bar .label {
-    -fx-font-size: 11pt;
-    -fx-font-family: "Century Gothic";
+    -fx-font-size: 10pt;
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: white;
 }
 
@@ -93,8 +101,3 @@
     -fx-padding: 8 1 8 1;
 }
 
-
-#commandTypeLabel {
-    -fx-font-size: 11px;
-    -fx-text-fill: #F70D1A;
-}

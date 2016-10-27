@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <!-- @@author A0113992B -->
+
 <VBox minWidth="800.0" prefWidth="800.0" styleClass="vbox-outer" stylesheets="@SuperbTodo.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
    <children>
       <MenuBar minHeight="30.0" prefHeight="30.0" VBox.vgrow="NEVER">
@@ -38,23 +39,21 @@
             <Label styleClass="label-scope" text="Hashtag" AnchorPane.rightAnchor="50.0" />
          </children>
       </AnchorPane>
-      <VBox fx:id="taskList">
+      <VBox fx:id="taskList" minHeight="400.0" styleClass="vbox-taskpanel" VBox.vgrow="ALWAYS">
          <children>
             <AnchorPane fx:id="taskListPanelPlaceholder" VBox.vgrow="ALWAYS" />
          </children>
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
-         <padding>
-            <Insets bottom="5.0" top="5.0" />
-         </padding>
       </VBox>
-      <AnchorPane fx:id="commandBoxPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="anchorpane-command" VBox.vgrow="NEVER">
+      <AnchorPane maxHeight="5.0" minHeight="5.0" prefHeight="5.0" prefWidth="200.0" />
+      <AnchorPane fx:id="commandBoxPlaceholder" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" styleClass="anchorpane-command" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets />
          </VBox.margin>
       </AnchorPane>
-       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" styleClass="result-display" VBox.vgrow="NEVER">
+       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" styleClass="result-display" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets />
          </VBox.margin>
