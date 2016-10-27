@@ -8,7 +8,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.parser.Parser;
 import seedu.address.model.Model;
 import seedu.address.model.task.ReadOnlyTask;
-import seedu.address.storage.Storage;
 import seedu.address.storage.SuperbTodoIO;
 import java.util.logging.Logger;
 
