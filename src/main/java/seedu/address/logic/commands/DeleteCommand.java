@@ -49,13 +49,14 @@ public class DeleteCommand extends Command {
         }
 
         // @@author A0113992B
+        /* doesnt work yet
         Task forRemoval = new Task(personToDelete.getName(), personToDelete.getDateTime(),
                                    personToDelete.getDueTime(), personToDelete.getTags());
         
         commandRecorder.removeRecorder("remove", forRemoval, targetIndex, forRemoval.getName(), forRemoval.getDateTime(),
                 forRemoval.getDueTime(), forRemoval.getTags());
         undoCommand.add(commandRecorder);
-        
+        */
         //@@author A0135763B-reused
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
 

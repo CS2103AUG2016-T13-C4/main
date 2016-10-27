@@ -114,9 +114,11 @@ public class AddCommand extends Command {
         try {
             model.addTask(toAdd);
           //@@author A0113992B
+            /* Doesnt work yet
             commandRecorder.addRecorder("add", toAdd, toAdd.getName(), toAdd.getDateTime(), toAdd.getDueTime(), 
                     toAdd.getTags());
             undoCommand.add(commandRecorder);
+            */
           //@@author A0135763B
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
