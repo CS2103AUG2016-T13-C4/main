@@ -11,11 +11,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
-import seedu.address.model.person.ReadOnlyTask;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.commons.core.LogsCenter;
 
 import java.util.logging.Logger;
-
+//@@author A0113992B-reused
 /**
  * Panel containing the list of persons.
  */

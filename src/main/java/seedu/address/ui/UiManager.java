@@ -20,14 +20,15 @@ import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
 
 import java.util.logging.Logger;
-
+//@@author A0113992B-reused
 /**
  * The manager of the UI component.
  */
 public class UiManager extends ComponentManager implements Ui {
     private static final Logger logger = LogsCenter.getLogger(UiManager.class);
+    // @@author A0113992B
     private static final String ICON_APPLICATION = "/images/SuperbTodo.png";
-
+    // @@author A0113992B-reused
     private Logic logic;
     private Config config;
     private UserPrefs prefs;
@@ -54,7 +55,7 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow.fillInnerParts();
             // @@author A0113992B
             mainWindow.clockFunction();
-            // @@author 
+            // @@author A0113992B-reused
             //mainWindow.setDefaultTaskScope();
 
         } catch (Throwable e) {
@@ -86,7 +87,6 @@ public class UiManager extends ComponentManager implements Ui {
     private static void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
                                                String contentText) {
         final Alert alert = new Alert(type);
-        //alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
         alert.initOwner(owner);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -121,11 +121,5 @@ public class UiManager extends ComponentManager implements Ui {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         mainWindow.getTaskListPanel().scrollTo(event.targetIndex);
     }
-
-//    @Subscribe
-//    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event){
-//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-//        mainWindow.loadPersonPage(event.getNewSelection());
-//    }
 
 }

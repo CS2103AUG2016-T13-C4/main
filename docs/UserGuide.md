@@ -1,3 +1,4 @@
+<!--- @@author A0113992B-reused --->
 # User Guide
 
 * [Quick Start](#quick-start)
@@ -26,7 +27,7 @@
    * **`exit`** : exits the app
 6. Refer to the [Features](#features) section below for details of each command.<br>
 
-
+<!--- @@author A0113992B --->
 ## Features
 
 > **Command Format**
@@ -63,16 +64,6 @@ Format:
 Examples: 
 * `add buy grocery recently`
 * `add be careful across the road`
-
-Adds a recurring task<br>
-Format: 
-* `add <task description> each <calendar day> at/by <time> ^<no. of weeks the task recurs>` 
-
-> A recurring task takes place each calendar day(s) for the specified number of weeks. 
-
-Examples: 
-* `add watch movie each Friday ^5`
-* `add play basketball each Tue and each Sat at 5pm ^7`
 
 Adds hashtag<br>
 Format: 
@@ -258,7 +249,7 @@ Returns the system to the state before the execution of the last undo command.<b
 Format: 
 * `redo`
 
-
+<!--- @@author A0113992B-reused --->
 #### Clearing all entries : `clear`
 Clears current command line input.<br>
 Format: `clear`  

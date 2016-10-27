@@ -1,19 +1,20 @@
 package seedu.address.logic.commands;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.*;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//@@author A0135763B
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 /**
- * Adds a person to the address book.
+ * Adds a task to the SuperbToDo.
  */
 public class AddCommand extends Command {
 
@@ -26,7 +27,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_ERROR_DATE = "SuperbToDo is unable to identify event period. Please specify only 2 dates as period.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This task already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
     private final Task toAdd;
 
@@ -44,43 +45,61 @@ public class AddCommand extends Command {
         
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
     }
-
-	public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
+    
+    //@@author A0135763B
+    /**
+     * Function to create a task object.
+     * Takes in raw values and determine the Task type: Floating, event or normal task
+     *
+     * This function is also used by edit to create a Task object
+     * 
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+    public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
 		if (dateTimeParam.equals("")) {
         	// floating task
         	 return new Task(
         			 new TaskName(name),
                      new DateTime(),
                      new DueDateTime(),
-                     new Address(),
+                     //new Address(),
                      new UniqueTagList(tagSet)
             );
         } else {
-        	List dateList = retrieveDate(dateTimeParam);
+        	@SuppressWarnings("rawtypes")
+			List dateList = retrieveDate(dateTimeParam);
             
             if (dateList.size() > 2 || dateList.size() == 0) {
             	throw new IllegalValueException(MESSAGE_ERROR_DATE);
             } else if (dateList.size() == 1) {
+            	// normal task
             	return new Task(
             			new TaskName(name),
     	                new DateTime(),
     	                new DueDateTime(dateTimeParam),
-    	                new Address(),
+    	                //new Address(),
     	                new UniqueTagList(tagSet)
     	        );
             } else {
+            	// event
             	return new Task(
     	                new TaskName(name),
     	                new DateTime(dateList.get(0).toString()),
     	                new DueDateTime(dateList.get(1).toString()),
-    	                new Address(),
+    	                //new Address(),
     	                new UniqueTagList(tagSet)
     	        );
             }
         }
 	}
-
-    private static List retrieveDate(String period) {
+	
+	/**
+     * Function to parse a String representing a time period into natty parser for handling
+     *
+     * returns: A list of dates (If a date is found) or empty list (If unable to detect a date value)
+     */
+    @SuppressWarnings("rawtypes")
+	private static List retrieveDate(String period) {
 		assert period != null;
         period = period.trim();
         Parser parser = new Parser();
@@ -88,14 +107,20 @@ public class AddCommand extends Command {
     	return dateParser.get(0).getDates();
 	}
     
+    //@@author A0135763B-reused
     @Override
     public CommandResult execute() {
         assert model != null;
         try {
             model.addTask(toAdd);
+          //@@author A0113992B
+            commandRecorder.addRecorder("add", toAdd, toAdd.getName(), toAdd.getDateTime(), toAdd.getDueTime(), 
+                    toAdd.getTags());
+            undoCommand.add(commandRecorder);
+          //@@author A0135763B
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
-            return new CommandResult(MESSAGE_DUPLICATE_PERSON);
+            return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
 
     }

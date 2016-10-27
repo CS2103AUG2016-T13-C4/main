@@ -9,7 +9,7 @@ import seedu.address.commons.util.FxViewUtil;
 import seedu.address.commons.core.LogsCenter;
 
 import java.util.logging.Logger;
-
+//@@author A0113992B-reused
 /**
  * Controller for a help page
  */

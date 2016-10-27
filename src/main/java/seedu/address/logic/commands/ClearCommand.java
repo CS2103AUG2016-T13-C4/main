@@ -2,8 +2,9 @@ package seedu.address.logic.commands;
 
 import seedu.address.model.SuperbTodo;
 
+//@@author A0135763B-reused
 /**
- * Clears the address book.
+ * Clears SuperbTodo.
  */
 public class ClearCommand extends Command {
 

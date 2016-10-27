@@ -15,7 +15,7 @@ import seedu.address.commons.util.FxViewUtil;
 import seedu.address.commons.core.LogsCenter;
 
 import java.util.logging.Logger;
-
+// @@author A0113992B-reused
 public class CommandBox extends UiPart {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private static final String FXML = "CommandBox.fxml";

@@ -17,8 +17,9 @@ Export-Package: guitests,
  seedu.address.logic.commands,
  seedu.address.logic.parser,
  seedu.address.model,
- seedu.address.model.person,
  seedu.address.model.tag,
+ seedu.address.model.task,
  seedu.address.storage,
  seedu.address.testutil,
  seedu.address.ui
+Import-Package: seedu.address.logic.commands

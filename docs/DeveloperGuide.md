@@ -1,3 +1,4 @@
+<!--- @@author A0113992B-reused --->
 # Developer Guide 
 
 * [Setting Up](#setting-up)
@@ -57,8 +58,9 @@
 ## Design
 
 ### Architecture
-
+<!--- @@author A0113992B --->
 <img src="images/Architecture.png" width="600"><br>
+<!--- @@author A0113992B-reused --->
 The **_Architecture Diagram_** given above explains the high-level design of the App.
 Given below is a quick overview of each component.
 
@@ -89,14 +91,16 @@ interface and exposes its functionality using the `LogicManager.java` class.<br>
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the
 command `delete 3`.
 
-<img src="images\SDforDeletePerson.png" width="800">
+<!--- @@author A0113992B --->
+<img src="images/SDforDeleteTask.png" width="1500">
 
+<!--- @@author A0113992B-reused --->
 >Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed,
  instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates
 being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time. <br>
-<img src="images\SDforDeletePersonEventHandling.png" width="800">
+<img src="images/SDforDeleteTaskEventHandling.png" width="1500">
 
 > Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having
   to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct 
@@ -105,9 +109,10 @@ being saved to the hard disk and the status bar of the UI being updated to refle
 The sections below give more details of each component.
 
 ### UI component
-
+<!--- @@author A0113992B --->
 <img src="images/UiClassDiagram.png" width="800"><br>
 
+<!--- @@author A0113992B-reused --->
 **API** : [`Ui.java`](../src/main/java/seedu/address/ui/Ui.java)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`,
@@ -125,9 +130,10 @@ The `UI` component,
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 ### Logic component
-
+<!--- @@author A0113992B --->
 <img src="images/LogicClassDiagram.png" width="800"><br>
 
+<!--- @@author A0113992B-reused --->
 **API** : [`Logic.java`](../src/main/java/seedu/address/logic/Logic.java)
 
 1. `Logic` uses the `Parser` class to parse the user command.
@@ -137,12 +143,16 @@ The `UI` component,
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")`
  API call.<br>
+ <!--- @@author A0113992B  --->
 <img src="images/DeletePersonSdForLogic.png" width="800"><br>
 
+<!--- @@author A0113992B-reused --->
 ### Model component
 
+<!--- @@author A0113992B --->
 <img src="images/ModelClassDiagram.png" width="800"><br>
 
+<!--- @@author A0113992B-reused --->
 **API** : [`Model.java`](../src/main/java/seedu/address/model/Model.java)
 
 The `Model`,
@@ -153,9 +163,10 @@ The `Model`,
 * does not depend on any of the other three components.
 
 ### Storage component
-
+<!--- @@author A0113992B --->
 <img src="images/StorageClassDiagram.png" width="800"><br>
 
+<!--- @@author A0113992B-reused --->
 **API** : [`Storage.java`](../src/main/java/seedu/address/storage/Storage.java)
 
 The `Storage` component,
@@ -265,6 +276,7 @@ is better than these alternatives.<br>
 a. Include those libraries in the repo (this bloats the repo size)<br>
 b. Require developers to download those libraries manually (this creates extra work for developers)<br>
 
+<!--- @@author A0113992B --->
 ## Appendix A : User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have)  - `* *`,  Low (unlikely to have) - `*`
@@ -294,7 +306,7 @@ Priority | As a ... | I want to ... | So that I can...
 `* *` | user | exit the program | quickly quit the program without a mouse
 `*` | user | clear command line entry | quickly type what I intend without having to press backspace continuously
 
-
+<!--- @@author A0135763B --->
 ## Appendix B : Use Cases
 
 (For all use cases below, the **System** is the `SuperbToDo` and the **Actor** is the `user`, unless specified otherwise)
@@ -431,7 +443,7 @@ Use case ends.
 4. Should favor DOS style commands over Unix-style commands.
 
 {More to be added}
-
+<!--- @@author A0113992B-reused --->
 ## Appendix D : Glossary
 
 ##### Mainstream OS
@@ -441,7 +453,7 @@ Use case ends.
 ##### Private contact detail
 
 > Damith C. Rajaparkse, damith@gmail.com
-
+<!--- @@author A0113992B --->
 ## Appendix E : Product Survey
 
 #### Google Calendar

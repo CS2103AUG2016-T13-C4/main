@@ -1,9 +1,11 @@
+<!--- @@author A0113992B-reused --->
 # About Us
 
 We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 
 ## Project Team
 
+<!--- @@author A0113992B --->
 #### [Akshay Narayan](http://www.comp.nus.edu.sg/~anarayan/) <br>
 <img src="images/AkshayNarayan.png" width="150"><br>
 **Role**: Project Advisor
@@ -31,14 +33,7 @@ Responsibilities: Storage
 
 -----
 
-#### [Tarish Sekhon](https://github.com/TarishSekhon)
-<img src="images/TarishSekhon.jpg" width="150"><br>
- Role: Developer <br>  
- Responsibilities: Parser
- 
- -----
-
-
+<!--- @@author A0113992B-reused --->
 # Contributors
 
 We welcome contributions. See [Contact Us](ContactUs.md) page for more info.

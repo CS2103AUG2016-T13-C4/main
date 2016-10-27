@@ -1,11 +1,11 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Task;
-import seedu.address.model.person.ReadOnlyTask;
-import seedu.address.model.person.UniqueTaskList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,14 +27,14 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
     public SuperbTodo() {}
 
     /**
-     * Persons and Tags are copied into this superbtodo
+     * Task and Tags are copied into SuperbToDo
      */
     public SuperbTodo(ReadOnlySuperbTodo toBeCopied) {
         this(toBeCopied.getUniquePersonList(), toBeCopied.getUniqueTagList());
     }
 
     /**
-     * Persons and Tags are copied into this superbtodo
+     * Task and Tags are copied into SuperbToDo
      */
     public SuperbTodo(UniqueTaskList persons, UniqueTagList tags) {
         resetData(persons.getInternalList(), tags.getInternalList());
@@ -54,7 +54,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
         return task.getInternalList();
     }
 
-    public void setPersons(List<Task> persons) {
+    public void setTasks(List<Task> persons) {
         this.task.getInternalList().setAll(persons);
     }
 
@@ -65,7 +65,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
     }
 
     public void resetData(Collection<? extends ReadOnlyTask> newPersons, Collection<Tag> newTags) {
-        setPersons(newPersons.stream().map(Task::new).collect(Collectors.toList()));
+        setTasks(newPersons.stream().map(Task::new).collect(Collectors.toList()));
         setTags(newTags);
     }
 

@@ -56,8 +56,13 @@ public class StorageManagerTest {
     @Test
     public void addressBookReadSave() throws Exception {
         SuperbTodo original = new TypicalTestTasks().getTypicalSuperbToDo();
+<<<<<<< HEAD
+        storageManager.saveAddressBook(original);
+        ReadOnlySuperbTodo retrieved = storageManager.readAddressBook().get();
+=======
         storageManager.saveSuperbTodo(original);
         ReadOnlySuperbTodo retrieved = storageManager.readSuperbTodo().get();
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
         assertEquals(original, new SuperbTodo(retrieved));
         //More extensive testing of AddressBook saving/reading is done in XmlAddressBookStorageTest
     }
@@ -87,7 +92,11 @@ public class StorageManagerTest {
         }
 
         @Override
+<<<<<<< HEAD
+        public void saveAddressBook(ReadOnlySuperbTodo addressBook, String filePath) throws IOException {
+=======
         public void saveSuperbTodo(ReadOnlySuperbTodo addressBook, String filePath) throws IOException {
+>>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
             throw new IOException("dummy exception");
         }
     }
