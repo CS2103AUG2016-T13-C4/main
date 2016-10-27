@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.TextAlignment;
 import seedu.address.model.task.ReadOnlyTask;
 //@@author A0113992B
 public class TaskCard extends UiPart{
@@ -30,6 +31,7 @@ public class TaskCard extends UiPart{
     private ReadOnlyTask taskentry;
     private int displayedIndex;
     
+    
     public TaskCard(){
 
     }
@@ -43,6 +45,20 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
+        // Set wrap text and alignment in case of multiple line entries
+        task.setWrapText(true);
+        task.setTextAlignment(TextAlignment.JUSTIFY);
+        startdate.setWrapText(true);
+        startdate.setTextAlignment(TextAlignment.JUSTIFY);
+        starttime.setWrapText(true);
+        starttime.setTextAlignment(TextAlignment.JUSTIFY);
+        enddate.setWrapText(true);
+        enddate.setTextAlignment(TextAlignment.JUSTIFY);
+        endtime.setWrapText(true);
+        endtime.setTextAlignment(TextAlignment.JUSTIFY);
+        hashtag.setWrapText(true);
+        hashtag.setTextAlignment(TextAlignment.JUSTIFY);
+         
         task.setText(taskentry.getName().fullName);
         id.setText(displayedIndex + ". ");
         startdate.setText(taskentry.getDateTime().date_value);
