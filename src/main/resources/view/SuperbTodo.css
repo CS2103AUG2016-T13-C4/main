@@ -51,6 +51,10 @@
 	-fx-background-color:#a3d6e8; 
 }
 
+.list-cell:filled:hover {
+    -fx-background-color: #f194b6;
+    -fx-text-fill: white;
+}
 
 .list-cell:even .label {
     -fx-text-fill: white;
