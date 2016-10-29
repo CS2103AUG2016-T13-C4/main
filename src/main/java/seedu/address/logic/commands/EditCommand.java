@@ -44,7 +44,6 @@ public class EditCommand extends Command {
         }
         
         this.toEdit = AddCommand.handleAddType(name, dateTimeParam, tagSet);
-        this.taskInfo = AddCommand.getTaskInfo();
     }
     
     /**
