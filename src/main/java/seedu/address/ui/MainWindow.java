@@ -4,6 +4,9 @@ import java.util.Calendar;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +14,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -101,7 +107,7 @@ public class MainWindow extends UiPart {
     private AnchorPane commandBoxPlaceholder;
 
     @FXML
-    private MenuItem helpMenuItem;
+    private Button help;
 
     @FXML
     private AnchorPane taskListPanelPlaceholder;
@@ -151,10 +157,17 @@ public class MainWindow extends UiPart {
         setAccelerators();
         elementSetter();
     }
-   
+
+        
     private void setAccelerators() {
-        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
-    }
+        //help.setAccelerator(KeyCombination.valueOf("F1"));
+            Platform.runLater(() -> {        
+                help.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.F1), () -> {
+                    help.fire();
+                });
+            });
+   }
+    
     
     /** This method initialize settings for all the buttons
      * 
