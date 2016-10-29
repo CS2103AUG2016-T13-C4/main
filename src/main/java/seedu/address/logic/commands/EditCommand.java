@@ -28,6 +28,7 @@ public class EditCommand extends Command {
 
     public final int targetIndex;
     private final Task toEdit;
+    private String taskInfo = "";
     
     /**
      * Convenience constructor using raw values.
@@ -43,6 +44,14 @@ public class EditCommand extends Command {
         }
         
         this.toEdit = AddCommand.handleAddType(name, dateTimeParam, tagSet);
+        this.taskInfo = AddCommand.getTaskInfo();
+    }
+    
+    /**
+     * Returns a string representation of this Task
+     */
+    public String getEditTaskInfo() {
+        return taskInfo;
     }
     
 
@@ -63,13 +72,7 @@ public class EditCommand extends Command {
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
-        // @@author A0113992B
-        /* doesnt work yet
-        commandRecorder.editRecorder("edit", personToEdit, toEdit, targetIndex, toEdit.getName(), toEdit.getDateTime(), toEdit.getDueTime(), 
-                toEdit.getTags());
-        undoCommand.add(commandRecorder);
-        */
-        // @@author A0135763B
+
         String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, toEdit);        
         return new CommandResult(formatOutput);
     }

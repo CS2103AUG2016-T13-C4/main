@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Represents a storage for {@link seedu.address.model.SuperbTodo}.
+ * Represents a storage for {@link seedu.superbtodo.model.SuperbTodo}.
  */
 public interface SuperbTodoStorage {
 

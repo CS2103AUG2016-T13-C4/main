@@ -12,12 +12,14 @@ public interface ReadOnlyTask {
     TaskName getName();
     DateTime getDateTime();
     DueDateTime getDueTime();
-
+    
     /**
      * The returned TagList is a deep copy of the internal TagList,
      * changes on the returned list will not affect the task's internal tags.
      */
     UniqueTagList getTags();
+    
+    
 
     /**
      * Returns true if both have the same state. (interfaces cannot override .equals)
@@ -68,6 +70,44 @@ public interface ReadOnlyTask {
         } else {
             return buffer.substring(0, buffer.length() - separator.length());
         }
+    }
+    
+    // @@author A0113992B
+    /**
+     * Returns information of a task detail as per entry into CommandBox
+     * for undo/redo purposes
+     * @return
+     */
+    default String getTaskInfo() {
+        final StringBuilder builder = new StringBuilder();
+        String name, startDate, endDate, startTime, endTime, period_string;
+        
+        name = getName().fullName;
+        builder.append(name);
+        
+        if (!getDateTime().date_value.equals("")) {
+            // account for an event task
+            startDate = getDateTime().date_value;
+            startTime = getDateTime().time_value;
+            endDate = getDueTime().date_value;
+            endTime = getDueTime().time_value;
+            period_string = " from " + startDate + " " + startTime + " to "
+                            + endDate + " " + endTime;
+            builder.append(" ").append(period_string);
+        } else if (!getDueTime().date_value.equals("")) {
+            // account for an timed task
+            endDate = getDueTime().date_value;
+            endTime = getDueTime().time_value;
+            period_string = " on " + endDate + " by " + endTime;
+            builder.append(" ").append(period_string);
+        }
+        
+        if (getTags().iterator().hasNext()) {
+            builder.append(" ");
+            getTags().forEach(builder::append);
+        }
+        
+        return builder.toString();
     }
 
 }

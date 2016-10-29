@@ -5,6 +5,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
+import seedu.address.storage.UndoManagerStorage;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.logic.LogicManager;
@@ -23,14 +24,6 @@ public class UndoCommand extends Command {
             + "Format: Undo\n"
             + "Example: " + COMMAND_WORD;
       
-    LogicManager logicM;
-//    String name = "watch a movie";
-//    DateTime dateTime = new DateTime("3pm today");
-//    DueDateTime dueDateTime = new DueDateTime("5pm tmr");
-//    UniqueTagList tags;
-    ReadOnlyTask readonlytaskInit;
-    Task taskInit = new Task(readonlytaskInit);
-    
     // Exception messages
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
     private static final String MESSAGE_EXCEPTION_ADD = "Nothing to be added";
@@ -45,90 +38,55 @@ public class UndoCommand extends Command {
 //    private static final String COMMAND_DONE = "done";
 //    private static final String COMMAND_UNDONE = "undone";
 
-    
-//    // list of list names
-//    private static final String LIST_DONE = "finished tasks";
-//    private static final String LIST_UNDONE = "unfinished tasks";
-//    private static final String LIST_REMOVE = "removed tasks";
 
     // list of feedbacks
     private static final String FEEDBACK_SUCCESSFUL_UNDO = "Undoing action";
     private static final String FEEDBACK_SUCCESSFUL_REDO = "Redoing action";
     private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "You have reached the last undo";
 
-    public static Stack<CommandRecorder> undoStack;
-    public static Stack<CommandRecorder> redoStack;
-    public static Vector<Task> storedTasksUndone;
-    public static Vector<Task> storedTasksDone;
-
     
-//    private UndoCommand (Vector<ReadOnlyTask> storedTasksUndone, Vector<ReadOnlyTask> storedTasksDone) {
-//        undoStack = new Stack<CommandRecorder>();
-//        redoStack = new Stack<CommandRecorder>();
-//        this.storedTasksUndone = storedTasksUndone;
-//        this.storedTasksDone = storedTasksDone;
-//    }
+    private Command command;
+    private String commandText;
+    private LogicManager logicMng;
+    private UndoManagerStorage undoManager;
+    private Stack<UndoManagerStorage> undoStack; // to track all input tasks 
+    private Stack<UndoManagerStorage> redoStack; // to track redo tasks
+    private static Vector<UndoManagerStorage> storedTasksUndone; // to store undo tasks
+    private static Vector<UndoManagerStorage> storedTasksDone; // to store redo tasks
     
-    public UndoCommand() {
-        undoStack = new Stack<CommandRecorder>();
-        redoStack = new Stack<CommandRecorder>();
-        this.storedTasksUndone.add(taskInit);
-    }
-
-    // Getters for RedoCommand use
-    public static Stack<CommandRecorder> getUndoStack() {
-        return undoStack;
+    public UndoCommand () {        
+        this.command = undoManager.getCommand();
+        this.commandText = undoManager.getCommandText();
+        this.undoStack = undoManager.getUndoStack();
+        this.redoStack = undoManager.getRedoStack();
     }
     
-    public static Stack<CommandRecorder> getRedoStack() {
-        return redoStack;
-    }
     
-    public static Vector<Task> getStoredTasksUndone() {
-        return storedTasksUndone;
-    }
-    
-    public static Vector<Task> getStoredTasksDone() {
-        return storedTasksDone;
-    }
-
-    /**
-     * Add user's input CommandRecorder into a stack for undo/redo purposes.
-     * 
-     * @param userInputAction
-     *            user's input CommandRecorder
-     */
-    public void add(CommandRecorder userInputAction) {
-        undoStack.push(userInputAction);
-        redoStack.clear();
-        storedTasksUndone.add(userInputAction.getTask());
-    }
-
     /**
      * Undo the previous command carried out by user.
      * 
      * @return void
      */
-    
     @Override
     public CommandResult execute() {
         assert undoStack != null;
-
         if (!undoStack.isEmpty()) {
-            CommandRecorder prevAction = undoStack.pop();
-            redoStack.push(prevAction);
-
-            switch (prevAction.getCommand()) {
+            UndoManagerStorage prevCommand = undoStack.pop();
+            redoStack.push(prevCommand);
+            
+            switch(prevCommand.getCommandWord()) {
             case COMMAND_EDIT:
-                assert prevAction.getTask() != null;
-                return undoEditCommand(prevAction);
+                assert prevCommand.getCommandText() != null;
+                return undoEditCommand(prevCommand);
             case COMMAND_ADD:
-                assert prevAction.getTask() != null;
-                return undoAddCommand(prevAction);               
+                assert prevCommand.getCommandText() != null;
+                return undoAddCommand(prevCommand);
             case COMMAND_REMOVE:
-                assert prevAction.getTask() != null;
-                return undoRemoveCommand(prevAction);
-                
+                assert prevCommand.getCommandText() != null;
+                return undoRemoveCommand(prevCommand);
+            }
+
+
 //            case COMMAND_UNDONE:
 //                assert prevAction.getlistTypePrev() != null
 //                && prevAction.getTask() != null;
@@ -137,29 +95,43 @@ public class UndoCommand extends Command {
 //                assert prevAction.getlistTypePrev() != null
 //                && prevAction.getTask() != null;
 //                return undoDoneCommand(prevAction);
-            }
         }
-        return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);
-     }
+        return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);       
+    }
+
     
+    public CommandResult undoEditCommand(UndoManagerStorage prevCommand) {
+        if (prevCommand.getTaskIndex() != (Integer)null) {
+            String output = String.format("$1%d", prevCommand.getTaskIndex());
+            String taskInfo = prevCommand.getEditTaskInfo();
+            
+            logicMng.execute("remove " + output);
+            logicMng.execute(taskInfo); 
+        } else {
+            throw new IllegalArgumentException(MESSAGE_EXCEPTION_EDIT);
+        }
+        
+        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+    }
+
     /**
-     * Undo Add command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     * @throws TaskNotFoundException 
+     * Undo add command
+     * @param prevCommand
+     * @return
      */
-    public CommandResult undoAddCommand(CommandRecorder prevAction) {
-        if (prevAction.getIndex() != null) {
-            storedTasksUndone.remove(storedTasksUndone.lastElement());
-            logicM.execute("remove" + " " + prevAction.getIndex()); 
+    public CommandResult undoAddCommand(UndoManagerStorage prevCommand) { 
+        String output = String.format("$1%d", prevCommand.getTaskIndex()); 
+        
+        if (prevCommand.getTaskIndex() != (Integer)null) {
+            storedTasksUndone.add(prevCommand); // records down in undo vector
+            logicMng.execute("remove "+ output); // remove the task entered
         } else {
             throw new IllegalArgumentException(MESSAGE_EXCEPTION_REMOVE);
         }
        
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
+    
     
     /**
      * Undo Remove command
@@ -168,59 +140,20 @@ public class UndoCommand extends Command {
      *            user's input CommandRecorder
      * @return successful feedback message
      */
-    public CommandResult undoRemoveCommand(CommandRecorder prevAction) {
-        if (prevAction.getNamePrev() != null) {           
-            storedTasksUndone.add(prevAction.getTask());
-            redoAddCommand(prevAction);
+    public CommandResult undoRemoveCommand(UndoManagerStorage prevCommand) {
+        String taskInfo = prevCommand.getTaskInfo();
+        if (prevCommand.getTaskIndex() != (Integer)null) {
+            storedTasksUndone.add(prevCommand);
+            logicMng.execute("add " +taskInfo);
         } else {
             throw new IllegalArgumentException(MESSAGE_EXCEPTION_ADD);
         }
+
         return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
     }
 
-    /**
-     * Undo Edit command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public CommandResult undoEditCommand(CommandRecorder prevAction) {
-        if (prevAction.getIndex() != null) {
-            ReadOnlyTask forEdit = prevAction.getPersonToEdit(); // last task list before edit command
-            storedTasksUndone.remove(prevAction.getTask());
-            logicM.execute("edit" + " " + prevAction.getIndex() + " " + prevAction.getNamePrev()
-            + " " + prevAction.getDateTimePrev() + " " + prevAction.getDueDateTimePrev()
-            + " " + prevAction.getTagsPrev());
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_EDIT);
-        }
         
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-    }
-        
-    /**
-     * Redo Add command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public CommandResult redoAddCommand(CommandRecorder nextAction) {
-        if (nextAction.getIndex() != null) { 
-            storedTasksUndone.add(nextAction.getTask());
-            logicM.execute("add" + " " + nextAction.getNamePrev()
-            + " " + nextAction.getDateTimePrev() + " " + nextAction.getDueDateTimePrev() 
-            + " " + nextAction.getTagsPrev());
-        } else {
-            throw new IllegalArgumentException(MESSAGE_EXCEPTION_ADD);
-        }
-        
-        return new CommandResult(FEEDBACK_SUCCESSFUL_REDO);
-    }
-
-//    /**
-//     * Undo undone command
+ //     * Undo undone command
 //     * 
 //     * @param previousAction
 //     *            user's input event

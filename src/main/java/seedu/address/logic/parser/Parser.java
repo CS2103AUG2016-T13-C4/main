@@ -18,7 +18,11 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
  * Parses user input.
  */
 public class Parser {
-
+    //@@author A0113992B
+    private String commandWord, taskInfo = "", editTaskInfo = "";
+    private int taskIndex;
+    
+    //@@author A0135763B-reused
     /**
      * Used for initial separation of command word and args.
      */
@@ -51,7 +55,10 @@ public class Parser {
         
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
+        // @@author A0113992B
+        this.commandWord = commandWord;
         
+        //@@author A0135763B-reused
         switch (commandWord) {
 
         case AddCommand.COMMAND_WORD:
@@ -83,20 +90,27 @@ public class Parser {
         // @@author A0113992B    
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
-        case RedoCommand.COMMAND_WORD:
-            return new RedoCommand();
+//        case RedoCommand.COMMAND_WORD:
+//            return new RedoCommand();
         //@@author A0135763B-reused
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-
+    
+    // @@author A0113992B
+    public String getInputCommandWord() {
+        return commandWord;
+    }
+    
+    //@@author A0135763B-reused
     /**
      * Parses arguments in the context of the add task command.
      *
      * @param args full command args string
      * @return the prepared command
      */
+    @SuppressWarnings("null")
     private Command prepareAdd(String args){
     	final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
@@ -105,6 +119,7 @@ public class Parser {
         }
         
         try {
+            taskIndex = (Integer) null;
         	return checkDoubleDateTimeParamAndAdd(matcher);
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
@@ -125,7 +140,7 @@ public class Parser {
 		String getDateTime, getName, secondDateTime;
 		getName = matcher.group("name");
 		getDateTime = matcher.group("dateTime");
-		
+	
 		if (getName == null) {
 			getName = matcher.group("floating");
 			
@@ -156,6 +171,45 @@ public class Parser {
 		}
 	}
 	
+	 /**
+     * Parses arguments in the context of the edit task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareEdit(String args) {
+        Optional<Integer> index = parseIndex(args.trim().substring(0, 1));
+        
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+
+        editTaskInfo = args;
+        
+        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim().substring(1).trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+        
+        try {
+            taskIndex = index.get();
+            return checkDoubleDateTimeParamAndEdit(matcher, index.get());
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+        
+    }
+    
+    /**
+     * returns edit task information for undo and redo purposes
+     * @return
+     */
+    public String getEditTaskInfo() {
+        return editTaskInfo;
+    }
+	
 	/**
      * Helper function for an edit command.
      * This function serves the purpose of checking the string twice if the date and time object are separated
@@ -179,7 +233,8 @@ public class Parser {
 					getName,
 					"",
 		            getTagsFromArgs(matcher.group("tagArguments"))
-		    );
+		    )
+			        ;
 		} else {
 			if (DateTime.isValidDate(getDateTime)) {
 				// check if secondary datetime parameter exist
@@ -230,37 +285,32 @@ public class Parser {
             return new IncorrectCommand(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
-
-        return new DeleteCommand(index.get());
+        taskIndex = index.get();
+        
+        return prepareTaskToDeleteInfo(index.get());
+    }
+    
+    /** 
+     * prepares to-be deleted task information for undo and redo purposes
+     * 
+     * @param index
+     * @return
+     */
+    private Command prepareTaskToDeleteInfo(int index) {
+        DeleteCommand taskToDelete = new DeleteCommand(index);
+        taskInfo = taskToDelete.getTaskInfo();
+        return taskToDelete;
     }
     
     /**
-     * Parses arguments in the context of the edit task command.
-     *
-     * @param args full command args string
-     * @return the prepared command
+     * returns to-be deleted task information for undo and redo purposes
+     * @return
      */
-    private Command prepareEdit(String args) {
-    	Optional<Integer> index = parseIndex(args.trim().substring(0, 1));
-        if(!index.isPresent()){
-            return new IncorrectCommand(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
-        }
-
-    	final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim().substring(1).trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
-        
-        try {
-        	return checkDoubleDateTimeParamAndEdit(matcher, index.get());
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
-
+    public String getTaskToDeleteInfo() {
+        return taskInfo;
     }
-
+    
+   
     /**
      * CURRENTLY UNUSED
      * Parses arguments in the context of the select task command.
@@ -313,6 +363,13 @@ public class Parser {
         final String[] keywords = matcher.group("keywords").split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
+    }
+    
+    /**
+     * Returns taskIndex of correct command entered
+     */
+    public int getTaskIndex() {
+        return taskIndex;
     }
 
 }
