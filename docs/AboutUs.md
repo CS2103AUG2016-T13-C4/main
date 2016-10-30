@@ -14,22 +14,44 @@ We are a team based in the [School of Computing, National University of Singapor
 
 #### [Gao Yu](https://github.com/GaoYu-Karen)
 <img src="images/GaoYu.jpg" width="150"><br>
-Role: Developer <br>  
-Responsibilities: UI
+**Role**: Developer <br>  
+**Responsibilities**: 
+-All UI components of SuperbTodo
+	*Style sheet
+	*Clock function 
+	*Help, minimize, maximize, close buttons
+	*Task entry 
+-Undo and redo commands
+-Testing
+-Documentation
+	*About us
+	*Contact us
+	*User guide: features
+	*Developer guide: user stories and product survey
 
 -----
 
 #### [Ong Qi Yong](https://github.com/oqyxxy) 
 <img src="images/OngQiYong.jpg" width="150"><br>
-Role: Developer <br>  
-Responsibilities: Logic
-
+**Role**: Developer <br>  
+**Responsibilities**: 
+-Most of Logic components of SuperbTodo
+	*Parser
+	*Add, clear, remove, edit, list commands
+-Testing
+-Documentation
+	*User guide: features
+	*Developer guide: use cases and non functional requirements
+	
 -----
 
 #### [Yu Xiaodong](https://github.com/yxd117)
 <img src="images/YuXiaodong.jpg" width="150"><br>
-Role: Developer <br>  
-Responsibilities: Storage
+**Role**: Developer <br>  
+**Responsibilities**: 
+-All Storage components of SuperbTodo
+-Undone and done commands
+-Testing
 
 -----
 

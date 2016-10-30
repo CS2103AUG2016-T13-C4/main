@@ -148,7 +148,7 @@ public class MainWindow extends UiPart {
 
         //Configure the UI
         setTitle(appTitle);
-        setIcon(ICON);
+        setIcon(primaryStage, ICON);
         setWindowMinSize();
         setWindowDefaultSize(prefs);
         scene = new Scene(rootLayout);
@@ -160,7 +160,6 @@ public class MainWindow extends UiPart {
 
         
     private void setAccelerators() {
-        //help.setAccelerator(KeyCombination.valueOf("F1"));
             Platform.runLater(() -> {        
                 help.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.F1), () -> {
                     help.fire();
