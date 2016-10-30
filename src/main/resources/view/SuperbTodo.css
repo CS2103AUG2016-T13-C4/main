@@ -32,14 +32,14 @@
 .label-scope {
 	-fx-font-size: 12pt;
     -fx-font-family: "Arial Rounded MT Bold";
-    -fx-text-fill: #5e64b1;
+    -fx-text-fill: #83c6de;
 	
 }
 
 .label-header {
-    -fx-font-size: 16pt;
+    -fx-font-size: 15pt;
     -fx-font-family: "Arial Rounded MT Bold";
-    -fx-text-fill: #5e64b1;
+    -fx-text-fill:#f194b6 ;
 }
 
 .text-field {
@@ -95,7 +95,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #5e64b1;
+    -fx-background-color: derive(#5e64b1,20%);
     -fx-background-insets: 3;
 }
 
