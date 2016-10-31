@@ -31,11 +31,11 @@ public class DateTime {
         
         Parser parser = new Parser();
     	List<DateGroup> dateParser = parser.parse(date);
-        this.date_value = formatDate(dateParser.get(0).getDates().get(1).toString());
+        this.date_value = formatDate(dateParser.get(0).getDates().get(0).toString());
         if (date.toLowerCase().equals("today")) {
         	this.time_value = DEFAULT_DAY_END_TIME;
         } else {
-        	this.time_value = formatTime(dateParser.get(0).getDates().get(1).toString());
+        	this.time_value = formatTime(dateParser.get(0).getDates().get(0).toString());
         }
     }
     

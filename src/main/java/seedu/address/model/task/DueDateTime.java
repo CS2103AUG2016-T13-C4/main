@@ -23,18 +23,25 @@ public class DueDateTime {
      * @throws IllegalValueException if given date string is invalid.
      */
     public DueDateTime(String date) throws IllegalValueException {
+    	int chooseDate = 0;
         assert date != null;
+        
         date = date.trim();
         Parser parser = new Parser();
     	List<DateGroup> dateParser = parser.parse(date);
         if (!isValidDate(dateParser)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
-        this.date_value = formatDate(dateParser.get(0).getDates().get(0).toString());
+        
+        if (dateParser.get(0).getDates().size() > 1) {
+        	chooseDate = 1;
+        }
+        
+        this.date_value = formatDate(dateParser.get(0).getDates().get(chooseDate).toString());
         if (date.toLowerCase().equals("today")) {
         	this.time_value = DEFAULT_DAY_END_TIME;
         } else {
-        	this.time_value = formatTime(dateParser.get(0).getDates().get(0).toString());
+        	this.time_value = formatTime(dateParser.get(0).getDates().get(chooseDate).toString());
         }
     }
     

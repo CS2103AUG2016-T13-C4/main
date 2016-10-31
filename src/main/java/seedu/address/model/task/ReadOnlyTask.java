@@ -45,7 +45,7 @@ public interface ReadOnlyTask {
         }
         
         if (!getDueTime().date_value.equals("")) {
-            builder.append(" Due: ")
+            builder.append(" End: ")
                    .append(getDueTime());
         }
         

@@ -5,6 +5,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,9 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_ERROR_DATE = "SuperbToDo is unable to identify event period. Please specify only 2 dates as period.";
-    public static final String MESSAGE_ERROR_PERIOD = "SuperbToDo is unable your specified period, please check if you have entered a valid date and time.";
+    public static final String MESSAGE_ERROR_PERIOD = "SuperbToDo is unable your specified period. Please check if you have entered a valid date and time.";
+    public static final String MESSAGE_ERROR_CHRONO = "SuperbToDo detected a chronological error. " + 
+    													"Please check if both start and end period are chronologically correct";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
     private final Task toAdd;
@@ -63,12 +66,10 @@ public class AddCommand extends Command {
         			 new TaskName(name),
                      new DateTime(),
                      new DueDateTime(),
-                     //new Address(),
                      new UniqueTagList(tagSet)
             );
         } else {
-        	@SuppressWarnings("rawtypes")
-			List dateList = retrieveDate(dateTimeParam);
+			List<Date> dateList = retrieveDate(dateTimeParam);
             
             if (dateList.size() > 2 || dateList.size() == 0) {
             	throw new IllegalValueException(MESSAGE_ERROR_DATE);
@@ -78,18 +79,20 @@ public class AddCommand extends Command {
             			new TaskName(name),
     	                new DateTime(),
     	                new DueDateTime(dateTimeParam),
-    	                //new Address(),
     	                new UniqueTagList(tagSet)
     	        );
             } else {
             	// event
-            	return new Task(
-    	                new TaskName(name),
-    	                new DateTime(dateTimeParam),
-    	                new DueDateTime(dateTimeParam),
-    	                //new Address(),
-    	                new UniqueTagList(tagSet)
-    	        );
+            	if (dateList.get(0).compareTo(dateList.get(1)) < 0) {
+            		return new Task(
+        	                new TaskName(name),
+        	                new DateTime(dateTimeParam),
+        	                new DueDateTime(dateTimeParam),
+        	                new UniqueTagList(tagSet)
+        	        );
+            	} else {
+            		throw new IllegalValueException(MESSAGE_ERROR_CHRONO);
+            	}
             }
         }
 	}
@@ -99,8 +102,7 @@ public class AddCommand extends Command {
      *
      * returns: A list of dates (If a date is found) or empty list (If unable to detect a date value)
      */
-    @SuppressWarnings("rawtypes")
-	private static List retrieveDate(String period)  throws IllegalValueException {
+	private static List<Date> retrieveDate(String period)  throws IllegalValueException {
 		assert period != null;
         period = period.trim();
         Parser parser = new Parser();
