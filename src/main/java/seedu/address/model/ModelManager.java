@@ -50,7 +50,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void resetData(ReadOnlySuperbTodo newData) {
-        superbtodo.resetData(newData);
+    	superbtodo.resetData(newData);
+    	superbtodo.resetData();
         indicateSuperbTodoChanged();
     }
 

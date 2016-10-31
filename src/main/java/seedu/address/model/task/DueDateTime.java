@@ -30,11 +30,11 @@ public class DueDateTime {
         if (!isValidDate(dateParser)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
-        this.date_value = formatDate(dateParser.get(0).getDates().toString());
+        this.date_value = formatDate(dateParser.get(0).getDates().get(0).toString());
         if (date.toLowerCase().equals("today")) {
         	this.time_value = DEFAULT_DAY_END_TIME;
         } else {
-        	this.time_value = formatTime(dateParser.get(0).getDates().toString());
+        	this.time_value = formatTime(dateParser.get(0).getDates().get(0).toString());
         }
     }
     
@@ -50,7 +50,7 @@ public class DueDateTime {
      * function which formats a natty parser date component into SuperbTodo format
      */
 	private String formatDate(String dateString) {
-		String[] dateComponent = dateString.substring(1, dateString.length() - 1).split(" ");
+		String[] dateComponent = dateString.substring(1, dateString.length()).split(" ");
         return dateComponent[2] + " " + dateComponent[1] + " " + dateComponent[5];
 	}
 	

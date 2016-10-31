@@ -54,8 +54,8 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
         return task.getInternalList();
     }
 
-    public void setTasks(List<Task> persons) {
-        this.task.getInternalList().setAll(persons);
+    public void setTasks(List<Task> tasks) {
+        this.task.getInternalList().setAll(tasks);
     }
 
     public void setTags(Collection<Tag> tags) {
@@ -73,6 +73,11 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
         resetData(newData.getPersonList(), newData.getTagList());
     }
 
+    // hard reset by default
+    public void resetData() {
+    	this.task.getInternalList().clear();
+    	this.tags.internalList.clear();
+    }
 //// person-level operations
 
     /**
@@ -143,7 +148,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
 
     @Override
     public List<ReadOnlyTask> getPersonList() {
-        return Collections.unmodifiableList(task.getInternalList());
+    	return Collections.unmodifiableList(task.getInternalList());
     }
     
 

@@ -27,6 +27,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_ERROR_DATE = "SuperbToDo is unable to identify event period. Please specify only 2 dates as period.";
+    public static final String MESSAGE_ERROR_PERIOD = "SuperbToDo is unable your specified period, please check if you have entered a valid date and time.";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
     private final Task toAdd;
@@ -84,8 +85,8 @@ public class AddCommand extends Command {
             	// event
             	return new Task(
     	                new TaskName(name),
-    	                new DateTime(dateList.get(0).toString()),
-    	                new DueDateTime(dateList.get(1).toString()),
+    	                new DateTime(dateTimeParam),
+    	                new DueDateTime(dateTimeParam),
     	                //new Address(),
     	                new UniqueTagList(tagSet)
     	        );
@@ -99,12 +100,16 @@ public class AddCommand extends Command {
      * returns: A list of dates (If a date is found) or empty list (If unable to detect a date value)
      */
     @SuppressWarnings("rawtypes")
-	private static List retrieveDate(String period) {
+	private static List retrieveDate(String period)  throws IllegalValueException {
 		assert period != null;
         period = period.trim();
         Parser parser = new Parser();
     	List<DateGroup> dateParser = parser.parse(period);
-    	return dateParser.get(0).getDates();
+    	if (period.equals(dateParser.get(0).getText())) {
+    		return dateParser.get(0).getDates();
+    	} else {
+    		throw new IllegalValueException(MESSAGE_ERROR_PERIOD);
+    	}
 	}
     
     //@@author A0135763B-reused
