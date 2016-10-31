@@ -22,7 +22,7 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to SuperbTodo. "
-            + "Format: <task description> at/by <time> on <date> [t/TAG]\n"
+            + "Format: add <task description> at/by <time> on <date> [t/TAG]\n"
             + "Example: " + COMMAND_WORD
             + " Finish homework by 23:59 on 11 Oct t/school t/important";
 
@@ -61,40 +61,64 @@ public class AddCommand extends Command {
      */
     public static Task handleAddType(String name, String dateTimeParam, final Set<Tag> tagSet) throws IllegalValueException {
 		if (dateTimeParam.equals("")) {
-        	// floating task
-        	 return new Task(
-        			 new TaskName(name),
-                     new DateTime(),
-                     new DueDateTime(),
-                     new UniqueTagList(tagSet)
-            );
+        	// Floating task
+        	return createFloatingTask(name, tagSet);
         } else {
-			List<Date> dateList = retrieveDate(dateTimeParam);
-            
-            if (dateList.size() > 2 || dateList.size() == 0) {
-            	throw new IllegalValueException(MESSAGE_ERROR_DATE);
-            } else if (dateList.size() == 1) {
-            	// normal task
-            	return new Task(
-            			new TaskName(name),
-    	                new DateTime(),
-    	                new DueDateTime(dateTimeParam),
-    	                new UniqueTagList(tagSet)
-    	        );
-            } else {
-            	// event
-            	if (dateList.get(0).compareTo(dateList.get(1)) < 0) {
-            		return new Task(
-        	                new TaskName(name),
-        	                new DateTime(dateTimeParam),
-        	                new DueDateTime(dateTimeParam),
-        	                new UniqueTagList(tagSet)
-        	        );
-            	} else {
-            		throw new IllegalValueException(MESSAGE_ERROR_CHRONO);
-            	}
-            }
+			return checkDateCount(name, dateTimeParam, tagSet);
         }
+	}
+
+	private static Task checkDateCount(String name, String dateTimeParam, final Set<Tag> tagSet)
+			throws IllegalValueException {
+		List<Date> dateList = retrieveDate(dateTimeParam);
+		
+		if (dateList.size() > 2 || dateList.size() == 0) {
+			throw new IllegalValueException(MESSAGE_ERROR_DATE);
+		} else if (dateList.size() == 1) {
+			// Normal task
+			return createNormalTask(name, dateTimeParam, tagSet);
+		} else {
+			// Event
+			return validateChronoOrder(name, dateTimeParam, tagSet, dateList);
+		}
+	}
+
+	private static Task validateChronoOrder(String name, String dateTimeParam, final Set<Tag> tagSet,
+			List<Date> dateList) throws IllegalValueException {
+		if (dateList.get(0).compareTo(dateList.get(1)) < 0) {
+			return createEvent(name, dateTimeParam, tagSet);
+		} else {
+			throw new IllegalValueException(MESSAGE_ERROR_CHRONO);
+		}
+	}
+
+	private static Task createEvent(String name, String dateTimeParam, final Set<Tag> tagSet)
+			throws IllegalValueException {
+		return new Task(
+		        new TaskName(name),
+		        new DateTime(dateTimeParam),
+		        new DueDateTime(dateTimeParam),
+		        new UniqueTagList(tagSet)
+		);
+	}
+
+	private static Task createNormalTask(String name, String dateTimeParam, final Set<Tag> tagSet)
+			throws IllegalValueException {
+		return new Task(
+				new TaskName(name),
+		        new DateTime(),
+		        new DueDateTime(dateTimeParam),
+		        new UniqueTagList(tagSet)
+		);
+	}
+
+	private static Task createFloatingTask(String name, final Set<Tag> tagSet) throws IllegalValueException {
+		return new Task(
+				 new TaskName(name),
+		         new DateTime(),
+		         new DueDateTime(),
+		         new UniqueTagList(tagSet)
+		);
 	}
 	
 	/**
