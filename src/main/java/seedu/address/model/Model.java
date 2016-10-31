@@ -5,6 +5,7 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -38,5 +39,8 @@ public interface Model {
     
     /** Updates the filter of the filtered task list to filter by the type*/
 	void updateFilteredListToShowByType(String arg);
+
+	/** Updates the filter of the filtered task list to filter by the period*/
+	void updateFilteredListToShowByTime(Date start, Date end, int type);
 
 }

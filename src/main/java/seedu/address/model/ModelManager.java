@@ -12,6 +12,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.core.ComponentManager;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -101,6 +102,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateFilteredListToShowByType(String arg) {
     	updateFilteredTaskList(new PredicateExpression(new TypeQualifier(arg)));
+    }
+    
+    @Override
+    public void updateFilteredListToShowByTime(Date start, Date end, int type) {
+    	updateFilteredTaskList(new PredicateExpression(new TimeQualifier(start, end, type)));
     }
 
     @Override
@@ -197,23 +203,35 @@ public class ModelManager extends ComponentManager implements Model {
     }
     
     private class TimeQualifier implements Qualifier {
-        private Set<String> nameKeyWords;
+        private Date startDate, endDate;
+        private int searchType;
 
-        TimeQualifier(Set<String> nameKeyWords) {
-            this.nameKeyWords = nameKeyWords;
+        TimeQualifier(Date start, Date end, int type) {
+            this.startDate = start;
+            this.endDate = end;
+            this.searchType = type;
         }
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            return nameKeyWords.stream()
-                    .filter(keyword -> StringUtil.containsIgnoreCase(task.getName().fullName, keyword))
-                    .findAny()
-                    .isPresent();
+        	Date compareDate = task.getDueTime().value;
+        	if (compareDate != null) {
+	            if (searchType == 0) {
+	            	if (startDate.before(compareDate) && endDate.after(compareDate)) {
+	            		return true;
+	            	}
+	            } else if (searchType == 1) {
+	            	if (startDate.after(compareDate)) {
+	            		return true;
+	            	}
+	            }
+        	}
+            return false;
         }
 
         @Override
         public String toString() {
-            return "time=" + String.join(", ", nameKeyWords);
+            return "start time=" + String.join(", ", startDate.toString()) + "end time=" + String.join(", ", endDate.toString());
         }
     }
 
