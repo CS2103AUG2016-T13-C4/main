@@ -36,7 +36,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
         
         superbtodo = new SuperbTodo(src);
-        filteredPersons = new FilteredList<>(superbtodo.getPersons());
+        filteredPersons = new FilteredList<>(superbtodo.getTasks());
     }
 
     public ModelManager() {
@@ -45,7 +45,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager(ReadOnlySuperbTodo initialData, UserPrefs userPrefs) {
         superbtodo = new SuperbTodo(initialData);
-        filteredPersons = new FilteredList<>(superbtodo.getPersons());
+        filteredPersons = new FilteredList<>(superbtodo.getTasks());
     }
 
     @Override

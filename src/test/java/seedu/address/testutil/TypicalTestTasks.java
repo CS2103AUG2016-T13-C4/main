@@ -14,8 +14,8 @@ public class TypicalTestTasks {
 
     public TypicalTestTasks() {
         try {
-        	walk =  new TaskBuilder().withName("Walk in the park").withDate("18 Oct 2016").build();
-        	dinner =  new TaskBuilder().withName("Dinner with family").withDate("18 Oct 2016 8pm").build();
+        	walk =  new TaskBuilder().withName("Walk in the park").withDueTime("18 Oct 2016").build();
+        	dinner =  new TaskBuilder().withName("Dinner with family").withDueTime("18 Oct 2016 8pm").build();
         } catch (IllegalValueException e) {
             e.printStackTrace();
             assert false : "not possible";

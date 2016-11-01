@@ -9,9 +9,8 @@ import seedu.address.model.task.*;
 public class TestTask implements ReadOnlyTask {
 
     private TaskName name;
-    private Address address;
-    private DueDateTime email;
-    private DateTime phone;
+    private DateTime dateTime;
+    private DueDateTime dueDateTime;    
     private UniqueTagList tags;
 
     public TestTask() {
@@ -22,16 +21,12 @@ public class TestTask implements ReadOnlyTask {
         this.name = name;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public void setEmail(DueDateTime email) {
-        this.email = email;
-    }
-
-    public void setPhone(DateTime phone) {
-        this.phone = phone;
+    public void setDueTime(DueDateTime dueDateTime) {
+        this.dueDateTime = dueDateTime;
     }
 
     @Override
@@ -41,17 +36,12 @@ public class TestTask implements ReadOnlyTask {
 
     @Override
     public DateTime getDateTime() {
-        return phone;
+        return dateTime;
     }
 
     @Override
     public DueDateTime getDueTime() {
-        return email;
-    }
-
-    @Override
-    public Address getAddress() {
-        return address;
+        return dueDateTime;
     }
 
     @Override
@@ -67,10 +57,13 @@ public class TestTask implements ReadOnlyTask {
     public String getAddCommand() {
         StringBuilder sb = new StringBuilder();
         sb.append("add " + this.getName().fullName + " ");
-        sb.append("p/" + this.getDateTime().date_value + " ");
-        sb.append("e/" + this.getDateTime().time_value + " ");
-        sb.append("a/" + this.getAddress().value + " ");
+        sb.append(this.getDateTime().date_value + " ");
+        sb.append(this.getDateTime().time_value + " ");
+        sb.append(this.getDueTime().date_value + " ");
+        sb.append(this.getDueTime().time_value + " ");
         this.getTags().getInternalList().stream().forEach(s -> sb.append("t/" + s.tagName + " "));
         return sb.toString();
     }
+
+
 }
