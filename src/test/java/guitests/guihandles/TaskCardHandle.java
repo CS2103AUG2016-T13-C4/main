@@ -55,7 +55,7 @@ public class TaskCardHandle extends GuiHandle {
         return getTextFromLabel(TAGS_FIELD_ID);
     }
 
-    public boolean isSamePerson(ReadOnlyTask task){
+    public boolean isSameTask(ReadOnlyTask task){
         return getTaskName().equals(task.getName().fullName) && getDateTimeDate().equals(task.getDateTime().date_value)
                 && getDateTimeTime().equals(task.getDateTime().time_value) && getDueDateTimeDate().equals(task.getDueTime().date_value)
                 && getDueDateTimeTime().equals(task.getDueTime().time_value) && getTags().equals(task.getTags().toString());
