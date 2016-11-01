@@ -3,6 +3,7 @@ package seedu.address.ui;
 import com.google.common.eventbus.Subscribe;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -14,7 +15,14 @@ import seedu.address.logic.commands.*;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.commons.core.LogsCenter;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 // @@author A0113992B-reused
 public class CommandBox extends UiPart {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
@@ -71,18 +79,44 @@ public class CommandBox extends UiPart {
     @FXML
     private void handleCommandInputChanged() {
         //Take a copy of the command text
-        previousCommandTest = commandTextField.getText();
+        previousCommandTest = commandTextField.getText();        
 
         /* We assume the command is correct. If it is incorrect, the command box will be changed accordingly
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
+        taskLister(previousCommandTest);
         mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
-
-
+    
+    public void taskLister(String userInput) {
+        MainWindow main = new MainWindow();
+        
+        if (userInput != null) { // check if there's input 
+            final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+            final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+            final String commandWord = matcher.group("commandWord");
+            final String arguments = matcher.group("arguments");
+            
+            if (!commandWord.equals("list") || !commandWord.equals("ls")) {
+                main.getLabel().setText("Viewing Today's Todo Tasks");
+            } else if (commandWord.equals("list") || commandWord.equals("ls")) {
+                if (arguments.equals("today") || arguments.equals("tdy")) {
+                    main.getLabel().setText("Viewing Today's Todo Tasks");
+                } else if (arguments.equals("tomorrow") || arguments.equals("tmr") 
+                        || arguments.equals("tmw")) {
+                    main.getLabel().setText("Viewing Tomorrow's Todo Tasks");
+                } else if (arguments.equals("this week")) {
+                    main.getLabel().setText("Viewing This Week's Todo Tasks");
+                }
+            }
+        }     
+    }
+    
+    
+    
     /**
      * Sets the command box style to indicate a correct command.
      */
@@ -115,7 +149,7 @@ public class CommandBox extends UiPart {
     /**
      * Gets input text of the command field
      */    
-    String getCommandText() {
+    public String getCommandText() {
         return commandTextField.getText();
     }
 

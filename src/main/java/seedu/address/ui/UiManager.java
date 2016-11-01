@@ -54,6 +54,7 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
             // @@author A0113992B
+            mainWindow.taskScopeSetter();
             mainWindow.clockFunction();
             // @@author A0113992B-reused
             //mainWindow.setDefaultTaskScope();
