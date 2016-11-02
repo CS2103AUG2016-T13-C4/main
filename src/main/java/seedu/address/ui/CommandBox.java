@@ -79,7 +79,7 @@ public class CommandBox extends UiPart {
 
 
     @FXML
-    private void handleCommandInputChanged() {
+    private void handleCommandInputChanged() throws StringIndexOutOfBoundsException {
         //Take a copy of the command text
         previousCommandTest = commandTextField.getText();        
 
@@ -93,13 +93,13 @@ public class CommandBox extends UiPart {
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
     
-    private void taskLister(String userInput) throws IllegalValueException {
+    private void taskLister(String userInput) throws StringIndexOutOfBoundsException {
         MainWindow main = new MainWindow();
         String commandWord;
         String arguments;
         
         if (userInput.length() <= 4) {
-            throw new IllegalValueException(MESSAGE_NOT_LIST_COMMAND);
+            throw new StringIndexOutOfBoundsException(MESSAGE_NOT_LIST_COMMAND);
         } else {
             commandWord = userInput.substring(0, 3);
             arguments = userInput.substring(5, userInput.length()-1);

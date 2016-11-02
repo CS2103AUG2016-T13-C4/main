@@ -199,18 +199,15 @@ public class MainWindow extends UiPart {
         if (index == 1) { // today
             //taskScope = new Label();
             taskScope.setText("Viewing Today's Todo Tasks");
-            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-            taskScopePlaceholder.getChildren().add(taskScope);
+            //FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);            taskScopePlaceholder.getChildren().add(taskScope);
         } else if (index == 2) { // tomorrow
             //taskScope = new Label();
             taskScope.setText("Viewing Tomorrow's Todo Tasks");
             FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-            taskScopePlaceholder.getChildren().add(taskScope);
         } else if (index == 3) { // all 
             taskScope = new Label();
             taskScope.setText("Viewing All Todo Tasks");
             FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-            taskScopePlaceholder.getChildren().add(taskScope);
         }
     }
     
