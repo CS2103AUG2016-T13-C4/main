@@ -14,6 +14,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.*;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.parser.Parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
@@ -85,7 +86,7 @@ public class CommandBox extends UiPart {
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
-        //taskLister(previousCommandTest);
+        taskLister(previousCommandTest);
         mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
@@ -93,20 +94,18 @@ public class CommandBox extends UiPart {
     
     public void taskLister(String userInput) {
         MainWindow main = new MainWindow();
+        Parser parser = new Parser();
+        parser.parseForList(userInput);
+        String commandWord = parser.getCommandWord();
+        String arguments = parser.getArguments();
         
-        if (userInput != null) { // check if there's input 
-            final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-            final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
-            final String commandWord = matcher.group("commandWord");
-            final String arguments = matcher.group("arguments");
-            
-            if (!commandWord.equals("list") || !commandWord.equals("ls")) {
+        if (userInput != null) { // check if there's input            
+            if (!commandWord.equals("list")) {
                 main.getLabel().setText("Viewing Today's Todo Tasks");
-            } else if (commandWord.equals("list") || commandWord.equals("ls")) {
-                if (arguments.equals("today") || arguments.equals("tdy")) {
+            } else if (commandWord.equals("list")) {
+                if (arguments.equals("today")) {
                     main.getLabel().setText("Viewing Today's Todo Tasks");
-                } else if (arguments.equals("tomorrow") || arguments.equals("tmr") 
-                        || arguments.equals("tmw")) {
+                } else if (arguments.equals("tomorrow")) {
                     main.getLabel().setText("Viewing Tomorrow's Todo Tasks");
                 } else if (arguments.equals("this week")) {
                     main.getLabel().setText("Viewing This Week's Todo Tasks");

@@ -35,6 +35,9 @@ public class Parser {
             		+ "|(?<floating>[^/]+))"
             		+ "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
+    private String commandWord;
+    private String args;
+    
     public Parser() {}
 
     /**
@@ -333,6 +336,25 @@ public class Parser {
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
+    }
+    
+    /**
+     * Getters
+     */
+    public void parseForList(String userInput) {
+        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        final String commandWord = matcher.group("commandWord");
+        final String arguments = matcher.group("arguments");
+        this.commandWord = commandWord;
+        this.args = arguments;
+    }
+    
+    public String getCommandWord() {
+        return this.commandWord;
+    }
+    
+    public String getArguments() {
+        return this.args.trim();
     }
 
 }
