@@ -1,9 +1,14 @@
 package seedu.address.ui;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +16,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -101,7 +109,10 @@ public class MainWindow extends UiPart {
     private AnchorPane commandBoxPlaceholder;
 
     @FXML
-    private MenuItem helpMenuItem;
+    private Button help;
+    
+    @FXML
+    private Button helpImg;
 
     @FXML
     private AnchorPane taskListPanelPlaceholder;
@@ -142,7 +153,7 @@ public class MainWindow extends UiPart {
 
         //Configure the UI
         setTitle(appTitle);
-        setIcon(ICON);
+        setIcon(primaryStage, ICON);
         setWindowMinSize();
         setWindowDefaultSize(prefs);
         scene = new Scene(rootLayout);
@@ -151,10 +162,19 @@ public class MainWindow extends UiPart {
         setAccelerators();
         elementSetter();
     }
-   
+
+    // @@author A0113992B
+    /**
+     * This method sets the shortcut key for help button    
+     */
     private void setAccelerators() {
-        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
-    }
+            Platform.runLater(() -> {        
+                help.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.F1), () -> {
+                    help.fire();
+                });
+            });
+   }
+    
     
     /** This method initialize settings for all the buttons
      * 
@@ -163,10 +183,11 @@ public class MainWindow extends UiPart {
         buttonMin.setStyle("-fx-background-image: url('/images/min1.png')");
         buttonMax.setStyle("-fx-background-image: url('/images/max1.png')"); 
         buttonClose.setStyle("-fx-background-image: url('/images/close1.png')");
-        
+        helpImg.setStyle("-fx-background-image: url('/images/helpimg.png')");
     }
     
-    // @@author A0113992B
+    
+    
     /** This method calls relevant methods to build clock and 
      *  display current time to the sec inside time holder pane
      */
@@ -189,12 +210,12 @@ public class MainWindow extends UiPart {
         clock.setSnapToPixel(true);
         clock.setSpacing(5.0);
         //formats the labels
-        colon1.setTextFill(Color.web("#f7cacf"));
-        colon1.setFont(Font.font("Arial Rounded MT Bold", 18.0));
-        colon2.setTextFill(Color.web("#f7cacf"));
-        colon2.setFont(Font.font("Arial Rounded MT Bold", 18.0));
-        dateToday.setTextFill(Color.web("#f7cacf"));
-        dateToday.setFont(Font.font("Arial Rounded MT Bold", 18.0));
+        colon1.setTextFill(Color.web("#83c6de"));
+        colon1.setFont(Font.font("Arial Rounded MT Bold", 17.0));
+        colon2.setTextFill(Color.web("#83c6de"));
+        colon2.setFont(Font.font("Arial Rounded MT Bold", 17.0));
+        dateToday.setTextFill(Color.web("#83c6de"));
+        dateToday.setFont(Font.font("Arial Rounded MT Bold", 17.0));
         //builds the clock
         clock.getChildren().addAll(dateToday,hourNow, colon1, minNow, colon2,
               secNow );
@@ -210,8 +231,8 @@ public class MainWindow extends UiPart {
         c = Calendar.getInstance();
 
         hourNow.setText("      Now is " + Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
-        hourNow.setTextFill(Color.web("#f7cacf"));
-        hourNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
+        hourNow.setTextFill(Color.web("#83c6de"));
+        hourNow.setFont(Font.font("Arial Rounded MT Bold", 17.0));
 
         String minute = "";
         if (c.get(Calendar.MINUTE) < 10) {
@@ -220,8 +241,8 @@ public class MainWindow extends UiPart {
             minute = Integer.toString(c.get(Calendar.MINUTE));
         }
         minNow.setText(minute);
-        minNow.setTextFill(Color.web("#f7cacf"));
-        minNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
+        minNow.setTextFill(Color.web("#83c6de"));
+        minNow.setFont(Font.font("Arial Rounded MT Bold", 17.0));
 
         String sec = "";
         if (c.get(Calendar.SECOND) < 10) {
@@ -230,8 +251,8 @@ public class MainWindow extends UiPart {
             sec = Integer.toString(c.get(Calendar.SECOND));
         }
         secNow.setText(sec);
-        secNow.setTextFill(Color.web("#f7cacf"));
-        secNow.setFont(Font.font("Arial Rounded MT Bold", 18.0));
+        secNow.setTextFill(Color.web("#83c6de"));
+        secNow.setFont(Font.font("Arial Rounded MT Bold", 17.0));
 
         dateToday.setText("Today is " + c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
@@ -255,52 +276,21 @@ public class MainWindow extends UiPart {
                 }));
         time.play();
     }
-    // @@author 
     
-    
-    /** This method displays task scope as entered by the user
-     * 
+    /**
+     * This sets the list of default tasks displayed
      */
+    public void taskScopeSetter() {
+        taskScope.setText("Viewing Today's Todo Tasks");
+    }
     
-//    void setDefaultTaskScope() {
-//        taskScope.setText("Viewing all tasks for now");
-//    }
-//    
-//    @FXML
-//    private void taskScopeChanger() {       
-//        if (commandInput.getCommandText().equals("list") 
-////            || commandInput.getCommandText().equals("list tday")
-////            || commandInput.getCommandText().equals("ls today")
-////            || commandInput.getCommandText().equals("ls tdy")
-//                ) {
-//            taskScope.setText("Viewing today's tasks");}
-//        } else if (commandInput.getCommandText().equals("list tomorrow") 
-//            || commandInput.getCommandText().equals("list tmr")
-//            || commandInput.getCommandText().equals("list tmw")
-//            || commandInput.getCommandText().equals("ls tomorrow")
-//            || commandInput.getCommandText().equals("ls tmr")
-//            || commandInput.getCommandText().equals("ls tmw")) {
-//            taskScope.setText("Viewing tomorrow's tasks");
-//        } else if (commandInput.getCommandText().equals("list this week")
-//            || commandInput.getCommandText().equals("ls this week")) {
-//            taskScope.setText("Viewing this week's tasks");
-//        } else if (commandInput.getCommandText().equals("list next week")
-//                || commandInput.getCommandText().equals("ls next week")) {
-//                taskScope.setText("Viewing next week's tasks");
-//        } else if (commandInput.getCommandText().equals("list next week")
-//                || commandInput.getCommandText().equals("ls next week")) {
-//                taskScope.setText("Viewing next week's tasks");
-//        } else if (commandInput.getCommandText().equals("list undone")
-//                || commandInput.getCommandText().equals("ls undone")) {
-//                taskScope.setText("Viewing undone tasks");
-//        } else if (commandInput.getCommandText().equals("list done")
-//                || commandInput.getCommandText().equals("ls done")) {
-//                taskScope.setText("Viewing done tasks");
-//        } else if (commandInput.getCommandText().equals("list all")
-//                || commandInput.getCommandText().equals("ls all")) {
-//                taskScope.setText("Viewing all tasks");
-//        } 
-//    }
+    /**
+     * This method exposes label to other classes
+     */    
+    public Label getLabel() {
+        return taskScope;
+    }
+    // @@author 
     
 
     /**

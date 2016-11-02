@@ -4,6 +4,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
@@ -11,6 +12,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.commons.events.model.SuperbTodoChangedEvent;
 import seedu.address.commons.core.ComponentManager;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -22,7 +24,7 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final SuperbTodo superbtodo;
-    private final FilteredList<Task> filteredPersons;
+    private final FilteredList<Task> filteredTasks;
 
     /**
      * Initializes a ModelManager with the given Superbtodo
@@ -36,7 +38,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
         
         superbtodo = new SuperbTodo(src);
-        filteredPersons = new FilteredList<>(superbtodo.getPersons());
+        filteredTasks = new FilteredList<>(superbtodo.getTasks());
     }
 
     public ModelManager() {
@@ -45,12 +47,13 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager(ReadOnlySuperbTodo initialData, UserPrefs userPrefs) {
         superbtodo = new SuperbTodo(initialData);
-        filteredPersons = new FilteredList<>(superbtodo.getPersons());
+        filteredTasks = new FilteredList<>(superbtodo.getTasks());
     }
 
     @Override
     public void resetData(ReadOnlySuperbTodo newData) {
-        superbtodo.resetData(newData);
+    	superbtodo.resetData(newData);
+    	superbtodo.resetData();
         indicateSuperbTodoChanged();
     }
 
@@ -84,25 +87,35 @@ public class ModelManager extends ComponentManager implements Model {
         indicateSuperbTodoChanged();
     }
 
-    //=========== Filtered Person List Accessors ===============================================================
+    //=========== Filtered Task List Accessors ===============================================================
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
-        return new UnmodifiableObservableList<>(filteredPersons);
+        return new UnmodifiableObservableList<>(filteredTasks);
     }
 
     @Override
     public void updateFilteredListToShowAll() {
-        filteredPersons.setPredicate(null);
+        filteredTasks.setPredicate(null);
+    }
+    
+    @Override
+    public void updateFilteredListToShowByType(String arg) {
+    	updateFilteredTaskList(new PredicateExpression(new TypeQualifier(arg)));
+    }
+    
+    @Override
+    public void updateFilteredListToShowByTime(Date start, Date end, int type) {
+    	updateFilteredTaskList(new PredicateExpression(new TimeQualifier(start, end, type)));
     }
 
     @Override
     public void updateFilteredTaskList(Set<String> keywords){
-        updateFilteredPersonList(new PredicateExpression(new NameQualifier(keywords)));
+        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords)));
     }
 
-    private void updateFilteredPersonList(Expression expression) {
-        filteredPersons.setPredicate(expression::satisfies);
+    private void updateFilteredTaskList(Expression expression) {
+        filteredTasks.setPredicate(expression::satisfies);
     }
 
     //========== Inner classes/interfaces used for filtering ==================================================
@@ -121,8 +134,8 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
         @Override
-        public boolean satisfies(ReadOnlyTask person) {
-            return qualifier.run(person);
+        public boolean satisfies(ReadOnlyTask task) {
+            return qualifier.run(task);
         }
 
         @Override
@@ -132,7 +145,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     interface Qualifier {
-        boolean run(ReadOnlyTask person);
+        boolean run(ReadOnlyTask task);
         String toString();
     }
 
@@ -144,9 +157,9 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
         @Override
-        public boolean run(ReadOnlyTask person) {
+        public boolean run(ReadOnlyTask task) {
             return nameKeyWords.stream()
-                    .filter(keyword -> StringUtil.containsIgnoreCase(person.getName().fullName, keyword))
+                    .filter(keyword -> StringUtil.containsIgnoreCase(task.getName().fullName, keyword))
                     .findAny()
                     .isPresent();
         }
@@ -154,6 +167,71 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public String toString() {
             return "name=" + String.join(", ", nameKeyWords);
+        }
+    }
+
+    //@@author A0135763B-reused
+    private class TypeQualifier implements Qualifier {
+        private String type;
+
+        TypeQualifier(String arg) {
+            this.type = arg.toUpperCase();
+        }
+
+        @Override
+        public boolean run(ReadOnlyTask task) {
+            if (type.equals(ListCommand.LIST_TYPE_UNTIMED)) {
+            	if (task.getDateTime().value == null && task.getDueTime().value == null) {
+            		return true;
+            	}
+            } else if (type.equals(ListCommand.LIST_TYPE_TIMED)) {
+            	if (task.getDateTime().value == null && task.getDueTime().value != null) {
+            		return true;
+            	}
+            } else if (type.equals(ListCommand.LIST_TYPE_EVENT)){
+            	if (task.getDateTime().value != null && task.getDueTime().value != null) {
+            		return true;
+            	}
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "type=" + String.join(", ", this.type);
+        }
+    }
+    
+    private class TimeQualifier implements Qualifier {
+        private Date startDate, endDate;
+        private int searchType;
+
+        TimeQualifier(Date start, Date end, int type) {
+            this.startDate = start;
+            this.endDate = end;
+            this.searchType = type;
+        }
+
+        @Override
+        public boolean run(ReadOnlyTask task) {
+        	Date compareDate = task.getDueTime().value;
+        	if (compareDate != null) {
+	            if (searchType == 0) {
+	            	if (startDate.before(compareDate) && endDate.after(compareDate)) {
+	            		return true;
+	            	}
+	            } else if (searchType == 1) {
+	            	if (startDate.after(compareDate)) {
+	            		return true;
+	            	}
+	            }
+        	}
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "start time=" + String.join(", ", startDate.toString()) + "end time=" + String.join(", ", endDate.toString());
         }
     }
 
