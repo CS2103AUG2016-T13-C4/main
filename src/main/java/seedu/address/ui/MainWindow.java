@@ -89,7 +89,12 @@ public class MainWindow extends UiPart {
     
     // Handles to elements of task scope display
     @FXML
-    private Label taskScope; 
+    private Label taskScope = new Label(); 
+    
+    @FXML
+    Image img = new Image("/images/clock.png");
+    ImageView imgV = new ImageView(img);
+    
     // @@author A0113992B-reused   
     CommandBox commandInput;
     
@@ -175,6 +180,41 @@ public class MainWindow extends UiPart {
             });
    }
     
+    /**
+     * This sets the list of default tasks displayed
+     */
+    public void taskScopeSetter() {
+        taskScopePlaceholder.getChildren().add(taskScope);
+        taskScope.setText("Viewing Today's Todo Tasks");
+        taskScope.setTextFill(Color.web("#f194b6"));
+        taskScope.setFont(Font.font("Arial Rounded MT Bold", 24.0));
+        FxViewUtil.applyAnchorBoundaryParameters(taskScope, 230.0, 230.0, 15.0, 0.0);
+        
+    }
+    
+    /**
+     * This method sets the correct label content of task scope
+     */
+    public void setLabel(int index) {
+        if (index == 1) { // today
+            //taskScope = new Label();
+            taskScope.setText("Viewing Today's Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        } else if (index == 2) { // tomorrow
+            //taskScope = new Label();
+            taskScope.setText("Viewing Tomorrow's Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        } else if (index == 3) { // all 
+            taskScope = new Label();
+            taskScope.setText("Viewing All Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        }
+    }
+    
+
     
     /** This method initialize settings for all the buttons
      * 
@@ -217,7 +257,7 @@ public class MainWindow extends UiPart {
         dateToday.setTextFill(Color.web("#83c6de"));
         dateToday.setFont(Font.font("Arial Rounded MT Bold", 17.0));
         //builds the clock
-        clock.getChildren().addAll(dateToday,hourNow, colon1, minNow, colon2,
+        clock.getChildren().addAll(imgV, dateToday,hourNow, colon1, minNow, colon2,
               secNow );
         return clock;
     }
@@ -277,19 +317,8 @@ public class MainWindow extends UiPart {
         time.play();
     }
     
-    /**
-     * This sets the list of default tasks displayed
-     */
-    public void taskScopeSetter() {
-        taskScope.setText("Viewing Today's Todo Tasks");
-    }
-    
-    /**
-     * This method exposes label to other classes
-     */    
-    public Label getLabel() {
-        return taskScope;
-    }
+
+
     // @@author 
     
 

@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.*;
 import seedu.address.commons.util.FxViewUtil;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
 public class CommandBox extends UiPart {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private static final String FXML = "CommandBox.fxml";
+    private static final String MESSAGE_NOT_LIST_COMMAND = "Listing today's tasks";
 
     private AnchorPane placeHolderPane;
     private AnchorPane commandPane;
@@ -91,28 +93,30 @@ public class CommandBox extends UiPart {
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
     
-    public void taskLister(String userInput) {
+    private void taskLister(String userInput) throws IllegalValueException {
         MainWindow main = new MainWindow();
+        String commandWord;
+        String arguments;
         
-        if (userInput != null) { // check if there's input 
-            final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-            final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
-            final String commandWord = matcher.group("commandWord");
-            final String arguments = matcher.group("arguments");
-            
-            if (!commandWord.equals("list") || !commandWord.equals("ls")) {
-                main.getLabel().setText("Viewing Today's Todo Tasks");
-            } else if (commandWord.equals("list") || commandWord.equals("ls")) {
-                if (arguments.equals("today") || arguments.equals("tdy")) {
-                    main.getLabel().setText("Viewing Today's Todo Tasks");
-                } else if (arguments.equals("tomorrow") || arguments.equals("tmr") 
-                        || arguments.equals("tmw")) {
-                    main.getLabel().setText("Viewing Tomorrow's Todo Tasks");
-                } else if (arguments.equals("this week")) {
-                    main.getLabel().setText("Viewing This Week's Todo Tasks");
-                }
+        if (userInput.length() <= 4) {
+            throw new IllegalValueException(MESSAGE_NOT_LIST_COMMAND);
+        } else {
+            commandWord = userInput.substring(0, 3);
+            arguments = userInput.substring(5, userInput.length()-1);
+        }
+        
+        
+        if (!commandWord.equals("list")) {
+                main.setLabel(1);
+        } else if (commandWord.equals("list")) {
+            if (arguments.equals("today")) {
+                main.setLabel(1);
+            } else if (arguments.equals("tomorrow")) {
+                main.setLabel(2);
+            } else if (arguments.equals("all")) {
+                main.setLabel(3);
             }
-        }     
+        }  
     }
     
     
