@@ -131,6 +131,14 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
             throw new UniqueTaskList.TaskNotFoundException();
         }
     }
+    
+    public void doneTask(ReadOnlyTask key) throws UniqueTaskList.TaskNotFoundException {
+    	task.setDoneTask(key);
+    }
+    
+    public void undoneTask(ReadOnlyTask key) throws UniqueTaskList.TaskNotFoundException {
+    	task.setUndoneTask(key);
+    }
 
 //// tag-level operations
 

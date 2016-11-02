@@ -80,6 +80,20 @@ public class ModelManager extends ComponentManager implements Model {
         indicateSuperbTodoChanged();
     }
 
+    
+    @Override
+    public synchronized void doneTask(ReadOnlyTask target) throws TaskNotFoundException {
+        superbtodo.doneTask(target);
+        updateFilteredListToShowAll();
+        indicateSuperbTodoChanged();
+    }
+    
+    @Override
+    public synchronized void undoneTask(ReadOnlyTask target) throws TaskNotFoundException {
+        superbtodo.undoneTask(target);
+        updateFilteredListToShowAll();
+        indicateSuperbTodoChanged();
+    }
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         superbtodo.addTask(task);

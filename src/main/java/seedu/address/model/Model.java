@@ -24,7 +24,13 @@ public interface Model {
     
     /** Edit/Replace the given task. */
     void editTask(ReadOnlyTask target, Task task) throws UniqueTaskList.TaskNotFoundException;
-
+    
+    /** Mark done the given task. */
+    void doneTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
+    
+    /** Mark undone the given task. */
+    void undoneTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
+    
     /** Adds the given task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
 

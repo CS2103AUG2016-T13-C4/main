@@ -77,7 +77,13 @@ public class Parser {
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
-
+            
+        case DoneCommand.COMMAND_WORD:
+        	return prepareDone(arguments);  
+        	
+        case UndoneCommand.COMMAND_WORD:
+        	return prepareUndone(arguments);    
+        	
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
         // @@author A0113992B    
@@ -224,7 +230,6 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareDelete(String args) {
-
         Optional<Integer> index = parseIndex(args);
         if(!index.isPresent()){
             return new IncorrectCommand(
@@ -259,6 +264,51 @@ public class Parser {
             return new IncorrectCommand(ive.getMessage());
         }
 
+    }
+    //@@author A0133945B
+    
+    /**
+     * Parses arguments in the context of the done task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareDone(String args) {
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+        
+        try {
+			return new DoneCommand(index.get());
+		} catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());
+		}
+        
+        
+    }
+    
+    /**
+     * Parses arguments in the context of the undone task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareUndone(String args) {
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+        
+        try {
+			return new UndoneCommand(index.get());
+		} catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());
+		}
+        
+        
     }
 
     /**

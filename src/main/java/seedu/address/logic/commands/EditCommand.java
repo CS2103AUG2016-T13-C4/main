@@ -6,9 +6,11 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.storage.UndoManagerStorage;
 
@@ -29,7 +31,6 @@ public class EditCommand extends Command {
 
     public final int targetIndex;
     private final Task toEdit;
-    private UndoManagerStorage undoM = new UndoManagerStorage();
     
     /**
      * Convenience constructor using raw values.
@@ -58,13 +59,13 @@ public class EditCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask personToEdit = lastShownList.get(targetIndex - 1);
+        ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
 
         try {
-            model.editTask(personToEdit, toEdit);
-            undoM.recorder("edit", toEdit);
+            model.editTask(taskToEdit, toEdit);
+            LogicManager.theOne.recorder("edit", UniqueTaskList.getInternalList().indexOf(toEdit), toEdit);
             System.out.println("edit recorded");
-            undoM.addUpdate(undoM);
+            LogicManager.theOne.undoUpdate(LogicManager.theOne);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }

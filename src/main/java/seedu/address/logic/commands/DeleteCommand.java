@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.storage.UndoManagerStorage;
@@ -25,7 +26,7 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Removed Task: %1$s";
 
     public final int targetIndex;
-    private UndoManagerStorage undoM = new UndoManagerStorage();
+
     
     public DeleteCommand(int targetIndex) {
         this.targetIndex = targetIndex;       
@@ -46,9 +47,9 @@ public class DeleteCommand extends Command {
 
         try {
             model.deleteTask(taskToDelete);
-            undoM.recorder("remove", (Task)taskToDelete);
+            LogicManager.theOne.recorder("remove", (Task)taskToDelete);
             System.out.println("remove recorded");
-            undoM.deleteUpdate(undoM);
+            LogicManager.theOne.undoUpdate(LogicManager.theOne);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
