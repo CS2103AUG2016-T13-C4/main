@@ -34,7 +34,8 @@ public class Parser {
             		+ "\\s+(at|by|on|every|from)\\s+(?<dateTime>[^/]+)" 
             		+ "|(?<floating>[^/]+))"
             		+ "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
-
+    
+            
     private String commandWord;
     private String args;
     
@@ -338,23 +339,4 @@ public class Parser {
         }
     }
     
-    /**
-     * Getters
-     */
-    public void parseForList(String userInput) {
-        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
-        final String commandWord = matcher.group("commandWord");
-        final String arguments = matcher.group("arguments");
-        this.commandWord = commandWord;
-        this.args = arguments;
-    }
-    
-    public String getCommandWord() {
-        return this.commandWord;
-    }
-    
-    public String getArguments() {
-        return this.args.trim();
-    }
-
 }

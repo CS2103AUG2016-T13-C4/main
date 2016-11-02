@@ -50,6 +50,7 @@ public class ListCommand extends Command {
 
     private final int listType;
     private Date start, end;
+    public static String args;
     
     public ListCommand(String args) throws IllegalValueException {
     	Parser parser = new Parser();

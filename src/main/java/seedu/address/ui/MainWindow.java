@@ -36,6 +36,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.task.ReadOnlyTask;
 //@@author A0113992B-reused
@@ -89,7 +90,12 @@ public class MainWindow extends UiPart {
     
     // Handles to elements of task scope display
     @FXML
-    private Label taskScope; 
+    private Label taskScope = new Label(); 
+   
+    @FXML
+    Image img = new Image("/images/clock.png");
+    ImageView imgView = new ImageView(img);
+    
     // @@author A0113992B-reused   
     CommandBox commandInput;
     
@@ -176,6 +182,40 @@ public class MainWindow extends UiPart {
    }
     
     
+    /**
+     * This sets the list of default tasks displayed
+     */
+    public void taskScopeSetter() {
+        taskScope.setText("Viewing Today's Todo Tasks");
+        taskScope.setTextFill(Color.web("#f194b6"));
+        taskScope.setFont(Font.font("Arial Rounded MT Bold", 24.0));
+        FxViewUtil.applyAnchorBoundaryParameters(taskScope, 230.0, 230.0, 15.0, 0.0);
+        taskScopePlaceholder.getChildren().add(taskScope);
+    }
+    
+    /**
+     * This method sets the correct label content of task scope
+     */
+    public void setLabel(int index) {
+        if (index == 1) { // today
+            taskScope = new Label();
+            taskScope.setText("Viewing Today's Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        } else if (index == 2) { // tomorrow
+            taskScope = new Label();
+            taskScope.setText("Viewing Tomorrow's Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        } else if (index == 3) { // all 
+            taskScope = new Label();
+            taskScope.setText("Viewing All Todo Tasks");
+            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
+            taskScopePlaceholder.getChildren().add(taskScope);
+        }
+    }
+    
+    
     /** This method initialize settings for all the buttons
      * 
      */
@@ -198,12 +238,13 @@ public class MainWindow extends UiPart {
         timelineCall();
     }
     
+    
     /**
      * This method builds the structure of the current time and date display
      *
      * @return currentTimePane HBox frame for displayTime()
      */
-    private HBox buildClock() {
+    private HBox buildClock() {    
         HBox clock = new HBox();
         //sets clock position
         clock.setLayoutX(20.0);
@@ -217,7 +258,7 @@ public class MainWindow extends UiPart {
         dateToday.setTextFill(Color.web("#83c6de"));
         dateToday.setFont(Font.font("Arial Rounded MT Bold", 17.0));
         //builds the clock
-        clock.getChildren().addAll(dateToday,hourNow, colon1, minNow, colon2,
+        clock.getChildren().addAll(imgView, dateToday,hourNow, colon1, minNow, colon2,
               secNow );
         return clock;
     }
@@ -253,6 +294,7 @@ public class MainWindow extends UiPart {
         secNow.setText(sec);
         secNow.setTextFill(Color.web("#83c6de"));
         secNow.setFont(Font.font("Arial Rounded MT Bold", 17.0));
+        
 
         dateToday.setText("Today is " + c.get(Calendar.DATE) + " "
                 + months[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR));
@@ -276,20 +318,7 @@ public class MainWindow extends UiPart {
                 }));
         time.play();
     }
-    
-    /**
-     * This sets the list of default tasks displayed
-     */
-    public void taskScopeSetter() {
-        taskScope.setText("Viewing Today's Todo Tasks");
-    }
-    
-    /**
-     * This method exposes label to other classes
-     */    
-    public Label getLabel() {
-        return taskScope;
-    }
+
     // @@author 
     
 
@@ -305,6 +334,10 @@ public class MainWindow extends UiPart {
     // @@author A0113992B  
     private AnchorPane getCommandBoxPlaceholder() {
         return commandBoxPlaceholder;
+    }
+    
+    private AnchorPane getTaskScopePlaceholder() {
+        return taskScopePlaceholder;
     }
     // @@author 
 

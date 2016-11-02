@@ -1,15 +1,16 @@
 package seedu.address.ui;
 
 import com.google.common.eventbus.Subscribe;
+import com.joestelmach.natty.generated.DateParser.minutes_return;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.*;
 import seedu.address.commons.util.FxViewUtil;
@@ -28,6 +29,8 @@ import java.util.regex.Pattern;
 public class CommandBox extends UiPart {
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private static final String FXML = "CommandBox.fxml";
+    private static final String MESSAGE_NOT_LIST_COMMAND = "Listing today's tasks";
+    private static final String MESSAGE_NULL_INPUT = "No user input";
 
     private AnchorPane placeHolderPane;
     private AnchorPane commandPane;
@@ -78,40 +81,44 @@ public class CommandBox extends UiPart {
 
 
     @FXML
-    private void handleCommandInputChanged() {
+    private void handleCommandInputChanged() throws IllegalValueException {
         //Take a copy of the command text
         previousCommandTest = commandTextField.getText();        
-
         /* We assume the command is correct. If it is incorrect, the command box will be changed accordingly
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
-        taskLister(previousCommandTest);
+        //taskLister(previousCommandTest);
         mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
+
     }
     
-    public void taskLister(String userInput) {
+    private void taskLister(String userInput) throws IllegalValueException {
         MainWindow main = new MainWindow();
-        Parser parser = new Parser();
-        parser.parseForList(userInput);
-        String commandWord = parser.getCommandWord();
-        String arguments = parser.getArguments();
+        String commandWord;
+        String arguments;
         
-        if (userInput != null) { // check if there's input            
-            if (!commandWord.equals("list")) {
-                main.getLabel().setText("Viewing Today's Todo Tasks");
-            } else if (commandWord.equals("list")) {
-                if (arguments.equals("today")) {
-                    main.getLabel().setText("Viewing Today's Todo Tasks");
-                } else if (arguments.equals("tomorrow")) {
-                    main.getLabel().setText("Viewing Tomorrow's Todo Tasks");
-                } else if (arguments.equals("this week")) {
-                    main.getLabel().setText("Viewing This Week's Todo Tasks");
-                }
+        if (userInput.length() <= 4) {
+            throw new IllegalValueException(MESSAGE_NOT_LIST_COMMAND);
+        } else {
+            commandWord = userInput.substring(0, 3);
+            arguments = userInput.substring(5, userInput.length()-1);
+        }
+        
+        
+        if (!commandWord.equals("list")) {
+                main.setLabel(1);
+        } else if (commandWord.equals("list")) {
+            if (arguments.equals("today")) {
+                main.setLabel(1);
+            } else if (arguments.equals("tomorrow")) {
+                main.setLabel(2);
+            } else if (arguments.equals("all")) {
+                main.setLabel(3);
             }
-        }     
+        }  
     }
     
     
