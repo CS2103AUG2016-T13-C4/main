@@ -16,7 +16,10 @@ public class UndoManagerStorage {
     private int index;
     
     public UndoManagerStorage() {
-        this.task = null;
+        this.undoStack = new Stack<Task>();
+        this.redoStack = new Stack<Task>();
+        this.storedTasksUndone = new Vector<UndoManagerStorage>();
+        this.storedTasksDone = new Vector<UndoManagerStorage>();
     }
     
     public UndoManagerStorage(Task task) {
