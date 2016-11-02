@@ -15,39 +15,32 @@ public class UndoManagerStorage {
     private String commandWord;
     private int index;
     
-    public UndoManagerStorage() {
+    public UndoManagerStorage(Vector<UndoManagerStorage> storedTasksUndone, 
+           Vector<UndoManagerStorage> storedTasksDone ) {
         this.undoStack = new Stack<Task>();
         this.redoStack = new Stack<Task>();
-        this.storedTasksUndone = new Vector<UndoManagerStorage>();
-        this.storedTasksDone = new Vector<UndoManagerStorage>();
+        this.storedTasksUndone = storedTasksUndone;
+        this.storedTasksDone = storedTasksDone;
     }
     
-    public UndoManagerStorage(Task task) {
-        this.task = task;
-    }
     
     public void recorder(String commandWord, Task task) {
         this.task = task;
         this.commandWord = commandWord;
-        this.undoStack.push(task);
+        this.undoStack.add(task);
     }
     
     public void recorder(String commandWord, int index, Task task) {
         this.task = task;
         this.commandWord = commandWord;
         this.index = index;
-        this.undoStack.push(task);
+        this.undoStack.add(task);
     }
     
-    public void deleteUpdate(UndoManagerStorage undoM) {
-        storedTasksUndone.remove(undoM);
-        storedTasksDone.add(undoM);
-    }
-    
-    public void addUpdate(UndoManagerStorage undoM) {
+    public void undoUpdate(UndoManagerStorage undoM) {
         storedTasksUndone.add(undoM);
     }
-    
+
   
     /**
      * Getters

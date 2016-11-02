@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
@@ -35,7 +36,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
     private final Task toAdd;
-    private UndoManagerStorage undoM = new UndoManagerStorage();
+
     /**
      * Convenience constructor using raw values.
      *
@@ -145,9 +146,9 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
-            undoM.recorder("add", toAdd.hashCode(), toAdd);
+            LogicManager.theOne.recorder("add", UniqueTaskList.getInternalList().indexOf(toAdd), toAdd);
             System.out.println("add recorded");
-            undoM.addUpdate(undoM);
+            LogicManager.theOne.undoUpdate(LogicManager.theOne);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

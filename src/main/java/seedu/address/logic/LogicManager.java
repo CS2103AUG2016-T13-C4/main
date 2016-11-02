@@ -9,6 +9,9 @@ import seedu.address.logic.parser.Parser;
 import seedu.address.model.Model;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.storage.SuperbTodoIO;
+import seedu.address.storage.UndoManagerStorage;
+
+import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +22,11 @@ public class LogicManager extends ComponentManager implements Logic {
 
     private final Model model;
     private final Parser parser;
-
+    private static Vector<UndoManagerStorage> storedTasksUndone = new Vector<UndoManagerStorage>();
+    private static Vector<UndoManagerStorage> storedTasksDone = new Vector<UndoManagerStorage>();
+    // initialize the storage for undo command
+    public static UndoManagerStorage theOne = new UndoManagerStorage(storedTasksUndone,storedTasksDone);
+   
     public LogicManager(Model model, SuperbTodoIO storage) {
         this.model = model;
         this.parser = new Parser();
@@ -37,4 +44,5 @@ public class LogicManager extends ComponentManager implements Logic {
     public ObservableList<ReadOnlyTask> getFilteredPersonList() {
         return model.getFilteredTaskList();
     }
+    
 }

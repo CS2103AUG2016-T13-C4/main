@@ -55,7 +55,7 @@
             <Insets />
          </VBox.margin>
       </AnchorPane>
-       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" styleClass="result-display" VBox.vgrow="NEVER">
+       <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" styleClass="result-display" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets />
          </VBox.margin>
