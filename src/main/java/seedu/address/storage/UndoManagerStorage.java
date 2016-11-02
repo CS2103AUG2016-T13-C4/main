@@ -8,59 +8,66 @@ import seedu.address.logic.commands.Command;
 import seedu.address.model.task.Task;
 
 public class UndoManagerStorage {
-    private static Stack<UndoManagerStorage> undoStack;
-    private static Stack<UndoManagerStorage> redoStack;
-    private static Vector<UndoManagerStorage> storedTasksUndone;
-    private static Vector<UndoManagerStorage> storedTasksDone;
-    private Parser parser;
-
-    private Command command;
-    private String commandText, commandWord, deleteTaskInfo, editTaskInfo;
-    private int taskIndex;
+    private Stack<Task> undoStack;
+    private Stack<Task> redoStack;
+    private Vector<UndoManagerStorage> storedTasksUndone;
+    private Vector<UndoManagerStorage> storedTasksDone;
+    
+    private Task task;
+    private String commandWord;
+    private int index;
     
     public UndoManagerStorage() {
-        this.commandText = "";
-        this.deleteTaskInfo = "";
-        this.editTaskInfo = "";
-        this.commandWord = "";
+        this.task = null;
     }
     
-    public UndoManagerStorage(int taskIndex, String editTaskInfo, String deleteTaskInfo, Command command, String commandText) {
-        this.taskIndex = taskIndex;
-        this.editTaskInfo = editTaskInfo;
-        this.deleteTaskInfo = deleteTaskInfo;
-        this.command = command;
-        this.commandText = commandText;
-        
+    public UndoManagerStorage(Task task) {
+        this.task = task;
     }
     
-    
-    // Getters   
-    public int getTaskIndex() {
-        return taskIndex;
+    public void recorder(String commandWord, Task task) {
+        this.task = task;
+        this.commandWord = commandWord;
+        this.undoStack.push(task);
     }
     
-    public String getEditTaskInfo() {
-        return editTaskInfo;
+    public void recorder(String commandWord, int index, Task task) {
+        this.task = task;
+        this.commandWord = commandWord;
+        this.index = index;
+        this.undoStack.push(task);
     }
     
-    public String getTaskInfo() {
-        return deleteTaskInfo;
+    public void deleteUpdate(UndoManagerStorage undoM) {
+        storedTasksUndone.remove(undoM);
+        storedTasksDone.add(undoM);
     }
     
-    public Command getCommand() {
-        return command;
+    public void addUpdate(UndoManagerStorage undoM) {
+        storedTasksUndone.add(undoM);
     }
     
-    public String getCommandText() {
-        return commandText;
+  
+    /**
+     * Getters
+     */
+    public String getCommadnWord() {
+        return commandWord;
     }
     
-    public Stack<UndoManagerStorage> getUndoStack() {
+    public int getIndex() {
+        return index;
+    }
+    
+    public Task getTask() {
+        return task;
+    }
+    
+    public Stack<Task> getUndoStack() {
         return undoStack;
     }
     
-    public Stack<UndoManagerStorage> getRedoStack() {
+    public Stack<Task> getRedoStack() {
         return redoStack;
     }
     
@@ -72,26 +79,7 @@ public class UndoManagerStorage {
         return storedTasksDone;
     }
 
-
-    /**
-     * Provides the command word of the command
-     * which was parsed through parser
-     */
-    public String getCommandWord() {
-        return this.commandWord = this.parser.getInputCommandWord();
-    }
-
-    /**
-     * Add user's input Command into a stack for undo/redo purposes.
-     * 
-     * @param command
-     * @param commandText
-     */
-    public void recorder(int taskIndex, String editTaskInfo, String taskInfo, Command command, String commandText) {
-        UndoManagerStorage undoManager = new UndoManagerStorage(taskIndex, editTaskInfo, 
-                                                                taskInfo, command, commandText);
-        undoStack.add(undoManager);
-    }
     
+                
     
 }

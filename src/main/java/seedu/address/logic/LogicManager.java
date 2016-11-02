@@ -23,8 +23,7 @@ public class LogicManager extends ComponentManager implements Logic {
     private final Model model;
     private final Parser parser;
     private final UndoManagerStorage undoManager;
-    private int taskIndex;
-    private String deleteTaskInfo = "", editTaskInfo = "";
+
 
     public LogicManager(Model model, SuperbTodoIO storage) {
         this.model = model;
@@ -38,23 +37,10 @@ public class LogicManager extends ComponentManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         Command command = parser.parseCommand(commandText);
         command.setData(model);
-        
-        // This calls the method to store every user input 
-        taskIndex = parser.getTaskIndex();
-        deleteTaskInfo = parser.getTaskToDeleteInfo();
-        editTaskInfo = parser.getEditTaskInfo();
-        undoManager.recorder(taskIndex, editTaskInfo, deleteTaskInfo, command, commandText);
-        
+              
         return command.execute();
     }
     
-    /**
-     * Returns to be deleted task info for undo and redo purposes
-     * @return
-     */
-    public String getTaskInfo() {
-        return deleteTaskInfo;
-    }
 
     @Override
     public ObservableList<ReadOnlyTask> getFilteredPersonList() {

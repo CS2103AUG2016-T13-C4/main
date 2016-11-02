@@ -7,6 +7,7 @@ import seedu.address.model.task.DateTime;
 import seedu.address.model.task.DueDateTime;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
+import seedu.address.storage.UndoManagerStorage;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.TaskName;
@@ -28,21 +29,31 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Removed Task: %1$s";
 
     public final int targetIndex;
-    private String taskInfo;
     ReadOnlyTask taskToDelete;
+    UndoManagerStorage undoM = new UndoManagerStorage();
+
     
     public DeleteCommand(int targetIndex) {
         this.targetIndex = targetIndex;  
-        checkValidity();
-        prepareTaskToDeleteInfo(taskToDelete);
     }
 
 
     @Override
     public CommandResult execute() {
-        
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+
+        if (lastShownList.size() < targetIndex) {
+            indicateAttemptToExecuteIncorrectCommand();
+            return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        } else {
+            taskToDelete = lastShownList.get(targetIndex - 1);
+        }
+
        try {
             model.deleteTask(taskToDelete);
+            undoM.recorder("remove", (Task)taskToDelete);
+            System.out.println("remove recorded");
+            undoM.deleteUpdate(undoM);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
@@ -51,25 +62,5 @@ public class DeleteCommand extends Command {
 
     }
     
-    void prepareTaskToDeleteInfo(ReadOnlyTask taskToDelete) {
-        taskInfo = taskToDelete.getTaskInfo();
-    }
     
-    public CommandResult checkValidity() {
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
-        if (lastShownList.size() < targetIndex) {
-            indicateAttemptToExecuteIncorrectCommand();
-            return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-        } else {
-            taskToDelete = lastShownList.get(targetIndex - 1);
-            return new CommandResult(Messages.MESSAGE_VALID_TASK_DISPLAYED_INDEX);
-        }
-        
-    }
-    
-    public String getTaskInfo() {
-        return taskInfo;
-    }
-
 }

@@ -8,7 +8,7 @@ import seedu.address.model.tag.UniqueTagList;
  * Implementations should guarantee: details are present and not null, field values are validated.
  */
 public interface ReadOnlyTask {
-
+    
     TaskName getName();
     DateTime getDateTime();
     DueDateTime getDueTime();

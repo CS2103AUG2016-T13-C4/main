@@ -18,9 +18,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
  * Parses user input.
  */
 public class Parser {
-    //@@author A0113992B
-    private String commandWord, taskInfo = "", editTaskInfo = "";
-    private int taskIndex;
     
     //@@author A0135763B-reused
     /**
@@ -55,9 +52,7 @@ public class Parser {
         
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        // @@author A0113992B
-        this.commandWord = commandWord;
-        
+
         //@@author A0135763B-reused
         switch (commandWord) {
 
@@ -97,12 +92,7 @@ public class Parser {
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-    
-    // @@author A0113992B
-    public String getInputCommandWord() {
-        return commandWord;
-    }
-    
+
     //@@author A0135763B-reused
     /**
      * Parses arguments in the context of the add task command.
@@ -119,7 +109,6 @@ public class Parser {
         }
         
         try {
-            taskIndex = (Integer) null;
         	return checkDoubleDateTimeParamAndAdd(matcher);
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
@@ -185,7 +174,6 @@ public class Parser {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
-        editTaskInfo = args;
         
         final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim().substring(1).trim());
         // Validate arg string format
@@ -194,7 +182,6 @@ public class Parser {
         }
         
         try {
-            taskIndex = index.get();
             return checkDoubleDateTimeParamAndEdit(matcher, index.get());
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
@@ -202,14 +189,6 @@ public class Parser {
         
     }
     
-    /**
-     * returns edit task information for undo and redo purposes
-     * @return
-     */
-    public String getEditTaskInfo() {
-        return editTaskInfo;
-    }
-	
 	/**
      * Helper function for an edit command.
      * This function serves the purpose of checking the string twice if the date and time object are separated
@@ -285,30 +264,10 @@ public class Parser {
             return new IncorrectCommand(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
-        taskIndex = index.get();
         
-        return prepareTaskToDeleteInfo(index.get());
+        return new DeleteCommand(index.get());
     }
     
-    /** 
-     * prepares to-be deleted task information for undo and redo purposes
-     * 
-     * @param index
-     * @return
-     */
-    private Command prepareTaskToDeleteInfo(int index) {
-        DeleteCommand taskToDelete = new DeleteCommand(index);
-        taskInfo = taskToDelete.getTaskInfo();
-        return taskToDelete;
-    }
-    
-    /**
-     * returns to-be deleted task information for undo and redo purposes
-     * @return
-     */
-    public String getTaskToDeleteInfo() {
-        return taskInfo;
-    }
     
    
     /**
@@ -365,11 +324,4 @@ public class Parser {
         return new FindCommand(keywordSet);
     }
     
-    /**
-     * Returns taskIndex of correct command entered
-     */
-    public int getTaskIndex() {
-        return taskIndex;
-    }
-
 }
