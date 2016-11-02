@@ -15,8 +15,9 @@ public class Task implements ReadOnlyTask {
     private TaskName name;
     private DateTime dueDate;
     private DueDateTime dueTime;
-
     private UniqueTagList tags;
+    private boolean isDone;
+    
 
     /**
      * Every field must be present and not null.
@@ -27,6 +28,7 @@ public class Task implements ReadOnlyTask {
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+        this.isDone = false;
     }
 
     /**
@@ -55,6 +57,20 @@ public class Task implements ReadOnlyTask {
     public UniqueTagList getTags() {
         return new UniqueTagList(tags);
     }
+    //add Done 
+    @Override
+    public boolean isDoneTask() {
+        return isDone;
+    }
+    
+    public void setDoneTask() {
+    	this.isDone = true;
+    }
+    
+    public void setUndoneTask() {
+    	this.isDone = false;
+    }
+    
 
     /**
      * Replaces this task's tags with the tags in the argument tag list.
