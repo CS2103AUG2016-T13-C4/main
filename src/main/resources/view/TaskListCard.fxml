@@ -7,12 +7,12 @@
 
 <AnchorPane fx:id="cardPane" maxHeight="100.0" minHeight="50.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="id" layoutX="20.0" layoutY="42.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="id" layoutX="20.0" layoutY="42.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="task" layoutX="20.0" layoutY="42.0" maxHeight="80.0" maxWidth="600.0" minHeight="-Infinity" minWidth="220.0" prefWidth="300.0" text="\$task" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="startdate" alignment="CENTER" layoutX="238.0" layoutY="83.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$startdate" textAlignment="JUSTIFY" AnchorPane.rightAnchor="254.0" AnchorPane.topAnchor="6.0" />
       <Label fx:id="starttime" alignment="CENTER" layoutX="238.0" layoutY="100.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$starttime" textAlignment="JUSTIFY" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="260.0" />
       <Label fx:id="enddate" alignment="CENTER" layoutX="341.0" layoutY="83.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$enddate" textAlignment="JUSTIFY" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="6.0" />
       <Label fx:id="endtime" alignment="CENTER" layoutX="341.0" layoutY="100.0" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="\$endtime" textAlignment="JUSTIFY" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="130.0" />
-      <Label fx:id="hashtag" alignment="CENTER" layoutX="420.0" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="hashtag" alignment="CENTER" contentDisplay="CENTER" layoutX="420.0" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="\$hashtag" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="5.0" />
    </children>
 </AnchorPane>

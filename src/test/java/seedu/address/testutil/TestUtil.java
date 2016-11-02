@@ -1,7 +1,7 @@
 package seedu.address.testutil;
 
 import com.google.common.io.Files;
-import guitests.guihandles.PersonCardHandle;
+import guitests.guihandles.TaskCardHandle;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -17,14 +17,10 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.XmlUtil;
 import seedu.address.model.SuperbTodo;
-<<<<<<< HEAD
-=======
-import seedu.address.model.person.*;
->>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
-import seedu.address.storage.XmlSerializableAddressBook;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -64,13 +60,13 @@ public class TestUtil {
      */
     public static String SANDBOX_FOLDER = FileUtil.getPath("./src/test/data/sandbox/");
 
-    public static final Task[] samplePersonData = getSamplePersonData();
+    public static final Task[] sampleTaskData = getSampleTaskData();
 
-    private static Task[] getSamplePersonData() {
+    private static Task[] getSampleTaskData() {
         try {
             return new Task[]{
-                    new Task(new TaskName("walk"), new DateTime("18 Oct 2016"), new DueDateTime(), new Address(), new UniqueTagList()),
-                    new Task(new TaskName("dinner"), new DateTime("18 Oct 2016 8pm"), new DueDateTime(), new Address(), new UniqueTagList())
+                    new Task(new TaskName("walk"), new DateTime("18 Oct 2016"), new DueDateTime(), new UniqueTagList()),
+                    new Task(new TaskName("dinner"), new DateTime("18 Oct 2016 8pm"), new DueDateTime(), new UniqueTagList())
             };
         } catch (IllegalValueException e) {
             assert false;
@@ -84,8 +80,8 @@ public class TestUtil {
     private static Tag[] getSampleTagData() {
         try {
             return new Tag[]{
-                    new Tag("relatives"),
-                    new Tag("friends")
+                    new Tag("impt"),
+                    new Tag("urgent")
             };
         } catch (IllegalValueException e) {
             assert false;
@@ -94,8 +90,8 @@ public class TestUtil {
         }
     }
 
-    public static List<Task> generateSamplePersonData() {
-        return Arrays.asList(samplePersonData);
+    public static List<Task> generateSampleTaskData() {
+        return Arrays.asList(sampleTaskData);
     }
 
     /**
@@ -113,9 +109,9 @@ public class TestUtil {
         return SANDBOX_FOLDER + fileName;
     }
 
-    public static void createDataFileWithSampleData(String filePath) {
-        createDataFileWithData(generateSampleStorageAddressBook(), filePath);
-    }
+//    public static void createDataFileWithSampleData(String filePath) {
+//        createDataFileWithData(generateSampleStorageAddressBook(), filePath);
+//    }
 
     public static <T> void createDataFileWithData(T data, String filePath) {
         try {
@@ -127,17 +123,19 @@ public class TestUtil {
         }
     }
 
-    public static void main(String... s) {
-        createDataFileWithSampleData(TestApp.SAVE_LOCATION_FOR_TESTING);
-    }
+//    public static void main(String... s) {
+//        createDataFileWithSampleData(TestApp.SAVE_LOCATION_FOR_TESTING);
+//    }
 
-    public static SuperbTodo generateEmptyAddressBook() {
+    public static SuperbTodo generateEmptySuperbTodo() {
         return new SuperbTodo(new UniqueTaskList(), new UniqueTagList());
     }
 
-    public static XmlSerializableAddressBook generateSampleStorageAddressBook() {
-        return new XmlSerializableAddressBook(generateEmptyAddressBook());
-    }
+    
+    //@xiaodong 
+//    public static XmlSerializableSuperbTodo generateSampleStorageAddressBook() {
+//        return new XmlSerializableAddressBook(generateEmptyAddressBook());
+//    }
 
     /**
      * Tweaks the {@code keyCodeCombination} to resolve the {@code KeyCode.SHORTCUT} to their
@@ -323,8 +321,8 @@ public class TestUtil {
         return list;
     }
 
-    public static boolean compareCardAndPerson(PersonCardHandle card, ReadOnlyTask person) {
-        return card.isSamePerson(person);
+    public static boolean compareCardAndTask(TaskCardHandle card, ReadOnlyTask task) {
+        return card.isSameTask(task);
     }
 
     public static Tag[] getTagList(String tags) {

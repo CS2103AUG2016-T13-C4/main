@@ -4,6 +4,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
+import seedu.address.storage.UndoManagerStorage;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
@@ -24,7 +25,8 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Removed Task: %1$s";
 
     public final int targetIndex;
-
+    private UndoManagerStorage undoM = new UndoManagerStorage();
+    
     public DeleteCommand(int targetIndex) {
         this.targetIndex = targetIndex;       
     }
@@ -40,25 +42,19 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask personToDelete = lastShownList.get(targetIndex - 1);
+        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex - 1);
 
         try {
-            model.deleteTask(personToDelete);
+            model.deleteTask(taskToDelete);
+            undoM.recorder("remove", (Task)taskToDelete);
+            System.out.println("remove recorded");
+            undoM.deleteUpdate(undoM);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
 
-        // @@author A0113992B
-        /* doesnt work yet
-        Task forRemoval = new Task(personToDelete.getName(), personToDelete.getDateTime(),
-                                   personToDelete.getDueTime(), personToDelete.getTags());
-        
-        commandRecorder.removeRecorder("remove", forRemoval, targetIndex, forRemoval.getName(), forRemoval.getDateTime(),
-                forRemoval.getDueTime(), forRemoval.getTags());
-        undoCommand.add(commandRecorder);
-        */
         //@@author A0135763B-reused
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, personToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
 
     }
 

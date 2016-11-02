@@ -15,20 +15,21 @@
          <children>
             <AnchorPane styleClass="anchorpane-menu" HBox.hgrow="NEVER">
                <children>
-                  <Button fx:id="help" mnemonicParsing="false" onAction="#handleHelp" styleClass="button-menu" text="Help F1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="help" mnemonicParsing="false" onAction="#handleHelp" styleClass="button-menu" text="Help F1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="helpImg" contentDisplay="CENTER" layoutX="-20.0" layoutY="1.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#handleHelp" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <AnchorPane maxHeight="30.0" minHeight="30.0" prefHeight="30.0" styleClass="anchorpane-menu" HBox.hgrow="ALWAYS">
                <children>
-                <Button fx:id="buttonMin" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionMinButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0" />
-                  <Button fx:id="buttonMax" alignment="CENTER" contentDisplay="CENTER" layoutX="625.0" layoutY="-1.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionMaxButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0" />
-                  <Button fx:id="buttonClose" alignment="CENTER" contentDisplay="CENTER" layoutX="656.0" layoutY="1.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionCloseButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <Button fx:id="buttonMin" alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionMinButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="buttonMax" alignment="CENTER" contentDisplay="CENTER" layoutX="625.0" layoutY="-1.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionMaxButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0" />
+                  <Button fx:id="buttonClose" alignment="CENTER" contentDisplay="CENTER" layoutX="656.0" layoutY="1.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#setActionCloseButton" prefHeight="30.0" prefWidth="30.0" styleClass="button-menu" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>
       </HBox>
       <AnchorPane fx:id="currentTimePanelPlaceholder" minHeight="15.0" prefHeight="15.0" VBox.vgrow="NEVER" />
-      <AnchorPane fx:id="taskScopePlaceholder" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" VBox.vgrow="NEVER" />
+      <AnchorPane fx:id="taskScopePlaceholder" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" VBox.vgrow="NEVER" />
       <AnchorPane maxHeight="20.0" minHeight="20.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets left="20.0" right="20.0" />

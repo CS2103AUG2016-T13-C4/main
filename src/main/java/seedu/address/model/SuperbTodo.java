@@ -50,7 +50,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
 
 //// list overwrite operations
 
-    public ObservableList<Task> getPersons() {
+    public ObservableList<Task> getTasks() {
         return task.getInternalList();
     }
 
@@ -70,7 +70,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
     }
 
     public void resetData(ReadOnlySuperbTodo newData) {
-        resetData(newData.getPersonList(), newData.getTagList());
+        resetData(newData.getTaskList(), newData.getTagList());
     }
 
     // hard reset by default
@@ -147,7 +147,7 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
     }
 
     @Override
-    public List<ReadOnlyTask> getPersonList() {
+    public List<ReadOnlyTask> getTaskList() {
     	return Collections.unmodifiableList(task.getInternalList());
     }
     

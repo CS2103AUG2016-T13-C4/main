@@ -10,6 +10,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
+import seedu.address.storage.UndoManagerStorage;
 
 //@@author A0135763B
 /**
@@ -28,6 +29,7 @@ public class EditCommand extends Command {
 
     public final int targetIndex;
     private final Task toEdit;
+    private UndoManagerStorage undoM = new UndoManagerStorage();
     
     /**
      * Convenience constructor using raw values.
@@ -60,15 +62,13 @@ public class EditCommand extends Command {
 
         try {
             model.editTask(personToEdit, toEdit);
+            undoM.recorder("edit", toEdit);
+            System.out.println("edit recorded");
+            undoM.addUpdate(undoM);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
-        // @@author A0113992B
-        /* doesnt work yet
-        commandRecorder.editRecorder("edit", personToEdit, toEdit, targetIndex, toEdit.getName(), toEdit.getDateTime(), toEdit.getDueTime(), 
-                toEdit.getTags());
-        undoCommand.add(commandRecorder);
-        */
+
         // @@author A0135763B
         String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, toEdit);        
         return new CommandResult(formatOutput);
