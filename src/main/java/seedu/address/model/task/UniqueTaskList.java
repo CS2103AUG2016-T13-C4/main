@@ -96,6 +96,46 @@ public class UniqueTaskList implements Iterable<Task> {
         internalList.set(internalList.indexOf(target), toReplace);
         return true;
     }
+ 
+    
+    /**
+     * Set done a task from the list.
+     *
+     * @throws TaskNotFoundException if no such person could be found in the list.
+     */
+    public boolean setDoneTask(ReadOnlyTask target) throws TaskNotFoundException {
+        assert target != null;
+        
+        final boolean taskFoundAndReplaced = internalList.contains(target);
+        if (!taskFoundAndReplaced) {
+            throw new TaskNotFoundException();
+        }
+        int index = internalList.indexOf(target);
+        Task extracted_task = internalList.get(index);
+        extracted_task.setDoneTask();        
+        return true;
+    }
+   
+    /**
+     * Set done a task from the list.
+     *
+     * @throws TaskNotFoundException if no such person could be found in the list.
+     */
+    public boolean setUndoneTask(ReadOnlyTask target) throws TaskNotFoundException {
+        assert target != null;
+        
+        final boolean taskFoundAndReplaced = internalList.contains(target);
+        if (!taskFoundAndReplaced) {
+            throw new TaskNotFoundException();
+        }
+        int index = internalList.indexOf(target);
+        Task extracted_task = internalList.get(index);
+        extracted_task.setUndoneTask();        
+        return true;
+    }
+    
+    
+    
 
     public static ObservableList<Task> getInternalList() {
         return internalList;
