@@ -28,6 +28,7 @@ public class ListCommand extends Command {
     public static final String LIST_TYPE_EVENT = "EVENT";
     public static final String LIST_TYPE_TODAY = "TODAY";
     public static final String LIST_TYPE_TOMORROW = "TOMORROW";
+    public static final String LIST_TYPE_OVERDUE = "OVERDUE";
     
     public static final String NATTY_PERIOD_TODAY = "0000hrs to 2359hrs";
     public static final String NATTY_PERIOD_TOMORROW = "tomorrow 0000hrs to 2359hrs";
@@ -39,6 +40,7 @@ public class ListCommand extends Command {
     public static final int MAP_LIST_TYPE_TODAY = 4;
     public static final int MAP_LIST_TYPE_TOMORROW = 5;
     public static final int MAP_LIST_TYPE_DATE = 6;
+    public static final int MAP_LIST_TYPE_OVERDUE = 7;
     
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": List all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
@@ -83,6 +85,18 @@ public class ListCommand extends Command {
         	} else {
         		throw new IllegalValueException(MESSAGE_UNEXPECTED);
         	}
+    	} else if (args.equals(LIST_TYPE_OVERDUE)) {
+    		this.listType = MAP_LIST_TYPE_OVERDUE;
+    		/* not done yet. need to wait for done & undone
+    		
+    		dateParser = parser.parse(NATTY_PERIOD_TOMORROW);
+        	if (NATTY_PERIOD_TOMORROW.equals(dateParser.get(0).getText())) {
+        		this.start = dateParser.get(0).getDates().get(0);
+        		this.end = dateParser.get(0).getDates().get(1);
+        	} else {
+        		throw new IllegalValueException(MESSAGE_UNEXPECTED);
+        	}
+        	*/
     	} else {
     		this.listType = MAP_LIST_TYPE_DATE;
     		dateParser = parser.parse(args);
@@ -110,6 +124,8 @@ public class ListCommand extends Command {
     		model.updateFilteredListToShowByTime(this.start, this.end, 0);
     	} else if (listType == MAP_LIST_TYPE_DATE) {
     		model.updateFilteredListToShowByTime(this.start, this.end, 1);
+    	} else if (listType == MAP_LIST_TYPE_OVERDUE) {
+    		model.updateFilteredListToShowByType(LIST_TYPE_EVENT);
     	} else {
     		return new CommandResult(MESSAGE_FAIL);
     	}
