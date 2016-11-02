@@ -156,6 +156,13 @@ public class Parser {
 		    			getDateTime,
 		                getTagsFromArgs(matcher.group("tagArguments"))
 		        );
+			} else if (getDateTime != null && getName != null && !getName.trim().equals("") && !getDateTime.trim().equals("")){
+				// treat as floating task
+				return new AddCommand(
+						matcher.group(),
+						"",
+			            getTagsFromArgs(matcher.group("tagArguments"))
+			    );
 			} else {
 				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 			}
@@ -203,6 +210,13 @@ public class Parser {
 		    			getDateTime,
 		                getTagsFromArgs(matcher.group("tagArguments"))
 		        );
+			} else if (getDateTime != null && getName != null && !getName.trim().equals("") && !getDateTime.trim().equals("")){
+				// treat as floating task
+				return new AddCommand(
+						matcher.group(),
+						"",
+			            getTagsFromArgs(matcher.group("tagArguments"))
+			    );
 			} else {
 				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 			}
