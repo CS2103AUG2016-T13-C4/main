@@ -112,7 +112,7 @@ public class Parser {
     }
     
     /**
-     * Helper function for an add command.
+     * Helper function for an add command (Pre-validation).
      * This function serves the purpose of checking the string twice if the date and time object are separated
      * E.g: by 3pm on Sunday
      *

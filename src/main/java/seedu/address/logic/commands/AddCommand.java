@@ -36,6 +36,7 @@ public class AddCommand extends Command {
 
     private final Task toAdd;
     private UndoManagerStorage undoM = new UndoManagerStorage();
+    
     /**
      * Convenience constructor using raw values.
      *
@@ -68,7 +69,13 @@ public class AddCommand extends Command {
 			return checkDateCount(name, dateTimeParam, tagSet);
         }
 	}
-
+    
+    /**
+     * Function to create a task object. depending on the number of date periods found
+     * Used to determine if a task is timed or an event.
+     *
+     * Return: Task object 
+     */
 	private static Task checkDateCount(String name, String dateTimeParam, final Set<Tag> tagSet)
 			throws IllegalValueException {
 		List<Date> dateList = retrieveDate(dateTimeParam);
@@ -76,33 +83,53 @@ public class AddCommand extends Command {
 		if (dateList.size() > 2 || dateList.size() == 0) {
 			throw new IllegalValueException(MESSAGE_ERROR_DATE);
 		} else if (dateList.size() == 1) {
-			// Normal task
 			return createNormalTask(name, dateTimeParam, tagSet);
 		} else {
-			// Event
-			return validateChronoOrder(name, dateTimeParam, tagSet, dateList);
+			return createEvent(name, dateTimeParam, tagSet, dateList);
 		}
 	}
+	
+	/**
+     * Validation function to check if user have given 2 valid periods in terms of chronological validity
+     * Takes in list of 2 dates.
+     *
+     * Return: boolean representing if valid or not
 
-	private static Task validateChronoOrder(String name, String dateTimeParam, final Set<Tag> tagSet,
-			List<Date> dateList) throws IllegalValueException {
-		if (dateList.get(0).compareTo(dateList.get(1)) < 0) {
-			return createEvent(name, dateTimeParam, tagSet);
+     */
+	private static boolean validateChronoOrder(List<Date> dateList) {
+		if (dateList.size() != 0 && dateList.size() <= 2) {
+			return (dateList.get(0).compareTo(dateList.get(1)) < 0);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+     * Create a task representing an event.
+     * Takes in raw values and return a task object.
+     * 
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+	private static Task createEvent(String name, String dateTimeParam, final Set<Tag> tagSet, List<Date> dateList)
+			throws IllegalValueException {
+		if (validateChronoOrder(dateList)) {
+			return new Task(
+			        new TaskName(name),
+			        new DateTime(dateTimeParam),
+			        new DueDateTime(dateTimeParam),
+			        new UniqueTagList(tagSet)
+			);
 		} else {
 			throw new IllegalValueException(MESSAGE_ERROR_CHRONO);
 		}
 	}
-
-	private static Task createEvent(String name, String dateTimeParam, final Set<Tag> tagSet)
-			throws IllegalValueException {
-		return new Task(
-		        new TaskName(name),
-		        new DateTime(dateTimeParam),
-		        new DueDateTime(dateTimeParam),
-		        new UniqueTagList(tagSet)
-		);
-	}
-
+	
+	/**
+     * Create a task representing a standard task with just a end date time.
+     * Takes in raw values and return a task object.
+     * 
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
 	private static Task createNormalTask(String name, String dateTimeParam, final Set<Tag> tagSet)
 			throws IllegalValueException {
 		return new Task(
@@ -112,7 +139,13 @@ public class AddCommand extends Command {
 		        new UniqueTagList(tagSet)
 		);
 	}
-
+	
+	/**
+     * Create a task representing a floating task with on date time.
+     * Takes in raw values and return a task object.
+     * 
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
 	private static Task createFloatingTask(String name, final Set<Tag> tagSet) throws IllegalValueException {
 		return new Task(
 				 new TaskName(name),

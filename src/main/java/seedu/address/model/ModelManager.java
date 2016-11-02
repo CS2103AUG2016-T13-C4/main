@@ -99,6 +99,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredTasks.setPredicate(null);
     }
     
+    //@@author A0135763B-reused
     @Override
     public void updateFilteredListToShowByType(String arg) {
     	updateFilteredTaskList(new PredicateExpression(new TypeQualifier(arg)));
@@ -170,7 +171,6 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
-    //@@author A0135763B-reused
     private class TypeQualifier implements Qualifier {
         private String type;
 
@@ -216,14 +216,12 @@ public class ModelManager extends ComponentManager implements Model {
         public boolean run(ReadOnlyTask task) {
         	Date compareDate = task.getDueTime().value;
         	if (compareDate != null) {
-	            if (searchType == 0) {
-	            	if (startDate.before(compareDate) && endDate.after(compareDate)) {
-	            		return true;
-	            	}
-	            } else if (searchType == 1) {
-	            	if (startDate.after(compareDate)) {
-	            		return true;
-	            	}
+	            if (searchType == ListCommand.MAP_LIST_TYPE_TODAY || searchType == ListCommand.MAP_LIST_TYPE_TOMORROW) {
+	            	return startDate.before(compareDate) && endDate.after(compareDate);
+	            } else if (searchType == ListCommand.MAP_LIST_TYPE_DATE) {
+	            	return startDate.after(compareDate);
+	            } else if (searchType == ListCommand.MAP_LIST_TYPE_OVERDUE) {
+	            	return endDate.after(compareDate); // to add done/undone condition
 	            }
         	}
             return false;

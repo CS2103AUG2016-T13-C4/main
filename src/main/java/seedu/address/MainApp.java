@@ -35,6 +35,8 @@ public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     public static final Version VERSION = new Version(1, 0, 0, true);
+    
+    public static final String DEFAULT_COMMAND_TEXT = "list today";
 
     protected Ui ui;
     protected Logic logic;
@@ -61,12 +63,26 @@ public class MainApp extends Application {
         model = initModelManager(storage, userPrefs);
 
         logic = new LogicManager(model, storage);
-
+        
         ui = new UiManager(logic, config, userPrefs);
 
         initEventsCenter();
+        
+        //defaultTaskListing();
     }
-
+    
+    //@@author A0135763B
+    /**
+     * The default task list view shown to the user.
+     * 
+     * Control the task that the user sees upon initialization
+     * 
+     */
+	private void defaultTaskListing() {
+		logic.execute(DEFAULT_COMMAND_TEXT);
+	}
+	
+	//@@author A0133945B
     private String getApplicationParameter(String parameterName){
         Map<String, String> applicationParameters = getParameters().getNamed();
         return applicationParameters.get(parameterName);
