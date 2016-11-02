@@ -68,7 +68,7 @@ public class MainApp extends Application {
 
         initEventsCenter();
         
-        //defaultTaskListing();
+        defaultTaskListing();
     }
     
     //@@author A0135763B

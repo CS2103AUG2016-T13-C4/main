@@ -36,7 +36,6 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
     private final Task toAdd;
-    private UndoManagerStorage undoM = new UndoManagerStorage();
     
     /**
      * Convenience constructor using raw values.

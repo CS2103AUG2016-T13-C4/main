@@ -76,7 +76,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void editTask(ReadOnlyTask target, Task task) throws TaskNotFoundException {
         superbtodo.editTask(target, task);
-        updateFilteredListToShowAll();
+        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
 
@@ -84,20 +84,20 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void doneTask(ReadOnlyTask target) throws TaskNotFoundException {
         superbtodo.doneTask(target);
-        updateFilteredListToShowAll();
+        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
     
     @Override
     public synchronized void undoneTask(ReadOnlyTask target) throws TaskNotFoundException {
         superbtodo.undoneTask(target);
-        updateFilteredListToShowAll();
+        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         superbtodo.addTask(task);
-        updateFilteredListToShowAll();
+        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
 
@@ -235,7 +235,7 @@ public class ModelManager extends ComponentManager implements Model {
 	            } else if (searchType == ListCommand.MAP_LIST_TYPE_DATE) {
 	            	return startDate.after(compareDate);
 	            } else if (searchType == ListCommand.MAP_LIST_TYPE_OVERDUE) {
-	            	return endDate.after(compareDate); // to add done/undone condition
+	            	return endDate.after(compareDate) && !task.isDoneTask();
 	            }
         	}
             return false;
