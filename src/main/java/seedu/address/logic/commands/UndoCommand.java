@@ -46,8 +46,8 @@ public class UndoCommand extends Command {
 
     
 
-    private LogicManager logicM;
-    private UndoManagerStorage undoM;
+    private static LogicManager logicM;
+    private static UndoManagerStorage undoM;
     private String commandWord;
     
     private Stack<Task> undoStack;
@@ -56,9 +56,9 @@ public class UndoCommand extends Command {
     private Vector<UndoManagerStorage> storedTasksDone;
     
     public UndoCommand () {
-        this.undoM = new UndoManagerStorage();
+    	this.undoM  = new UndoManagerStorage();
         this.logicM = new LogicManager(model, null);
-        
+
         this.undoStack = undoM.getUndoStack();
         this.redoStack = undoM.getRedoStack();
         this.storedTasksUndone = undoM.getStoredTasksUndone();
