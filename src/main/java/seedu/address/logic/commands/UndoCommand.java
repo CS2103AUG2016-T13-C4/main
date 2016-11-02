@@ -36,9 +36,11 @@ public class UndoCommand extends Command {
 
 
     // list of feedbacks
-    private static final String FEEDBACK_SUCCESSFUL_UNDO = "Undoing action";
+    private static final String FEEDBACK_SUCCESSFUL_EDIT_UNDO = "undo edit command";
+    private static final String FEEDBACK_SUCCESSFUL_REMOVE_UNDO = "undo remove command";
+    private static final String FEEDBACK_SUCCESSFUL_ADD_UNDO = "undo add command";
     private static final String FEEDBACK_SUCCESSFUL_REDO = "Redoing action";
-    private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "You have reached the last undo";
+    private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "undo failed";
 
     
 
@@ -105,7 +107,7 @@ public class UndoCommand extends Command {
         logicM.execute("remove " + index);
         logicM.execute("add "+ output);
       
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+        return new CommandResult(FEEDBACK_SUCCESSFUL_EDIT_UNDO);
     }
 
     /**
@@ -119,7 +121,7 @@ public class UndoCommand extends Command {
         String index = String.format("%1$d", undoM.getIndex());
         logicM.execute("remove " + index);
        
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+        return new CommandResult(FEEDBACK_SUCCESSFUL_ADD_UNDO);
     }
     
     
@@ -136,7 +138,7 @@ public class UndoCommand extends Command {
                         + prevCommand.getTags().toString() + " ";
         storedTasksUndone.add(undoM);
         logicM.execute("add " + output);
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
+        return new CommandResult(FEEDBACK_SUCCESSFUL_REMOVE_UNDO);
     }
 
         
