@@ -118,7 +118,6 @@ Examples:
 Lists all tasks<br>
 Format: 
 * `list all`
-* `list`
 
 > Lists all undone tasks. 
 
@@ -136,16 +135,6 @@ Format:
 
 > Lists all timed tasks. 
 
-
-Lists tasks with hashtags<br>
-Format: 
-* `list #<keyword>` 
-
-> Lists all tasks with specified hashtags. 
-
-Examples: 
-* `list #impt`
-
 Lists overdue tasks<br>
 Format: 
 * `list overdue`
@@ -153,21 +142,9 @@ Format:
 > Lists tasks not finished by the specified completion date/time. 
 
 
-Lists tasks for a certain week<br>
-Format: 
-* `list week <no. of the certain week>`
-* `list this week`
-* `list next week` 
-
-> Lists tasks to be done in a specified week. 
-
-Examples: 
-* `list week 52`
-
 Lists tasks for today<br>
 Format: 
 * `list today`
-* `list tdy`
 
 > Lists tasks to be done today. 
 
@@ -175,21 +152,19 @@ Format:
 Lists tasks for tomorrow<br>
 Format: 
 * `list tomorrow`
-* `list tmr`
-* `list tmw`
 
 > Lists tasks to be done tomorrow. 
 
 Lists tasks for a certain timestamp<br>
 Format: 
 * `list <date>`
-* `list <time>`
+* `list <period to period>`
 
 > Lists tasks to be done by the specified timestamp. 
 
 Examples: 
 * `list Sep 16`
-* `list 7pm`
+* `list today to wednesday`
 
 #### Search for a task: `find`
 Search for a task using a keyword.<br>

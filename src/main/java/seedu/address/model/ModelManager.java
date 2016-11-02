@@ -195,17 +195,11 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public boolean run(ReadOnlyTask task) {
             if (type.equals(ListCommand.LIST_TYPE_UNTIMED)) {
-            	if (task.getDateTime().value == null && task.getDueTime().value == null) {
-            		return true;
-            	}
+            	return task.getDateTime().value == null && task.getDueTime().value == null;
             } else if (type.equals(ListCommand.LIST_TYPE_TIMED)) {
-            	if (task.getDateTime().value == null && task.getDueTime().value != null) {
-            		return true;
-            	}
+            	return task.getDateTime().value == null && task.getDueTime().value != null;
             } else if (type.equals(ListCommand.LIST_TYPE_EVENT)){
-            	if (task.getDateTime().value != null && task.getDueTime().value != null) {
-            		return true;
-            	}
+            	return task.getDateTime().value != null && task.getDueTime().value != null;
             }
             return false;
         }
@@ -230,10 +224,10 @@ public class ModelManager extends ComponentManager implements Model {
         public boolean run(ReadOnlyTask task) {
         	Date compareDate = task.getDueTime().value;
         	if (compareDate != null) {
-	            if (searchType == ListCommand.MAP_LIST_TYPE_TODAY || searchType == ListCommand.MAP_LIST_TYPE_TOMORROW) {
+	            if (searchType == ListCommand.MAP_LIST_TYPE_TODAY || 
+	            		searchType == ListCommand.MAP_LIST_TYPE_TOMORROW || 
+	            		searchType == ListCommand.MAP_LIST_TYPE_DATE) {
 	            	return startDate.before(compareDate) && endDate.after(compareDate);
-	            } else if (searchType == ListCommand.MAP_LIST_TYPE_DATE) {
-	            	return startDate.after(compareDate);
 	            } else if (searchType == ListCommand.MAP_LIST_TYPE_OVERDUE) {
 	            	return endDate.after(compareDate) && !task.isDoneTask();
 	            }
