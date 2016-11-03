@@ -28,6 +28,8 @@ public class ListCommand extends Command {
     public static final String LIST_TYPE_TODAY = "TODAY";
     public static final String LIST_TYPE_TOMORROW = "TOMORROW";
     public static final String LIST_TYPE_OVERDUE = "OVERDUE";
+    public static final String LIST_TYPE_DONE = "DONE";
+    public static final String LIST_TYPE_UNDONE = "UNDONE";
     
     public static final String NATTY_PERIOD_TODAY = "0000hrs to 2359hrs";
     public static final String NATTY_PERIOD_TOMORROW = "tomorrow 0000hrs to 2359hrs";
@@ -40,6 +42,8 @@ public class ListCommand extends Command {
     public static final int MAP_LIST_TYPE_TOMORROW = 5;
     public static final int MAP_LIST_TYPE_DATE = 6;
     public static final int MAP_LIST_TYPE_OVERDUE = 7;
+    public static final int MAP_LIST_TYPE_DONE = 8;
+    public static final int MAP_LIST_TYPE_UNDONE = 9;
     
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": List all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
@@ -53,6 +57,8 @@ public class ListCommand extends Command {
     public static final String MESSAGE_SUCCESS_TODAY = "Listed all task for today!";
     public static final String MESSAGE_SUCCESS_TOMORROW = "Listed all task for tomorrow!";
     public static final String MESSAGE_SUCCESS_OVERDUE = "Listed tasks that are overdue!";
+    public static final String MESSAGE_SUCCESS_DONE = "Listed tasks that are completed";
+    public static final String MESSAGE_SUCCESS_UNDONE = "Listed tasks that are uncompleted";
     public static final String MESSAGE_FAIL = "Unable to list tasks";
     public static final String MESSAGE_UNEXPECTED = "SuperbTodo have encountered an unexpected parser error!";
     public static final String MESSAGE_CRITERIA_FAIL = "SuperbTodo cannot understand your listing criteria, try another criteria.";
@@ -95,6 +101,10 @@ public class ListCommand extends Command {
     		this.listType = MAP_LIST_TYPE_TIMED;
     	} else if (args.equals(LIST_TYPE_UNTIMED)) {
     		this.listType = MAP_LIST_TYPE_UNTIMED;
+    	} else if (args.equals(LIST_TYPE_DONE)) {
+    		this.listType = MAP_LIST_TYPE_DONE;
+    	} else if (args.equals(LIST_TYPE_UNDONE)) {
+    		this.listType = MAP_LIST_TYPE_UNDONE;
     	} else if (args.equals(LIST_TYPE_EVENT)) {
     		this.listType = MAP_LIST_TYPE_EVENT;
     	} else if (args.equals(LIST_TYPE_TODAY)) {
@@ -217,6 +227,12 @@ public class ListCommand extends Command {
     	} else if (listType == MAP_LIST_TYPE_TIMED) {
     		userMessage = MESSAGE_SUCCESS_TIMED;
     		model.updateFilteredListToShowByType(LIST_TYPE_TIMED);
+    	} else if (listType == MAP_LIST_TYPE_DONE) {
+    		userMessage = MESSAGE_SUCCESS_DONE;
+    		model.updateFilteredListToShowByType(LIST_TYPE_DONE);
+    	} else if (listType == MAP_LIST_TYPE_UNDONE) {
+    		userMessage = MESSAGE_SUCCESS_UNDONE;
+    		model.updateFilteredListToShowByType(LIST_TYPE_UNDONE);
     	} else if (listType == MAP_LIST_TYPE_UNTIMED) {
     		userMessage = MESSAGE_SUCCESS_UNTIMED;
     		model.updateFilteredListToShowByType(LIST_TYPE_UNTIMED);

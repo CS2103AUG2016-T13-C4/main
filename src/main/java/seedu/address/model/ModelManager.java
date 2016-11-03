@@ -200,6 +200,10 @@ public class ModelManager extends ComponentManager implements Model {
             	return task.getDateTime().value == null && task.getDueTime().value != null;
             } else if (type.equals(ListCommand.LIST_TYPE_EVENT)){
             	return task.getDateTime().value != null && task.getDueTime().value != null;
+            } else if (type.equals(ListCommand.LIST_TYPE_DONE)){
+            	return task.isDoneTask();
+            } else if (type.equals(ListCommand.LIST_TYPE_UNDONE)){
+            	return !task.isDoneTask();
             }
             return false;
         }
