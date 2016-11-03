@@ -6,9 +6,11 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.storage.UndoManagerStorage;
 
@@ -53,7 +55,9 @@ public class UndoneCommand extends Command {
 
         try {
             model.undoneTask(taskToUndone);
+            LogicManager.theOne.recorder("undone", UniqueTaskList.getInternalList().indexOf(taskToUndone), (Task)taskToUndone);
             System.out.println("undone recorded");
+            LogicManager.theOne.undoUpdate(LogicManager.theOne);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }

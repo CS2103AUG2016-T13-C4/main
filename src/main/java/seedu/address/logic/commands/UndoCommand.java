@@ -24,23 +24,26 @@ public class UndoCommand extends Command {
     private static final String MESSAGE_EXCEPTION_REMOVE = "Nothing to be removed";
     private static final String MESSAGE_EXCEPTION_ADD = "Nothing to be added";
     private static final String MESSAGE_EXCEPTION_EDIT = "Nothing to be edit";
-//    private static final String MESSAGE_EXCEPTION_DONE = "Nothing to be done";
-//    private static final String MESSAGE_EXCEPTION_UNDONE = "Nothing to undone";
+    private static final String MESSAGE_EXCEPTION_DONE = "Nothing to be done";
+    private static final String MESSAGE_EXCEPTION_UNDONE = "Nothing to undone";
 
     // list of commands
     private static final String COMMAND_ADD = "add";
     private static final String COMMAND_REMOVE = "remove";
     private static final String COMMAND_EDIT = "edit";
-//    private static final String COMMAND_DONE = "done";
-//    private static final String COMMAND_UNDONE = "undone";
+    private static final String COMMAND_DONE = "done";
+    private static final String COMMAND_UNDONE = "undone";
 
 
     // list of feedbacks
     private static final String FEEDBACK_SUCCESSFUL_EDIT_UNDO = "undo edit command";
     private static final String FEEDBACK_SUCCESSFUL_REMOVE_UNDO = "undo remove command";
     private static final String FEEDBACK_SUCCESSFUL_ADD_UNDO = "undo add command";
-    private static final String FEEDBACK_SUCCESSFUL_REDO = "Redoing action";
+    private static final String FEEDBACK_SUCCESSFUL_UNDONE_UNDO = "undo undone command";
+    private static final String FEEDBACK_SUCCESSFUL_DONE_UNDO = "undo done command";
+    private static final String FEEDBACK_SUCCESSFUL_REDO = "redo last command";
     private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "undo failed";
+
 
     
 
@@ -84,17 +87,16 @@ public class UndoCommand extends Command {
             case COMMAND_REMOVE:
                 assert prevCommand.getName().toString() != null;
                 return undoRemoveCommand(prevCommand);
+            case COMMAND_UNDONE:
+                assert prevCommand.getName().toString() != null;
+                return undoUndoneCommand(prevCommand);
+            case COMMAND_DONE:
+                assert prevCommand.getName().toString() != null;
+                return undoDoneCommand(prevCommand);
             }
-//            case COMMAND_UNDONE:
-//                assert prevAction.getlistTypePrev() != null
-//                && prevAction.getTask() != null;
-//                return undoUndoneCommand(prevAction);
-//            case COMMAND_DONE:
-//                assert prevAction.getlistTypePrev() != null
-//                && prevAction.getTask() != null;
-//                return undoDoneCommand(prevAction);
         }
         return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);       
+        
     }
 
     
@@ -142,45 +144,35 @@ public class UndoCommand extends Command {
     }
 
         
- //     * Undo undone command
-//     * 
-//     * @param previousAction
-//     *            user's input event
-//     * @return successful feedback message
-//     */
-//    public CommandResult undoUndoneCommand(CommandRecorder previousAction) {
-//        if (previousAction.getlistTypePrev().equals(LIST_UNDONE)) {
-//            storedTasksDone.add(previousAction.gettaskPrev());
-//            storedTasksUndone.remove(previousAction.gettaskPrev());
-//        } else {
-//            throw new IllegalArgumentException(MESSAGE_EXCEPTION_UNDONE);
-//        }
-//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-//    }
-//    
-//    /**
-//     * Undo done command
-//     * 
-//     * @param prevAction
-//     *            user's input CommandRecorder
-//     * @return successful feedback message
-//     */
-//    public CommandResult undoDoneCommand(CommandRecorder prevAction) {
-//        if (prevAction.getlistTypePrev().equals(LIST_DONE)) {
-//            storedTasksDone.remove(prevAction.gettaskPrev());
-//            storedTasksUndone.add(prevAction.gettaskPrev());
-//        } else {
-//            throw new IllegalArgumentException(MESSAGE_EXCEPTION_DONE);
-//        }
-//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDO);
-//    }
+    /** Undo undone command
+     * 
+     * @param previousAction
+     *            user's input event
+     * @return successful feedback message
+     */
+    public CommandResult undoUndoneCommand(Task prevCommand) {
+        int index = UniqueTaskList.getInternalList().indexOf(prevCommand);
+        String num = String.format("%1$d", index);
+        logicM.execute("done " + num);
+        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDONE_UNDO);
+    }
+    
+    /**
+     * Undo done command
+     * 
+     * @param prevAction
+     *            user's input CommandRecorder
+     * @return successful feedback message
+     */
+    public CommandResult undoDoneCommand(Task prevCommand) {
+        storedTasksUndone.add(undoM);            
+        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
+                        + " " + prevCommand.getDueTime().toString() + " "
+                        + prevCommand.getTags().toString() + " ";
+        logicM.execute("add "+ output);
+        return new CommandResult(FEEDBACK_SUCCESSFUL_DONE_UNDO);
+    }
 
-   
-//    /**
-//     * Remove the Singleton instance for unit testing purposes
-//     */
-//    public void clearStateForTesting() {
-//        selectedCommand = null;
-//    }
+  
 }
 
