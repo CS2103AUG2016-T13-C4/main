@@ -113,7 +113,7 @@ Examples:
 * `done 2`<br>
   Marks the 2nd task entry in the completed task listing as undone.
    
-  
+<!--- @@author A0135763B-reused --->  
 #### Listing of tasks : `list`
 Lists all tasks<br>
 Format: 
@@ -134,6 +134,18 @@ Format:
 * `list timed` 
 
 > Lists all timed tasks. 
+
+Lists done tasks<br>
+Format: 
+* `list done` 
+
+> Lists all completed task. 
+
+Lists undone tasks<br>
+Format: 
+* `list undone` 
+
+> Lists all uncompleted task. 
 
 Lists overdue tasks<br>
 Format: 
@@ -194,7 +206,7 @@ Format: `remove INDEX`
   The index **must be a positive integer** 1, 2, 3, ...
 
 Examples: 
-* `list`<br>
+* `list undone`<br>
   `remove 2`<br>
   Deletes the 2nd task entry among all the undone tasks listed.
 * `find #grocery`<br> 
