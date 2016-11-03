@@ -55,7 +55,7 @@ public class DoneCommand extends Command {
 
         try {
             model.doneTask(taskToDone);
-            LogicManager.theOne.recorder("edit", UniqueTaskList.getInternalList().indexOf(taskToDone), (Task)taskToDone);
+            LogicManager.theOne.recorder("done", UniqueTaskList.getInternalList().indexOf(taskToDone), (Task)taskToDone);
             System.out.println("done recorded");
             LogicManager.theOne.undoUpdate(LogicManager.theOne);
         } catch (TaskNotFoundException pnfe) {
