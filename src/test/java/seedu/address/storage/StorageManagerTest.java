@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 public class StorageManagerTest {
 
-    private StorageManager storageManager;
+    private SuperbTodoIO storageManager;
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
@@ -29,7 +29,7 @@ public class StorageManagerTest {
 
     @Before
     public void setup() {
-        storageManager = new StorageManager(getTempFilePath("ab"), getTempFilePath("prefs"));
+        storageManager = new SuperbTodoIO(getTempFilePath("ab"), getTempFilePath("prefs"));
     }
 
 
@@ -53,53 +53,25 @@ public class StorageManagerTest {
         assertEquals(original, retrieved);
     }
 
-    @Test
-    public void addressBookReadSave() throws Exception {
-        SuperbTodo original = new TypicalTestTasks().getTypicalSuperbToDo();
-<<<<<<< HEAD
-        storageManager.saveAddressBook(original);
-        ReadOnlySuperbTodo retrieved = storageManager.readAddressBook().get();
-=======
-        storageManager.saveSuperbTodo(original);
-        ReadOnlySuperbTodo retrieved = storageManager.readSuperbTodo().get();
->>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
-        assertEquals(original, new SuperbTodo(retrieved));
-        //More extensive testing of AddressBook saving/reading is done in XmlAddressBookStorageTest
-    }
+//    @Test
+//    public void TaskBookReadSave() throws Exception {
+//        SuperbTodo original = new TypicalTestTasks().getTypicalSuperbToDo();
+//        storageManager.saveTasksIntoFile(original);
+//        ReadOnlySuperbTodo retrieved = storageManager.loadTasksFromFile();
+//        storageManager.saveSuperbTodo(original);
+//        ReadOnlySuperbTodo retrieved = storageManager.readSuperbTodo().get();
+//        assertEquals(original, new SuperbTodo(retrieved));
+//        //More extensive testing of AddressBook saving/reading is done in XmlAddressBookStorageTest
+//    }
 
     @Test
     public void getAddressBookFilePath(){
-        assertNotNull(storageManager.getSuperbTodoBookFilePath());
-    }
-
-    @Test
-    public void handleAddressBookChangedEvent_exceptionThrown_eventRaised() throws IOException {
-        //Create a StorageManager while injecting a stub that throws an exception when the save method is called
-        Storage storage = new StorageManager(new XmlAddressBookStorageExceptionThrowingStub("dummy"), new JsonUserPrefsStorage("dummy"));
-        EventsCollector eventCollector = new EventsCollector();
-        storage.handleAddressBookChangedEvent(new SuperbTodoChangedEvent(new SuperbTodo()));
-        assertTrue(eventCollector.get(0) instanceof DataSavingExceptionEvent);
+        assertNotNull(storageManager.getTaskbookFilePath());
     }
 
 
-    /**
-     * A Stub class to throw an exception when the save method is called
-     */
-    class XmlAddressBookStorageExceptionThrowingStub extends XmlSuperbTodoStorage{
 
-        public XmlAddressBookStorageExceptionThrowingStub(String filePath) {
-            super(filePath);
-        }
 
-        @Override
-<<<<<<< HEAD
-        public void saveAddressBook(ReadOnlySuperbTodo addressBook, String filePath) throws IOException {
-=======
-        public void saveSuperbTodo(ReadOnlySuperbTodo addressBook, String filePath) throws IOException {
->>>>>>> 4273f02f1c54ed839f49a1bec0bbf5281b70c2c4
-            throw new IOException("dummy exception");
-        }
-    }
 
 
 }
