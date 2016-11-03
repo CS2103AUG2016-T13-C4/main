@@ -19,23 +19,35 @@ public class Task implements ReadOnlyTask {
     private boolean isDone;
     
 
+//    /**
+//     * Every field must be present and not null.
+//     */
+//    public Task(TaskName name, DateTime dueDate, DueDateTime dueTime, UniqueTagList tags) {
+//        assert !CollectionUtil.isAnyNull(name, dueDate, dueTime, tags);
+//        this.name = name;
+//        this.dueDate = dueDate;
+//        this.dueTime = dueTime;
+//        this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+//    }
+//    
+    
     /**
-     * Every field must be present and not null.
+     * Constructor with isDone.
      */
-    public Task(TaskName name, DateTime dueDate, DueDateTime dueTime, UniqueTagList tags) {
+    public Task(TaskName name, DateTime dueDate, DueDateTime dueTime, UniqueTagList tags, Boolean isDone) {
         assert !CollectionUtil.isAnyNull(name, dueDate, dueTime, tags);
         this.name = name;
         this.dueDate = dueDate;
         this.dueTime = dueTime;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
-        this.isDone = false;
+        this.isDone = isDone;
     }
 
     /**
      * Copy constructor.
      */
     public Task(ReadOnlyTask source) {
-        this(source.getName(), source.getDateTime(), source.getDueTime(), source.getTags());
+        this(source.getName(), source.getDateTime(), source.getDueTime(), source.getTags(), source.isDoneTask());
     }
     
     @Override

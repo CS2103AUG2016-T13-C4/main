@@ -34,6 +34,7 @@ public class AddCommand extends Command {
     													"Please check if both start and end period are chronologically correct";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the SuperbToDo";
 
+    private final static boolean Undone = false;
     private final Task toAdd;
     
     /**
@@ -116,7 +117,8 @@ public class AddCommand extends Command {
 			        new TaskName(name),
 			        new DateTime(dateTimeParam),
 			        new DueDateTime(dateTimeParam),
-			        new UniqueTagList(tagSet)
+			        new UniqueTagList(tagSet),
+			        Undone
 			);
 		} else {
 			throw new IllegalValueException(MESSAGE_ERROR_CHRONO);
@@ -135,7 +137,9 @@ public class AddCommand extends Command {
 				new TaskName(name),
 		        new DateTime(),
 		        new DueDateTime(dateTimeParam),
-		        new UniqueTagList(tagSet)
+		        new UniqueTagList(tagSet),
+		        Undone
+
 		);
 	}
 	
@@ -150,7 +154,8 @@ public class AddCommand extends Command {
 				 new TaskName(name),
 		         new DateTime(),
 		         new DueDateTime(),
-		         new UniqueTagList(tagSet)
+		         new UniqueTagList(tagSet),
+		         Undone
 		);
 	}
 	
