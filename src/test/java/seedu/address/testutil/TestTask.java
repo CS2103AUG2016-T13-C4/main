@@ -65,5 +65,11 @@ public class TestTask implements ReadOnlyTask {
         return sb.toString();
     }
 
+	@Override
+	public boolean isDoneTask() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

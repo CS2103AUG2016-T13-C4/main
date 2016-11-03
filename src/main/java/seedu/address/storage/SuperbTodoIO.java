@@ -119,6 +119,12 @@ public class SuperbTodoIO extends ComponentManager{
             raise (new DataSavingExceptionEvent(e));
         }
     }
+    
+    public String getTaskbookFilePath() {
+    	return this.taskbookFilePath;
+    }
+    
+
     //User Preference
     public Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException {
         return userPrefsStorage.readUserPrefs();

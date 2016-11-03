@@ -223,7 +223,7 @@ public class LogicManagerTest {
         helper.addToModel(model, 2);
 
         assertCommandBehavior("list",
-                ListCommand.MESSAGE_SUCCESS,
+                ListCommand.MESSAGE_SUCCESS_ALL,
                 expectedAB,
                 expectedList);
     }
@@ -392,7 +392,7 @@ public class LogicManagerTest {
             Tag tag1 = new Tag("impt");
             Tag tag2 = new Tag("chore");
             UniqueTagList tags = new UniqueTagList(tag1, tag2);
-            return new Task(name, dateTime, dueDateTime,tags);
+            return new Task(name, dateTime, dueDateTime,tags, false);
         }
 
         /**
@@ -407,7 +407,8 @@ public class LogicManagerTest {
                     new TaskName("Task Name: " + seed),
                     new DateTime("Start: " + Math.abs(seed)),
                     new DueDateTime("End: " + seed),
-                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1)))
+                    new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))),
+                    false
             );
         }
 
@@ -504,7 +505,8 @@ public class LogicManagerTest {
                     new TaskName(name),
                     new DateTime("jan 5 8pm"),
                     new DueDateTime("jan 5 9pm"),
-                    new UniqueTagList(new Tag("impt"))
+                    new UniqueTagList(new Tag("impt")),
+                    false
             );
         }
     }

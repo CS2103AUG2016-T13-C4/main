@@ -65,8 +65,8 @@ public class TestUtil {
     private static Task[] getSampleTaskData() {
         try {
             return new Task[]{
-                    new Task(new TaskName("walk"), new DateTime("18 Oct 2016"), new DueDateTime(), new UniqueTagList()),
-                    new Task(new TaskName("dinner"), new DateTime("18 Oct 2016 8pm"), new DueDateTime(), new UniqueTagList())
+                    new Task(new TaskName("walk"), new DateTime("18 Oct 2016"), new DueDateTime(), new UniqueTagList(), false),
+                    new Task(new TaskName("dinner"), new DateTime("18 Oct 2016 8pm"), new DueDateTime(), new UniqueTagList(),false)
             };
         } catch (IllegalValueException e) {
             assert false;

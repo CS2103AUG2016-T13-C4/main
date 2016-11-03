@@ -6,7 +6,6 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.ReadOnlySuperbTodo;
 import seedu.address.model.UserPrefs;
-import seedu.address.storage.XmlSerializableAddressBook;
 import seedu.address.testutil.TestUtil;
 
 import java.util.function.Supplier;
