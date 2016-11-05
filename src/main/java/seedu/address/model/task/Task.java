@@ -18,19 +18,6 @@ public class Task implements ReadOnlyTask {
     private UniqueTagList tags;
     private boolean isDone;
     
-
-//    /**
-//     * Every field must be present and not null.
-//     */
-//    public Task(TaskName name, DateTime dueDate, DueDateTime dueTime, UniqueTagList tags) {
-//        assert !CollectionUtil.isAnyNull(name, dueDate, dueTime, tags);
-//        this.name = name;
-//        this.dueDate = dueDate;
-//        this.dueTime = dueTime;
-//        this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
-//    }
-//    
-    
     /**
      * Constructor with isDone.
      */

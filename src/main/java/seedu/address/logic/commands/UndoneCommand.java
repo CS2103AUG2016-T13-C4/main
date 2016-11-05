@@ -55,9 +55,9 @@ public class UndoneCommand extends Command {
 
         try {
             model.undoneTask(taskToUndone);
-            LogicManager.theOne.recorder("undone", UniqueTaskList.getInternalList().indexOf(taskToUndone), (Task)taskToUndone);
-            System.out.println("undone recorded");
-            LogicManager.theOne.undoUpdate(LogicManager.theOne);
+//            LogicManager.theOne.recorder("undone", UniqueTaskList.getInternalList().indexOf(taskToUndone), (Task)taskToUndone);
+//            System.out.println("undone recorded");
+//            LogicManager.theOne.undoUpdate(LogicManager.theOne);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }

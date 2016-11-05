@@ -22,6 +22,7 @@ public class LogicManager extends ComponentManager implements Logic {
 
     private final Model model;
     private final Parser parser;
+    public static UndoManagerStorage actionRecorder;
     private static Vector<UndoManagerStorage> storedTasksUndone = new Vector<UndoManagerStorage>();
     private static Vector<UndoManagerStorage> storedTasksDone = new Vector<UndoManagerStorage>();
     // initialize the storage for undo command
@@ -30,8 +31,13 @@ public class LogicManager extends ComponentManager implements Logic {
     public LogicManager(Model model, SuperbTodoIO storage) {
         this.model = model;
         this.parser = new Parser();
+        this.actionRecorder = new UndoManagerStorage(new Vector<UndoManagerStorage>(), new Vector<UndoManagerStorage>());
     }
-
+    
+    public static UndoManagerStorage getUndoManager() {
+    	return actionRecorder;
+    }
+    
     @Override
     public CommandResult execute(String commandText) {
         logger.info("----------------[USER COMMAND][" + commandText + "]");

@@ -1,8 +1,11 @@
 package seedu.address.logic.parser;
 
+import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.*;
-
+import seedu.address.model.UserAction;
 import seedu.address.model.task.DateTime;
+import seedu.address.model.task.Task;
+import seedu.address.storage.UndoManagerStorage;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.exceptions.IllegalValueException;
 
@@ -25,6 +28,8 @@ public class Parser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     private static final Pattern TASK_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
+    
+    private static final Pattern KEYWORDS_ARGS_SPLIT =  Pattern.compile("([^\"]\\S*|\".+?\")\\s*");
 
     private static final Pattern KEYWORDS_ARGS_FORMAT =
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
@@ -88,7 +93,8 @@ public class Parser {
             return new HelpCommand();
         // @@author A0113992B    
         case UndoCommand.COMMAND_WORD:
-            return new UndoCommand();
+        	return prepareUndo();
+            //return new UndoCommand();
 //        case RedoCommand.COMMAND_WORD:
 //            return new RedoCommand();
         //@@author A0135763B-reused
@@ -115,6 +121,54 @@ public class Parser {
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
+    }
+    
+    /**
+     * Parses arguments in the context of the add task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareUndo(){
+    	UndoManagerStorage UndoStorage = LogicManager.getUndoManager();
+    	Stack<UserAction> undoStack = UndoStorage.getUndoStack();
+    	Stack<UserAction> redoStack = UndoStorage.getRedoStack();
+    	
+    	if (!undoStack.isEmpty()) {
+            UserAction prevAction = undoStack.pop();
+            redoStack.push(prevAction);
+            String commandWord = prevAction.getCommandWord();
+            
+            switch(commandWord) {
+	            case EditCommand.COMMAND_WORD:
+	                //assert prevCommand.getName().toString()!= null;
+	            	try {
+	            		return new EditCommand(prevAction.getBackUpTask(), prevAction.getIndex(), true);
+	                } catch (IllegalValueException ive) {
+	                    return new IncorrectCommand(ive.getMessage());
+	                }
+	            case AddCommand.COMMAND_WORD:
+	                //assert prevCommand.getName().toString()!= null;
+	                return new DeleteCommand(prevAction.getIndex(), true);
+	            case DeleteCommand.COMMAND_WORD:
+	                //assert prevCommand.getName().toString() != null;
+	            	try {
+	            		return new AddCommand(prevAction.getBackUpTask(), prevAction.getIndex());
+	                } catch (IllegalValueException ive) {
+	                    return new IncorrectCommand(ive.getMessage());
+	                }
+	            	//undoRemoveCommand(prevCommand);
+	            case UndoneCommand.COMMAND_WORD:
+	                //assert prevCommand.getName().toString() != null;
+	                //return undoUndoneCommand(prevCommand);
+	            case DoneCommand.COMMAND_WORD:
+	                //assert prevCommand.getName().toString() != null;
+	                //return undoDoneCommand(prevCommand);
+	            default:
+	                return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+            }
+        }
+		return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
     }
     
     /**
@@ -191,7 +245,8 @@ public class Parser {
 					target,
 					getName,
 					"",
-		            getTagsFromArgs(matcher.group("tagArguments"))
+		            getTagsFromArgs(matcher.group("tagArguments")),
+		            false
 		    );
 		} else {
 			if (DateTime.isValidDate(getDateTime)) {
@@ -208,7 +263,8 @@ public class Parser {
 						target,
 		    			getName,
 		    			getDateTime,
-		                getTagsFromArgs(matcher.group("tagArguments"))
+		                getTagsFromArgs(matcher.group("tagArguments")),
+		                false
 		        );
 			} else if (getDateTime != null && getName != null && !getName.trim().equals("") && !getDateTime.trim().equals("")){
 				// treat as floating task
@@ -250,7 +306,7 @@ public class Parser {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
-        return new DeleteCommand(index.get());
+        return new DeleteCommand(index.get(), false);
     }
     
     /**
@@ -261,7 +317,7 @@ public class Parser {
      */
     private Command prepareEdit(String args) {
     	Optional<Integer> index = parseIndex(args.trim().substring(0, 1));
-        if(!index.isPresent()){
+        if (!index.isPresent()) {
             return new IncorrectCommand(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
@@ -372,12 +428,27 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     FindCommand.MESSAGE_USAGE));
         }
-
+     
         // keywords delimited by whitespace
-        final String[] keywords = matcher.group("keywords").split("\\s+");
-        final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
+        final Set<String> keywordSet = splitSearchParam(args);
         return new FindCommand(keywordSet);
     }
+
+    /**
+     * Custom split function to split a string by spaces. String within quotation marks will be considered as a single string
+     *
+     * @param string representing the search conditions
+     * @return the set of split strings
+     */
+	private Set<String> splitSearchParam(String args) {
+		Set<String> returnlist = new HashSet<String>();
+        Matcher m = KEYWORDS_ARGS_SPLIT.matcher(args.trim());
+        while (m.find()) {
+        	returnlist.add(m.group(1).replace("\"", "")); // Add .replace("\"", "") to remove surrounding quotes.
+        }
+        
+        return returnlist;
+	}
     
     // @@author A0135763B-reused
     /**

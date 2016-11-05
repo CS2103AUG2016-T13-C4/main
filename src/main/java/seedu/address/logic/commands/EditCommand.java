@@ -1,12 +1,14 @@
 package seedu.address.logic.commands;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.LogicManager;
+import seedu.address.model.UserAction;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
@@ -31,13 +33,17 @@ public class EditCommand extends Command {
 
     public final int targetIndex;
     private final Task toEdit;
+    public final boolean undo;
+    
+    private ReadOnlyTask taskToEdit;
+    private List<ReadOnlyTask> lastShownList;
     
     /**
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public EditCommand(int targetIndex, String name, String dateTimeParam, Set<String> tags)
+    public EditCommand(int targetIndex, String name, String dateTimeParam, Set<String> tags, boolean undo)
             throws IllegalValueException {
     	this.targetIndex = targetIndex;
         final Set<Tag> tagSet = new HashSet<>();
@@ -46,26 +52,36 @@ public class EditCommand extends Command {
         }
         
         this.toEdit = AddCommand.handleAddType(name, dateTimeParam, tagSet);
+        this.undo = undo;
+    }
+    
+    /**
+     * Overload constructor for already available Edit task
+     *
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+    public EditCommand(Task task, int position, boolean undo) throws IllegalValueException {
+    	this.toEdit = task;
+    	this.targetIndex = position;
+    	this.undo = undo;
     }
     
 
     @Override
     public CommandResult execute() {
     	assert model != null;
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
-        ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
+        taskToEdit = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.editTask(taskToEdit, toEdit);
-            LogicManager.theOne.recorder("edit", UniqueTaskList.getInternalList().indexOf(toEdit), toEdit);
-            System.out.println("edit recorded");
-            LogicManager.theOne.undoUpdate(LogicManager.theOne);
+            LogicManager.actionRecorder.recordAction(new UserAction(EditCommand.COMMAND_WORD, UniqueTaskList.getInternalList().indexOf(toEdit), taskToEdit));
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }

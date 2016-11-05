@@ -91,6 +91,18 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
         syncTagsWithMasterList(p);
         task.add(p);
     }
+    
+    /**
+     * Adds a person to the address book at the specified index position.
+     * Also checks the new person's tags and updates {@link #tags} with any new tags found,
+     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     *
+     * @throws UniqueTaskList.DuplicateTaskException if an equivalent person already exists.
+     */
+    public void addTask(Task p, int idx) throws UniqueTaskList.DuplicateTaskException {
+        syncTagsWithMasterList(p);
+        task.add(p, idx);
+    }
 
     /**
      * Ensures that every tag in this person:

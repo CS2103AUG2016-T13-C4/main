@@ -95,8 +95,12 @@ public class ModelManager extends ComponentManager implements Model {
         indicateSuperbTodoChanged();
     }
     @Override
-    public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
-        superbtodo.addTask(task);
+    public synchronized void addTask(Task task, int position) throws UniqueTaskList.DuplicateTaskException {
+    	if (position == -1) {
+    		superbtodo.addTask(task);
+    	} else {
+    		superbtodo.addTask(task, position);
+    	}
         //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }

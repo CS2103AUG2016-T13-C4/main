@@ -1,13 +1,17 @@
 package seedu.address.logic.commands;
 
+import java.util.List;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.logic.LogicManager;
+import seedu.address.model.UserAction;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 import seedu.address.storage.UndoManagerStorage;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 //@@author A0135763B-reused
@@ -26,37 +30,39 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Removed Task: %1$s";
 
     public final int targetIndex;
+    public final boolean undo;
+    private ReadOnlyTask taskToDelete;
+    private List<ReadOnlyTask> lastShownList;
 
     
-    public DeleteCommand(int targetIndex) {
-        this.targetIndex = targetIndex;       
+    public DeleteCommand(int targetIndex, boolean undo) {
+        this.targetIndex = targetIndex;
+        this.undo = undo;
     }
 
 
     @Override
     public CommandResult execute() {
-
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
-        if (lastShownList.size() < targetIndex) {
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	
+    	if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
-        ReadOnlyTask taskToDelete = lastShownList.get(targetIndex - 1);
-
+    	
+    	taskToDelete = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+    	
         try {
+        	int getPosition =  UniqueTaskList.getInternalList().indexOf(taskToDelete);
             model.deleteTask(taskToDelete);
-            LogicManager.theOne.recorder("remove", (Task)taskToDelete);
-            System.out.println("remove recorded");
-            LogicManager.theOne.undoUpdate(LogicManager.theOne);
+            LogicManager.actionRecorder.recordAction(new UserAction(DeleteCommand.COMMAND_WORD, getPosition, taskToDelete));
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
 
         //@@author A0135763B-reused
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
-
     }
 
 }

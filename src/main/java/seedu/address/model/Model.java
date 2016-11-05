@@ -32,7 +32,7 @@ public interface Model {
     void undoneTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
     
     /** Adds the given task */
-    void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
+    void addTask(Task task, int position) throws UniqueTaskList.DuplicateTaskException;
 
     /** Returns the filtered task list as an {@code UnmodifiableObservableList<ReadOnlyTask>} */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList();

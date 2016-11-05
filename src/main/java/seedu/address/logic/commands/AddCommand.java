@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.LogicManager;
+import seedu.address.model.UserAction;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
@@ -36,6 +37,7 @@ public class AddCommand extends Command {
 
     private final static boolean Undone = false;
     private final Task toAdd;
+    private final int index;
     
     /**
      * Convenience constructor using raw values.
@@ -50,9 +52,22 @@ public class AddCommand extends Command {
         }
         
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
+        this.index = -1;
     }
     
     //@@author A0135763B
+    /**
+     * Overloaded constructor to add command if task is already available
+     * 
+     * Used in undo command
+     *
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+    public AddCommand(Task task, int position) throws IllegalValueException {
+        this.toAdd = task;
+        this.index = position;
+    }
+    
     /**
      * Function to create a task object.
      * Takes in raw values and determine the Task type: Floating, event or normal task
@@ -181,10 +196,8 @@ public class AddCommand extends Command {
     public CommandResult execute() {
         assert model != null;
         try {
-            model.addTask(toAdd);
-            LogicManager.theOne.recorder("add", UniqueTaskList.getInternalList().indexOf(toAdd), toAdd);
-            System.out.println("add recorded");
-            LogicManager.theOne.undoUpdate(LogicManager.theOne);
+            model.addTask(toAdd, index);
+            LogicManager.actionRecorder.recordAction(new UserAction(AddCommand.COMMAND_WORD, UniqueTaskList.getInternalList().indexOf(toAdd), toAdd));
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

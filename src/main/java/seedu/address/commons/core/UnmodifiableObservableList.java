@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 /**
  * Unmodifiable view of an observable list
  */
-public class UnmodifiableObservableList<E> implements ObservableList<E> {
+public class UnmodifiableObservableList<E> implements ObservableList<E>, List<E> {
 
     public static final String MUTATION_OP_EXCEPTION_MESSAGE = "Attempted to modify an unmodifiable view";
 
