@@ -55,6 +55,7 @@ public class TaskListPanel extends UiPart {
         return taskListPanel;
     }
 
+   
     private void configure(ObservableList<ReadOnlyTask> taskList) {
         setConnections(taskList);
         addToPlaceholder();
@@ -93,14 +94,16 @@ public class TaskListPanel extends UiPart {
         }
 
         @Override
-        protected void updateItem(ReadOnlyTask person, boolean empty) {
-            super.updateItem(person, empty);
+        protected void updateItem(ReadOnlyTask task, boolean empty) {
+            super.updateItem(task, empty);
 
-            if (empty || person == null) {
+            if (empty || task == null) {
+                setDisable(true);
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(TaskCard.load(person, getIndex() + 1).getLayout());
+                setDisable(false);
+                setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
             }
         }
     }

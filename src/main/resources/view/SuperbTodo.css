@@ -49,6 +49,10 @@
     -fx-prompt-text-fill: #f7cacf;
 }
 
+.list-cell:disabled {
+    -fx-background-color: white;
+}
+
 .list-cell:filled:selected {
 	-fx-background-color:#a3d6e8; 
 }
