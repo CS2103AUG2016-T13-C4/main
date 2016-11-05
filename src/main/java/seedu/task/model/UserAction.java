@@ -16,6 +16,7 @@ public class UserAction {
 
     private String commandWord;
     private Task backUpTask;
+    private Task backUpEditTask;
     private int index;
     
     
@@ -27,6 +28,17 @@ public class UserAction {
         this.commandWord = command;
         this.index = position;
         this.backUpTask = toSave;
+    }
+    
+    /**
+     * Overloaded constructor
+     */
+    public UserAction(String command, int position, ReadOnlyTask toSave, Task toEdit) {
+        assert !CollectionUtil.isAnyNull(command, toSave);
+        this.commandWord = command;
+        this.index = position;
+        this.backUpTask = (Task) toSave;
+        this.backUpEditTask = toEdit;
     }
     
     /**
@@ -66,6 +78,10 @@ public class UserAction {
 
 	public int getIndex() {
 		return index;
+	}
+
+	public Task getBackUpEditTask() {
+		return backUpEditTask;
 	}
     
     

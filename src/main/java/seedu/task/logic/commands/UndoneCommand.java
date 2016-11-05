@@ -32,7 +32,7 @@ public class UndoneCommand extends Command {
     public static final String MESSAGE_Done_Task_SUCCESS = "unDone Task to: %1$s";
 
     public final int targetIndex;
-    public final boolean undo;
+    public final boolean undo, redo;
     
     private ReadOnlyTask taskToUndone;
     private List<ReadOnlyTask> lastShownList;
@@ -42,9 +42,10 @@ public class UndoneCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public UndoneCommand(int targetIndex, boolean undo) throws IllegalValueException {
+    public UndoneCommand(int targetIndex, boolean undo, boolean redo) throws IllegalValueException {
     	this.targetIndex = targetIndex;
     	this.undo = undo;
+    	this.redo = redo;
     }
 
 
@@ -52,13 +53,13 @@ public class UndoneCommand extends Command {
     public CommandResult execute() {
     	assert model != null;
     	
-    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	lastShownList = (undo||redo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        taskToUndone = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+        taskToUndone = (undo||redo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.undoneTask(taskToUndone);
@@ -80,13 +81,13 @@ public class UndoneCommand extends Command {
     public CommandResult execute(String Message, String Error) {
     	assert model != null;
     	
-    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	lastShownList = (undo||redo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Error);
         }
-        taskToUndone = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+        taskToUndone = (undo||redo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.undoneTask(taskToUndone);

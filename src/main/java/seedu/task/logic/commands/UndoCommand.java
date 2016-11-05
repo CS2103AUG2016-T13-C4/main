@@ -62,13 +62,13 @@ public class UndoCommand extends Command {
 	        	assert action.getBackUpTask() != null;
 	        	
 	        	try {
-	        		return new EditCommand(action.getBackUpTask(), action.getIndex(), true);
+	        		return new EditCommand(action.getBackUpTask(), action.getIndex(), true, false);
 	            } catch (IllegalValueException ive) {
 	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	            }
 	        case AddCommand.COMMAND_WORD:
 	        	assert action.getIndex() != -1;
-	            return new DeleteCommand(action.getIndex(), true);
+	            return new DeleteCommand(action.getIndex(), true, false);
 	        case DeleteCommand.COMMAND_WORD:
 	        	assert action.getIndex() != -1;
 	        	try {
@@ -79,13 +79,14 @@ public class UndoCommand extends Command {
 	        case UndoneCommand.COMMAND_WORD:
 	        	assert action.getIndex() != -1;
 	        	try {
-	        		return new DoneCommand(action.getIndex(), true);
+	        		return new DoneCommand(action.getIndex(), true, false);
 	            } catch (IllegalValueException ive) {
 	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	            }
 	        case DoneCommand.COMMAND_WORD:
+	        	assert action.getIndex() != -1;
 	        	try {
-	        		return new UndoneCommand(action.getIndex(), true);
+	        		return new UndoneCommand(action.getIndex(), true, false);
 	            } catch (IllegalValueException ive) {
 	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	            }
@@ -93,67 +94,6 @@ public class UndoCommand extends Command {
 	            return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	    }
     }
-
-//    /**
-//     * Undo add command
-//     * @param prevCommand
-//     * @return
-//     */
-//    public CommandResult undoAddCommand(Task prevCommand) { 
-//        storedTasksUndone.remove(undoM);
-//        storedTasksDone.add(undoM);
-//        String index = String.format("%1$d", undoM.getIndex());
-//        logicM.execute("remove " + index);
-//        
-//        return new CommandResult(FEEDBACK_SUCCESSFUL_ADD_UNDO);
-//    }
-//    
-//    
-//    /**
-//     * Undo Remove command
-//     * 
-//     * @param prevAction
-//     *            user's input CommandRecorder
-//     * @return successful feedback message
-//     */
-//    public void undoRemoveCommand(Task prevCommand) {
-//        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
-//                        + " " + prevCommand.getDueTime().toString() + " "
-//                        + prevCommand.getTags().toString() + " ";
-//        storedTasksUndone.add(undoM);
-//        logicM.execute("add " + output);
-//        //return new CommandResult(FEEDBACK_SUCCESSFUL_REMOVE_UNDO);
-//    }
-//
-//        
-//    /** Undo undone command
-//     * 
-//     * @param previousAction
-//     *            user's input event
-//     * @return successful feedback message
-//     */
-//    public CommandResult undoUndoneCommand(Task prevCommand) {
-//        int index = UniqueTaskList.getInternalList().indexOf(prevCommand);
-//        String num = String.format("%1$d", index);
-//        logicM.execute("done " + num);
-//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDONE_UNDO);
-//    }
-//    
-//    /**
-//     * Undo done command
-//     * 
-//     * @param prevAction
-//     *            user's input CommandRecorder
-//     * @return successful feedback message
-//     */
-//    public CommandResult undoDoneCommand(Task prevCommand) {
-//        storedTasksUndone.add(undoM);            
-//        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
-//                        + " " + prevCommand.getDueTime().toString() + " "
-//                        + prevCommand.getTags().toString() + " ";
-//        logicM.execute("add "+ output);
-//        return new CommandResult(FEEDBACK_SUCCESSFUL_DONE_UNDO);
-//    }
 
 	@Override
 	public CommandResult execute() {

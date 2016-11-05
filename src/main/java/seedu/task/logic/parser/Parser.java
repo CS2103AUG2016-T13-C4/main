@@ -101,8 +101,8 @@ public class Parser {
         // @@author A0113992B    
         case UndoCommand.COMMAND_WORD:
         	return prepareUndo();
-//        case RedoCommand.COMMAND_WORD:
-//            return new RedoCommand();
+        case RedoCommand.COMMAND_WORD:
+            return prepareRedo();
         //@@author A0135763B-reused
         default:
             return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
@@ -152,6 +152,29 @@ public class Parser {
             return new UndoCommand(prevAction);
         } 
     	return new IncorrectCommand(MESSAGE_UNDO_LIMIT);
+    }
+    
+    /**
+     * Parses arguments in the context of the redo command.
+     * 
+     * This command prepares a previously undone command and parse it to a router function
+     * to decipher the command to route to
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareRedo(){
+    	assert LogicManager.getUndoManager() != null;
+    	
+    	UndoManagerStorage UndoStorage = LogicManager.getUndoManager();
+    	Stack<UserAction> redoStack = UndoStorage.getRedoStack();
+    	
+    	if (!redoStack.isEmpty()) {
+            UserAction prevAction = redoStack.pop();
+            
+            return new RedoCommand(prevAction);
+        } 
+    	return new IncorrectCommand(RedoCommand.FEEDBACK_UNSUCCESSFUL_REDO);
     }
     
     /**
@@ -232,6 +255,7 @@ public class Parser {
 					getName,
 					"",
 		            getTagsFromArgs(matcher.group("tagArguments")),
+		            false,
 		            false
 		    );
 		} else {
@@ -250,6 +274,7 @@ public class Parser {
 		    			getName,
 		    			getDateTime,
 		                getTagsFromArgs(matcher.group("tagArguments")),
+		                false,
 		                false
 		        );
 			} else if (getDateTime != null && getName != null && !getName.trim().equals("") && !getDateTime.trim().equals("")){
@@ -293,7 +318,7 @@ public class Parser {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
-        return new DeleteCommand(index.get(), false);
+        return new DeleteCommand(index.get(), false, false);
     }
     
     /**
@@ -338,7 +363,7 @@ public class Parser {
         }
         
         try {
-			return new DoneCommand(index.get(), false);
+			return new DoneCommand(index.get(), false, false);
 		} catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
 		}
@@ -360,7 +385,7 @@ public class Parser {
         }
         
         try {
-			return new UndoneCommand(index.get(), false);
+			return new UndoneCommand(index.get(), false, false);
 		} catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
 		} 

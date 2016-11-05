@@ -122,6 +122,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updateFilteredListToShowAll() {
+    	viewCondition = null;
         filteredTasks.setPredicate(null);
     }
     
@@ -143,7 +144,11 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
     	viewCondition = expression;
-        filteredTasks.setPredicate(expression::satisfies);
+    	if (expression == null) {
+    		filteredTasks.setPredicate(null);
+    	} else {
+    		filteredTasks.setPredicate(expression::satisfies);
+    	}
     }
     
     private void refreshFilteredTaskList() {

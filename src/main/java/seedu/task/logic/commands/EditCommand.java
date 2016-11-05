@@ -34,6 +34,7 @@ public class EditCommand extends Command {
     public final int targetIndex;
     private final Task toEdit;
     public final boolean undo;
+    public final boolean redo;
     
     private ReadOnlyTask taskToEdit;
     private List<ReadOnlyTask> lastShownList;
@@ -43,7 +44,7 @@ public class EditCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public EditCommand(int targetIndex, String name, String dateTimeParam, Set<String> tags, boolean undo)
+    public EditCommand(int targetIndex, String name, String dateTimeParam, Set<String> tags, boolean undo, boolean redo)
             throws IllegalValueException {
     	this.targetIndex = targetIndex;
         final Set<Tag> tagSet = new HashSet<>();
@@ -53,6 +54,7 @@ public class EditCommand extends Command {
         
         this.toEdit = AddCommand.handleAddType(name, dateTimeParam, tagSet);
         this.undo = undo;
+        this.redo = redo;
     }
     
     /**
@@ -60,10 +62,11 @@ public class EditCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public EditCommand(Task task, int position, boolean undo) throws IllegalValueException {
+    public EditCommand(Task task, int position, boolean undo, boolean redo) throws IllegalValueException {
     	this.toEdit = task;
     	this.targetIndex = position;
     	this.undo = undo;
+    	this.redo = redo;
     }
     
 
@@ -71,13 +74,13 @@ public class EditCommand extends Command {
     public CommandResult execute() {
     	assert model != null;
     	
-    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	lastShownList = (undo||redo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        taskToEdit = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+        taskToEdit = (undo||redo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.editTask(taskToEdit, toEdit);
@@ -100,13 +103,13 @@ public class EditCommand extends Command {
     public CommandResult execute(String Message, String Error) {
     	assert model != null;
     	
-    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	lastShownList = (undo||redo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Error);
         }
-        taskToEdit = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+        taskToEdit = (undo||redo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.editTask(taskToEdit, toEdit);
@@ -125,7 +128,8 @@ public class EditCommand extends Command {
 			LogicManager.actionRecorder.recordAction(
 					new UserAction(EditCommand.COMMAND_WORD, 
 							UniqueTaskList.getInternalList().indexOf(toEdit), 
-							taskToEdit)
+							taskToEdit,
+							toEdit)
 			);
 		}
 	}
