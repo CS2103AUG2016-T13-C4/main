@@ -4,6 +4,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <!-- @@author A0113992B -->
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.CommandBox">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.task.ui.CommandBox">
    <TextField fx:id="commandTextField" onAction="#handleCommandInputChanged" promptText="What's your To-dos today?" stylesheets="@SuperbTodo.css" AnchorPane.leftAnchor="20.0" />
 </AnchorPane>

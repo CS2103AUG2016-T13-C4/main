@@ -2,11 +2,12 @@ package seedu.address;
 
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import seedu.address.commons.core.Config;
-import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.ReadOnlySuperbTodo;
-import seedu.address.model.UserPrefs;
 import seedu.address.testutil.TestUtil;
+import seedu.task.MainApp;
+import seedu.task.commons.core.Config;
+import seedu.task.commons.core.GuiSettings;
+import seedu.task.model.ReadOnlySuperbTodo;
+import seedu.task.model.UserPrefs;
 
 import java.util.function.Supplier;
 

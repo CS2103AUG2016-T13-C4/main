@@ -13,14 +13,13 @@ import junit.framework.AssertionFailedError;
 import org.loadui.testfx.GuiTest;
 import org.testfx.api.FxToolkit;
 import seedu.address.TestApp;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.util.FileUtil;
-import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.SuperbTodo;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.UniqueTagList;
-import seedu.address.model.task.*;
-
+import seedu.task.commons.exceptions.IllegalValueException;
+import seedu.task.commons.util.FileUtil;
+import seedu.task.commons.util.XmlUtil;
+import seedu.task.model.SuperbTodo;
+import seedu.task.model.tag.Tag;
+import seedu.task.model.tag.UniqueTagList;
+import seedu.task.model.task.*;
 
 import java.io.File;
 import java.io.IOException;

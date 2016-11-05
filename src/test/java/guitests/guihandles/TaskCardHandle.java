@@ -5,7 +5,7 @@ import java.util.Set;
 import guitests.GuiRobot;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import seedu.address.model.task.ReadOnlyTask;
+import seedu.task.model.task.ReadOnlyTask;
 
 /**
  * Provides a handle to a person card in the person list panel.

@@ -6,19 +6,22 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import seedu.address.commons.core.EventsCenter;
-import seedu.address.logic.commands.*;
-import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.commons.events.ui.ShowHelpRequestEvent;
-import seedu.address.commons.events.model.SuperbTodoChangedEvent;
-import seedu.address.model.SuperbTodo;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlySuperbTodo;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.UniqueTagList;
-import seedu.address.model.task.*;
-import seedu.address.storage.SuperbTodoIO;
+
+import seedu.task.commons.core.EventsCenter;
+import seedu.task.commons.events.model.SuperbTodoChangedEvent;
+import seedu.task.commons.events.ui.JumpToListRequestEvent;
+import seedu.task.commons.events.ui.ShowHelpRequestEvent;
+import seedu.task.logic.Logic;
+import seedu.task.logic.LogicManager;
+import seedu.task.logic.commands.*;
+import seedu.task.model.Model;
+import seedu.task.model.ModelManager;
+import seedu.task.model.ReadOnlySuperbTodo;
+import seedu.task.model.SuperbTodo;
+import seedu.task.model.tag.Tag;
+import seedu.task.model.tag.UniqueTagList;
+import seedu.task.model.task.*;
+import seedu.task.storage.SuperbTodoIO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +30,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.commons.core.Messages.*;
+import static seedu.task.commons.core.Messages.*;
 
 public class LogicManagerTest {
 
