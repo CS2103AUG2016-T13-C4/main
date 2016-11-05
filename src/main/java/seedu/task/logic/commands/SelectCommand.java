@@ -47,4 +47,9 @@ public class SelectCommand extends Command {
 
     }
 
+	@Override
+	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
+		return execute();
+	}
+
 }

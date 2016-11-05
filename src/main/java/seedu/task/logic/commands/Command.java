@@ -31,6 +31,8 @@ public abstract class Command {
      * @return feedback message of the operation result for display
      */
     public abstract CommandResult execute();
+    
+    public abstract CommandResult execute(String feedbackSuccess, String feedbackUnsucess);
 
     /**
      * Provides any needed dependencies to the command.
@@ -47,4 +49,5 @@ public abstract class Command {
     protected void indicateAttemptToExecuteIncorrectCommand() {
         EventsCenter.getInstance().post(new IncorrectCommandAttemptedEvent(this));
     }
+
 }

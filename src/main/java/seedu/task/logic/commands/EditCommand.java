@@ -81,7 +81,7 @@ public class EditCommand extends Command {
 
         try {
             model.editTask(taskToEdit, toEdit);
-            LogicManager.actionRecorder.recordAction(new UserAction(EditCommand.COMMAND_WORD, UniqueTaskList.getInternalList().indexOf(toEdit), taskToEdit));
+            saveAction();
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
@@ -90,5 +90,44 @@ public class EditCommand extends Command {
         String formatOutput = String.format(MESSAGE_EDIT_PERSON_SUCCESS, toEdit);        
         return new CommandResult(formatOutput);
     }
+
+    /**
+     * Overloaded function for the purpose of undo Command
+     * 
+     * Allows undo command to overwrite the success and failure messages
+
+     */
+    public CommandResult execute(String Message, String Error) {
+    	assert model != null;
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+
+        if (lastShownList.size() < targetIndex) {
+            indicateAttemptToExecuteIncorrectCommand();
+            return new CommandResult(Error);
+        }
+        taskToEdit = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+
+        try {
+            model.editTask(taskToEdit, toEdit);
+            saveAction();
+        } catch (TaskNotFoundException pnfe) {
+            assert false : "The target task cannot be missing";
+        	return new CommandResult(Error);
+        }
+
+        // @@author A0135763B       
+        return new CommandResult(Message);
+    }
+    
+	private void saveAction() {
+		if (!undo) {
+			LogicManager.actionRecorder.recordAction(
+					new UserAction(EditCommand.COMMAND_WORD, 
+							UniqueTaskList.getInternalList().indexOf(toEdit), 
+							taskToEdit)
+			);
+		}
+	}
 
 }

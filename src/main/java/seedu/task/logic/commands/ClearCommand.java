@@ -20,4 +20,10 @@ public class ClearCommand extends Command {
         model.resetData(SuperbTodo.getEmptySuperbTodo());
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+
+	@Override
+	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
+		return execute();
+	}
 }

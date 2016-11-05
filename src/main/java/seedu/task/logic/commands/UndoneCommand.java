@@ -1,12 +1,14 @@
 package seedu.task.logic.commands;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.task.commons.core.Messages;
 import seedu.task.commons.core.UnmodifiableObservableList;
 import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.logic.LogicManager;
+import seedu.task.model.UserAction;
 import seedu.task.model.tag.Tag;
 import seedu.task.model.task.ReadOnlyTask;
 import seedu.task.model.task.Task;
@@ -30,34 +32,37 @@ public class UndoneCommand extends Command {
     public static final String MESSAGE_Done_Task_SUCCESS = "unDone Task to: %1$s";
 
     public final int targetIndex;
+    public final boolean undo;
+    
+    private ReadOnlyTask taskToUndone;
+    private List<ReadOnlyTask> lastShownList;
     
     /**
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public UndoneCommand(int targetIndex) throws IllegalValueException {
+    public UndoneCommand(int targetIndex, boolean undo) throws IllegalValueException {
     	this.targetIndex = targetIndex;
+    	this.undo = undo;
     }
 
 
 	@Override
     public CommandResult execute() {
     	assert model != null;
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
 
         if (lastShownList.size() < targetIndex) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
-        ReadOnlyTask taskToUndone = lastShownList.get(targetIndex - 1);
+        taskToUndone = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
 
         try {
             model.undoneTask(taskToUndone);
-//            LogicManager.theOne.recorder("undone", UniqueTaskList.getInternalList().indexOf(taskToUndone), (Task)taskToUndone);
-//            System.out.println("undone recorded");
-//            LogicManager.theOne.undoUpdate(LogicManager.theOne);
+            saveAction();
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
@@ -65,5 +70,43 @@ public class UndoneCommand extends Command {
         String formatOutput = String.format(MESSAGE_Done_Task_SUCCESS, taskToUndone);        
         return new CommandResult(formatOutput);
     }
+
+	/**
+     * Overloaded function for the purpose of undo Command
+     * 
+     * Allows undo command to overwrite the success and failure messages
+
+     */
+    public CommandResult execute(String Message, String Error) {
+    	assert model != null;
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+
+        if (lastShownList.size() < targetIndex) {
+            indicateAttemptToExecuteIncorrectCommand();
+            return new CommandResult(Error);
+        }
+        taskToUndone = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+
+        try {
+            model.undoneTask(taskToUndone);
+            saveAction();
+        } catch (TaskNotFoundException pnfe) {
+            assert false : "The target task cannot be missing";
+        	return new CommandResult(Error);
+        }
+
+        return new CommandResult(Message);
+    }
+
+	private void saveAction() {
+		if (!undo) {
+		    LogicManager.actionRecorder.recordAction(
+		    		new UserAction(UndoneCommand.COMMAND_WORD, 
+		    				UniqueTaskList.getInternalList().indexOf(taskToUndone), 
+		    				taskToUndone)
+		    );
+		}
+	}
 
 }

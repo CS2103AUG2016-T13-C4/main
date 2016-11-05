@@ -11,6 +11,7 @@ import seedu.task.storage.UndoManagerStorage;
 
 import static seedu.task.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.task.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.task.commons.core.Messages.MESSAGE_UNDO_LIMIT;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -100,7 +101,6 @@ public class Parser {
         // @@author A0113992B    
         case UndoCommand.COMMAND_WORD:
         	return prepareUndo();
-            //return new UndoCommand();
 //        case RedoCommand.COMMAND_WORD:
 //            return new RedoCommand();
         //@@author A0135763B-reused
@@ -130,12 +130,17 @@ public class Parser {
     }
     
     /**
-     * Parses arguments in the context of the add task command.
+     * Parses arguments in the context of the undo command.
+     * 
+     * This command prepares a previous command and parse it to the router function
+     * to decipher the command to route to.
      *
      * @param args full command args string
      * @return the prepared command
      */
     private Command prepareUndo(){
+    	assert LogicManager.getUndoManager() != null;
+    	
     	UndoManagerStorage UndoStorage = LogicManager.getUndoManager();
     	Stack<UserAction> undoStack = UndoStorage.getUndoStack();
     	Stack<UserAction> redoStack = UndoStorage.getRedoStack();
@@ -143,38 +148,10 @@ public class Parser {
     	if (!undoStack.isEmpty()) {
             UserAction prevAction = undoStack.pop();
             redoStack.push(prevAction);
-            String commandWord = prevAction.getCommandWord();
             
-            switch(commandWord) {
-	            case EditCommand.COMMAND_WORD:
-	                //assert prevCommand.getName().toString()!= null;
-	            	try {
-	            		return new EditCommand(prevAction.getBackUpTask(), prevAction.getIndex(), true);
-	                } catch (IllegalValueException ive) {
-	                    return new IncorrectCommand(ive.getMessage());
-	                }
-	            case AddCommand.COMMAND_WORD:
-	                //assert prevCommand.getName().toString()!= null;
-	                return new DeleteCommand(prevAction.getIndex(), true);
-	            case DeleteCommand.COMMAND_WORD:
-	                //assert prevCommand.getName().toString() != null;
-	            	try {
-	            		return new AddCommand(prevAction.getBackUpTask(), prevAction.getIndex());
-	                } catch (IllegalValueException ive) {
-	                    return new IncorrectCommand(ive.getMessage());
-	                }
-	            	//undoRemoveCommand(prevCommand);
-	            case UndoneCommand.COMMAND_WORD:
-	                //assert prevCommand.getName().toString() != null;
-	                //return undoUndoneCommand(prevCommand);
-	            case DoneCommand.COMMAND_WORD:
-	                //assert prevCommand.getName().toString() != null;
-	                //return undoDoneCommand(prevCommand);
-	            default:
-	                return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
-            }
-        }
-		return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
+            return new UndoCommand(prevAction);
+        } 
+    	return new IncorrectCommand(MESSAGE_UNDO_LIMIT);
     }
     
     /**
@@ -198,7 +175,8 @@ public class Parser {
 			return new AddCommand(
 					getName,
 					"",
-		            getTagsFromArgs(matcher.group("tagArguments"))
+		            getTagsFromArgs(matcher.group("tagArguments")),
+		            false
 		    );
 		} else {
 			if (DateTime.isValidDate(getDateTime)) {
@@ -214,14 +192,16 @@ public class Parser {
 				return new AddCommand(
 		    			getName,
 		    			getDateTime,
-		                getTagsFromArgs(matcher.group("tagArguments"))
+		                getTagsFromArgs(matcher.group("tagArguments")),
+		                false
 		        );
 			} else if (getDateTime != null && getName != null && !getName.trim().equals("") && !getDateTime.trim().equals("")){
 				// treat as floating task
 				return new AddCommand(
 						matcher.group(),
 						"",
-			            getTagsFromArgs(matcher.group("tagArguments"))
+			            getTagsFromArgs(matcher.group("tagArguments")),
+			            false
 			    );
 			} else {
 				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -277,7 +257,8 @@ public class Parser {
 				return new AddCommand(
 						matcher.group(),
 						"",
-			            getTagsFromArgs(matcher.group("tagArguments"))
+			            getTagsFromArgs(matcher.group("tagArguments")),
+			            false
 			    );
 			} else {
 				return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -357,7 +338,7 @@ public class Parser {
         }
         
         try {
-			return new DoneCommand(index.get());
+			return new DoneCommand(index.get(), false);
 		} catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
 		}
@@ -379,7 +360,7 @@ public class Parser {
         }
         
         try {
-			return new UndoneCommand(index.get());
+			return new UndoneCommand(index.get(), false);
 		} catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
 		} 

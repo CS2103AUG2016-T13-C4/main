@@ -38,13 +38,14 @@ public class AddCommand extends Command {
     private final static boolean Undone = false;
     private final Task toAdd;
     private final int index;
+    private final boolean undo;
     
     /**
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddCommand(String name, String dateTimeParam, Set<String> tags)
+    public AddCommand(String name, String dateTimeParam, Set<String> tags, boolean undo)
             throws IllegalValueException {
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
@@ -53,6 +54,7 @@ public class AddCommand extends Command {
         
         this.toAdd = handleAddType(name, dateTimeParam, tagSet);
         this.index = -1;
+        this.undo = undo;
     }
     
     //@@author A0135763B
@@ -63,9 +65,10 @@ public class AddCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddCommand(Task task, int position) throws IllegalValueException {
+    public AddCommand(Task task, int position, boolean undo) throws IllegalValueException {
         this.toAdd = task;
         this.index = position;
+        this.undo = undo;
     }
     
     /**
@@ -192,17 +195,44 @@ public class AddCommand extends Command {
 	}
     
     //@@author A0135763B-reused
-    @Override
+	@Override
     public CommandResult execute() {
         assert model != null;
         try {
             model.addTask(toAdd, index);
-            LogicManager.actionRecorder.recordAction(new UserAction(AddCommand.COMMAND_WORD, UniqueTaskList.getInternalList().indexOf(toAdd), toAdd));
+            saveAction();
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
-
     }
+	
+	/**
+     * Overloaded function for the purpose of undo Command
+     * 
+     * Allows undo command to overwrite the success and failure messages
+     * 
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+    public CommandResult execute(String Message, String Error) {
+        assert model != null;
+        try {
+            model.addTask(toAdd, index);
+            saveAction();
+            return new CommandResult(Message);
+        } catch (UniqueTaskList.DuplicateTaskException e) {
+            return new CommandResult(Error);
+        }
+    }
+
+	private void saveAction() {
+		if (!undo) {
+			LogicManager.actionRecorder.recordAction(
+					new UserAction(AddCommand.COMMAND_WORD, 
+							UniqueTaskList.getInternalList().indexOf(toAdd), 
+							toAdd)
+			);
+		}
+	}
 
 }

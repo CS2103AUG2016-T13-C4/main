@@ -18,5 +18,10 @@ public class IncorrectCommand extends Command {
         return new CommandResult(feedbackToUser);
     }
 
+	@Override
+	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
+		return execute();
+	}
+
 }
 

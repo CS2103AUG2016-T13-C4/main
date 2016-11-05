@@ -29,14 +29,18 @@ public interface ReadOnlyTask {
 	 * .equals)
 	 */
 	default boolean isSameStateAs(ReadOnlyTask other) {
+		boolean checkSameDateTime = (other.getDateTime() != null) ? other.getDateTime().equals(this.getDateTime()) : false;
+		boolean checkSameDueDateTime = (other.getDueTime() != null) ? other.getDueTime().equals(this.getDueTime()) : false;
+		
+		
 		return other == this // short circuit if same object
 				|| (other != null // this is first to avoid NPE below
 						&& other.getName().equals(this.getName()) // state
 																	// checks
 																	// here
 																	// onwards
-						&& other.getDateTime().equals(this.getDateTime())
-						&& other.getDueTime().equals(this.getDueTime()));
+						&& checkSameDateTime
+						&& checkSameDueDateTime);
 	}
 
 	/**

@@ -253,4 +253,9 @@ public class ListCommand extends Command {
     	
     	return new CommandResult(userMessage);
     }
+
+	@Override
+	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
+		return execute();
+	}
 }

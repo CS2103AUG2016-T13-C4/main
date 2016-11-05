@@ -54,7 +54,7 @@ public class DeleteCommand extends Command {
         try {
         	int getPosition =  UniqueTaskList.getInternalList().indexOf(taskToDelete);
             model.deleteTask(taskToDelete);
-            LogicManager.actionRecorder.recordAction(new UserAction(DeleteCommand.COMMAND_WORD, getPosition, taskToDelete));
+            saveAction(getPosition);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
         }
@@ -62,5 +62,45 @@ public class DeleteCommand extends Command {
         //@@author A0135763B-reused
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
     }
+    
+    /**
+     * Overloaded function for the purpose of undo Command
+     * 
+     * Allows undo command to overwrite the success and failure messages
+
+     */
+    public CommandResult execute(String Message, String Error) {
+    	
+    	lastShownList = (undo) ? model.getSuperbTodo().getTaskList() : model.getFilteredTaskList();
+    	
+    	if (lastShownList.size() < targetIndex) {
+            indicateAttemptToExecuteIncorrectCommand();
+            return new CommandResult(Error);
+        }
+    	
+    	taskToDelete = (undo) ? lastShownList.get(targetIndex) : lastShownList.get(targetIndex - 1);
+    	
+        try {
+        	int getPosition =  UniqueTaskList.getInternalList().indexOf(taskToDelete);
+            model.deleteTask(taskToDelete);
+            saveAction(getPosition);
+        } catch (TaskNotFoundException pnfe) {
+            assert false : "The target task cannot be missing";
+        	return new CommandResult(Error);
+        }
+
+        //@@author A0135763B-reused
+        return new CommandResult(Message);
+    }
+
+	private void saveAction(int getPosition) {
+		if (!undo) {
+			LogicManager.actionRecorder.recordAction(
+					new UserAction(DeleteCommand.COMMAND_WORD, 
+							getPosition, 
+							taskToDelete)
+			);
+		}
+	}
 
 }

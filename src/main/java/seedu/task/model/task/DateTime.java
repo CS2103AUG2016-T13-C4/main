@@ -100,10 +100,12 @@ public class DateTime {
 
 	@Override
 	public boolean equals(Object other) {
+		boolean stateCheck = (this.value != null && ((DateTime) other).value != null 
+							&& this.value.equals((this.value != null && ((DateTime) other).value != null)))
+							|| (this.value == null && ((DateTime) other).value == null);
 		return other == this // short circuit if same object
 				|| (other instanceof DateTime // instanceof handles nulls
-						&& this.value.equals(((DateTime) other).value)); // state
-																			// check
+				&& stateCheck);
 	}
 
 	@Override

@@ -25,7 +25,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final SuperbTodo superbtodo;
     private final FilteredList<Task> filteredTasks;
-
+    private Expression viewCondition;
+    
     /**
      * Initializes a ModelManager with the given Superbtodo
      * Superbtodo and its variables should not be null
@@ -38,7 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
         
         superbtodo = new SuperbTodo(src);
-        filteredTasks = new FilteredList<>(superbtodo.getTasks());
+        filteredTasks = new FilteredList<>(superbtodo.getTasks());       
     }
 
     public ModelManager() {
@@ -70,13 +71,14 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
         superbtodo.removeTask(target);
+        refreshFilteredTaskList();
         indicateSuperbTodoChanged();
     }
     
     @Override
     public synchronized void editTask(ReadOnlyTask target, Task task) throws TaskNotFoundException {
         superbtodo.editTask(target, task);
-        //updateFilteredListToShowAll();
+        refreshFilteredTaskList();
         indicateSuperbTodoChanged();
     }
 
@@ -84,21 +86,20 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void doneTask(ReadOnlyTask target) throws TaskNotFoundException {
         superbtodo.doneTask(target);
-        //updateFilteredListToShowAll();
+        refreshFilteredTaskList();
         indicateSuperbTodoChanged();
     }
     
     @Override
     public synchronized void undoneTask(ReadOnlyTask target) throws TaskNotFoundException {
         superbtodo.undoneTask(target);
-        //updateFilteredListToShowAll();
+        refreshFilteredTaskList();
         indicateSuperbTodoChanged();
     }
     
     @Override
     public synchronized void changePath(String newpath) {
         superbtodo.changePath(newpath);
-        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
     @Override
@@ -108,7 +109,6 @@ public class ModelManager extends ComponentManager implements Model {
     	} else {
     		superbtodo.addTask(task, position);
     	}
-        //updateFilteredListToShowAll();
         indicateSuperbTodoChanged();
     }
 
@@ -142,7 +142,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     private void updateFilteredTaskList(Expression expression) {
+    	viewCondition = expression;
         filteredTasks.setPredicate(expression::satisfies);
+    }
+    
+    private void refreshFilteredTaskList() {
+    	updateFilteredTaskList(viewCondition);
     }
 
     //========== Inner classes/interfaces used for filtering ==================================================

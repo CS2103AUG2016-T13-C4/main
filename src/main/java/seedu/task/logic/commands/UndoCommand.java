@@ -3,8 +3,11 @@ package seedu.task.logic.commands;
 
 import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.logic.LogicManager;
+import seedu.task.model.UserAction;
 import seedu.task.model.task.*;
 import seedu.task.storage.UndoManagerStorage;
+
+import static seedu.task.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.Stack;
 import java.util.Vector;
@@ -42,160 +45,139 @@ public class UndoCommand extends Command {
     private static final String FEEDBACK_SUCCESSFUL_DONE_UNDO = "undo done command";
     private static final String FEEDBACK_SUCCESSFUL_REDO = "redo last command";
     private static final String FEEDBACK_UNSUCCESSFUL_UNDO = "undo failed";
-
-
     
-
-    private LogicManager logicM = new LogicManager(model, null);
-    private UndoManagerStorage undoM = LogicManager.theOne;
-    private String commandWord;
+    private final Command toUndo;
+    private final String commandType;
     
-    private Stack<Task> undoStack;
-    private Stack<Task> redoStack;
-    private Vector<UndoManagerStorage> storedTasksUndone;
-    private Vector<UndoManagerStorage> storedTasksDone;
-    
-    public UndoCommand () {
-        this.undoStack = undoM.getUndoStack();
-        this.redoStack = undoM.getRedoStack();
-        this.storedTasksUndone = undoM.getStoredTasksUndone();
-        this.storedTasksDone = undoM.getStoredTasksDone();
-        
-        if (!undoStack.isEmpty()) {
-            Task prevCommand = undoStack.pop();
-            redoStack.push(prevCommand);
-            commandWord = storedTasksUndone.lastElement().getCommandWord();
-            
-            switch(commandWord) {
-            case COMMAND_EDIT:
-                assert prevCommand.getName().toString()!= null;
-                //return undoEditCommand(prevCommand);
-            case COMMAND_ADD:
-                assert prevCommand.getName().toString()!= null;
-                return new DeleteCommand(index.get());
-                //return undoAddCommand(prevCommand);
-            case COMMAND_REMOVE:
-                assert prevCommand.getName().toString() != null;
-                undoRemoveCommand(prevCommand);
-            case COMMAND_UNDONE:
-                assert prevCommand.getName().toString() != null;
-                //return undoUndoneCommand(prevCommand);
-            case COMMAND_DONE:
-                assert prevCommand.getName().toString() != null;
-                //return undoDoneCommand(prevCommand);
-            }
-        }
-    }
-    
-    
-    /**
-     * Undo the previous command carried out by user.
-     * 
-     * @return void
-     */
-    @Override
-    public CommandResult execute() {
-        assert undoStack != null;
-        if (!undoStack.isEmpty()) {
-            Task prevCommand = undoStack.pop();
-            redoStack.push(prevCommand);
-            commandWord = storedTasksUndone.lastElement().getCommandWord();
-            
-            switch(commandWord) {
-            case COMMAND_EDIT:
-                assert prevCommand.getName().toString()!= null;
-                return undoEditCommand(prevCommand);
-            case COMMAND_ADD:
-                assert prevCommand.getName().toString()!= null;
-                return undoAddCommand(prevCommand);
-            case COMMAND_REMOVE:
-                assert prevCommand.getName().toString() != null;
-                return undoRemoveCommand(prevCommand);
-            case COMMAND_UNDONE:
-                assert prevCommand.getName().toString() != null;
-                return undoUndoneCommand(prevCommand);
-            case COMMAND_DONE:
-                assert prevCommand.getName().toString() != null;
-                return undoDoneCommand(prevCommand);
-            }
-        }
-        return new CommandResult(FEEDBACK_UNSUCCESSFUL_UNDO);       
-        
+    public UndoCommand (UserAction action) {
+    	this.toUndo = routeCommand(action);
+    	this.commandType = action.getCommandWord();
     }
 
-    
-    public CommandResult undoEditCommand(Task prevCommand) {
-        storedTasksUndone.remove(undoM);       
-        String index = String.format("%1$d", undoM.getIndex());       
-        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
-                        + " " + prevCommand.getDueTime().toString() + " "
-                        + prevCommand.getTags().toString() + " ";
-        logicM.execute("remove " + index);
-        logicM.execute("add "+ output);
-      
-        return new CommandResult(FEEDBACK_SUCCESSFUL_EDIT_UNDO);
+    public Command routeCommand(UserAction action) {
+    	String commandWord = action.getCommandWord();
+    	
+    	switch(commandWord) {
+	        case EditCommand.COMMAND_WORD:
+	        	assert action.getBackUpTask() != null;
+	        	
+	        	try {
+	        		return new EditCommand(action.getBackUpTask(), action.getIndex(), true);
+	            } catch (IllegalValueException ive) {
+	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+	            }
+	        case AddCommand.COMMAND_WORD:
+	        	assert action.getIndex() != -1;
+	            return new DeleteCommand(action.getIndex(), true);
+	        case DeleteCommand.COMMAND_WORD:
+	        	assert action.getIndex() != -1;
+	        	try {
+	        		return new AddCommand(action.getBackUpTask(), action.getIndex(), true);
+	            } catch (IllegalValueException ive) {
+	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+	            }
+	        case UndoneCommand.COMMAND_WORD:
+	        	assert action.getIndex() != -1;
+	        	try {
+	        		return new DoneCommand(action.getIndex(), true);
+	            } catch (IllegalValueException ive) {
+	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+	            }
+	        case DoneCommand.COMMAND_WORD:
+	        	try {
+	        		return new UndoneCommand(action.getIndex(), true);
+	            } catch (IllegalValueException ive) {
+	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+	            }
+	        default:
+	            return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+	    }
     }
 
-    /**
-     * Undo add command
-     * @param prevCommand
-     * @return
-     */
-    public CommandResult undoAddCommand(Task prevCommand) { 
-        storedTasksUndone.remove(undoM);
-        storedTasksDone.add(undoM);
-        String index = String.format("%1$d", undoM.getIndex());
-        logicM.execute("remove " + index);
-        
-        return new CommandResult(FEEDBACK_SUCCESSFUL_ADD_UNDO);
-    }
-    
-    
-    /**
-     * Undo Remove command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public void undoRemoveCommand(Task prevCommand) {
-        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
-                        + " " + prevCommand.getDueTime().toString() + " "
-                        + prevCommand.getTags().toString() + " ";
-        storedTasksUndone.add(undoM);
-        logicM.execute("add " + output);
-        //return new CommandResult(FEEDBACK_SUCCESSFUL_REMOVE_UNDO);
-    }
+//    /**
+//     * Undo add command
+//     * @param prevCommand
+//     * @return
+//     */
+//    public CommandResult undoAddCommand(Task prevCommand) { 
+//        storedTasksUndone.remove(undoM);
+//        storedTasksDone.add(undoM);
+//        String index = String.format("%1$d", undoM.getIndex());
+//        logicM.execute("remove " + index);
+//        
+//        return new CommandResult(FEEDBACK_SUCCESSFUL_ADD_UNDO);
+//    }
+//    
+//    
+//    /**
+//     * Undo Remove command
+//     * 
+//     * @param prevAction
+//     *            user's input CommandRecorder
+//     * @return successful feedback message
+//     */
+//    public void undoRemoveCommand(Task prevCommand) {
+//        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
+//                        + " " + prevCommand.getDueTime().toString() + " "
+//                        + prevCommand.getTags().toString() + " ";
+//        storedTasksUndone.add(undoM);
+//        logicM.execute("add " + output);
+//        //return new CommandResult(FEEDBACK_SUCCESSFUL_REMOVE_UNDO);
+//    }
+//
+//        
+//    /** Undo undone command
+//     * 
+//     * @param previousAction
+//     *            user's input event
+//     * @return successful feedback message
+//     */
+//    public CommandResult undoUndoneCommand(Task prevCommand) {
+//        int index = UniqueTaskList.getInternalList().indexOf(prevCommand);
+//        String num = String.format("%1$d", index);
+//        logicM.execute("done " + num);
+//        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDONE_UNDO);
+//    }
+//    
+//    /**
+//     * Undo done command
+//     * 
+//     * @param prevAction
+//     *            user's input CommandRecorder
+//     * @return successful feedback message
+//     */
+//    public CommandResult undoDoneCommand(Task prevCommand) {
+//        storedTasksUndone.add(undoM);            
+//        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
+//                        + " " + prevCommand.getDueTime().toString() + " "
+//                        + prevCommand.getTags().toString() + " ";
+//        logicM.execute("add "+ output);
+//        return new CommandResult(FEEDBACK_SUCCESSFUL_DONE_UNDO);
+//    }
 
-        
-    /** Undo undone command
-     * 
-     * @param previousAction
-     *            user's input event
-     * @return successful feedback message
-     */
-    public CommandResult undoUndoneCommand(Task prevCommand) {
-        int index = UniqueTaskList.getInternalList().indexOf(prevCommand);
-        String num = String.format("%1$d", index);
-        logicM.execute("done " + num);
-        return new CommandResult(FEEDBACK_SUCCESSFUL_UNDONE_UNDO);
-    }
-    
-    /**
-     * Undo done command
-     * 
-     * @param prevAction
-     *            user's input CommandRecorder
-     * @return successful feedback message
-     */
-    public CommandResult undoDoneCommand(Task prevCommand) {
-        storedTasksUndone.add(undoM);            
-        String output = prevCommand.getName().toString() + " " + prevCommand.getDateTime().toString() 
-                        + " " + prevCommand.getDueTime().toString() + " "
-                        + prevCommand.getTags().toString() + " ";
-        logicM.execute("add "+ output);
-        return new CommandResult(FEEDBACK_SUCCESSFUL_DONE_UNDO);
-    }
+	@Override
+	public CommandResult execute() {
+		toUndo.setData(model);
+		switch (commandType) {
+	        case COMMAND_ADD:
+	        	return toUndo.execute(FEEDBACK_SUCCESSFUL_ADD_UNDO, FEEDBACK_UNSUCCESSFUL_UNDO);
+	        case COMMAND_REMOVE:
+	        	return toUndo.execute(FEEDBACK_SUCCESSFUL_REMOVE_UNDO, FEEDBACK_UNSUCCESSFUL_UNDO);
+	        case COMMAND_EDIT:
+	        	return toUndo.execute(FEEDBACK_SUCCESSFUL_EDIT_UNDO, FEEDBACK_UNSUCCESSFUL_UNDO);
+	        case COMMAND_DONE:
+	        	return toUndo.execute(FEEDBACK_SUCCESSFUL_DONE_UNDO, FEEDBACK_UNSUCCESSFUL_UNDO);
+	        case COMMAND_UNDONE:
+	        	return toUndo.execute(FEEDBACK_SUCCESSFUL_UNDONE_UNDO, FEEDBACK_UNSUCCESSFUL_UNDO);
+	        default:
+	        	return toUndo.execute();
+		}
+	}
+
+	@Override
+	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
+		return execute();
+	}
 
   
 }

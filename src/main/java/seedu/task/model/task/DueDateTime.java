@@ -94,10 +94,12 @@ public class DueDateTime {
 
 	@Override
 	public boolean equals(Object other) {
+		boolean stateCheck = (this.value != null && ((DueDateTime) other).value != null 
+				&& this.value.equals((this.value != null && ((DueDateTime) other).value != null)))
+				|| (this.value == null && ((DueDateTime) other).value == null);
 		return other == this // short circuit if same object
 				|| (other instanceof DueDateTime // instanceof handles nulls
-						&& this.value.equals(((DueDateTime) other).value)); // state
-																			// check
+				&& stateCheck);
 	}
 
 	@Override
