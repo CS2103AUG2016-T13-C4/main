@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Export-Package: guitests,
  guitests.guihandles,
  seedu.address.storage,
- seedu.address.testutil,
  seedu.address.ui,
  seedu.task,
  seedu.task.commons.core,
@@ -21,5 +20,6 @@ Export-Package: guitests,
  seedu.task.logic.parser,
  seedu.task.model,
  seedu.task.model.tag,
- seedu.task.model.task
+ seedu.task.model.task,
+ seedu.task.testutil
 Import-Package: seedu.task.logic.commands
