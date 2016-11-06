@@ -150,13 +150,21 @@ public class TaskListPanel extends UiPart {
                 String task_date = task.getDueTime().date_value.substring(0, 6);
                 String task_time = task.getDueTime().time_value;
 
+                // compare task param with current time param to determine if task is overdue
+                // if so change task color
                 if (task_year.compareTo(year_now) < 0) {
+                    System.out.println("year");
                     setStyle("-fx-control-inner-background: #ee2d07");
-                } else if (task_date.compareTo(date_now) < 0 ) {
-                    setStyle("-fx-control-inner-background: #ee2d07");
-                } else if (task_time.compareTo(time_now) < 0 ) {
-                    setStyle("-fx-control-inner-background: #ee2d07");
-                }
+                } else{
+                    if (task_date.compareTo(date_now) < 0 ) {                        
+                        setStyle("-fx-control-inner-background: #ee2d07");
+                    } else {
+                        if (task_date.equals(date_now) && task_time.compareTo(time_now) < 0 ) {
+                            setStyle("-fx-control-inner-background: #ee2d07");
+                        }
+                    }
+                } 
+ 
             }
             
         }
