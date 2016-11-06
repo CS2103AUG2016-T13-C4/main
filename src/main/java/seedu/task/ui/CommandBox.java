@@ -78,7 +78,7 @@ public class CommandBox extends UiPart {
 
 
     @FXML
-    private void handleCommandInputChanged() {
+    private void handleCommandInputChanged() throws IllegalValueException {
         //Take a copy of the command text
         previousCommandTest = commandTextField.getText();        
 
@@ -86,22 +86,23 @@ public class CommandBox extends UiPart {
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
-        //taskLister(previousCommandTest);
+        taskLister(previousCommandTest);
         mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
     
     private void taskLister(String userInput) throws IllegalValueException {
+        
         MainWindow main = new MainWindow();
         String commandWord;
         String arguments;
         
-        if (userInput.length() <= 4) {
+        if (!userInput.substring(0, 4).equals("list")) {
             throw new IllegalValueException(MESSAGE_NOT_LIST_COMMAND);
         } else {
-            commandWord = userInput.substring(0, 3);
-            arguments = userInput.substring(5, userInput.length()-1);
+            commandWord = userInput.substring(0, 4);
+            arguments = userInput.substring(5, userInput.length());
         }
         
         
@@ -113,6 +114,7 @@ public class CommandBox extends UiPart {
             } else if (arguments.equals("tomorrow")) {
                 main.setLabel(2);
             } else if (arguments.equals("all")) {
+                System.out.println("in comm");
                 main.setLabel(3);
             }
         }  

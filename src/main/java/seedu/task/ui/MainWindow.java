@@ -89,7 +89,7 @@ public class MainWindow extends UiPart {
     
     // Handles to elements of task scope display
     @FXML
-    private Label taskScope = new Label(); 
+    public Label taskScope = new Label(); 
     
     @FXML
     Image img = new Image("/images/clock.png");
@@ -207,6 +207,7 @@ public class MainWindow extends UiPart {
             FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
            // taskScopePlaceholder.getChildren().add(taskScope);
         } else if (index == 3) { // all 
+            System.out.println("here");
             taskScope = new Label();
             taskScope.setText("Viewing All Todo Tasks");
             FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
