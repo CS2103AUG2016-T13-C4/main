@@ -97,14 +97,37 @@ public class TaskListPanel extends UiPart {
         protected void updateItem(ReadOnlyTask task, boolean empty) {
             super.updateItem(task, empty);
 
+//            if (empty || task == null) {
+//                setDisable(true);
+//                setGraphic(null);
+//                setText(null);
+//            } else {
+//                setDisable(false);
+//                setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
+//            }
+            boolean test = true;
             if (empty || task == null) {
                 setDisable(true);
                 setGraphic(null);
                 setText(null);
+                
             } else {
                 setDisable(false);
                 setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
+                
+                if (task.isDoneTask() == test) {
+                    setStyle("-fx-control-inner-background: #d6c400");
+                } 
+                else {
+                    if ((getIndex() + 1)%2 == 0 ) {
+                        setStyle("-fx-control-inner-background: white");
+                    } else {
+                       setStyle("-fx-control-inner-background: #5e64b1"); 
+                    }
+                    
+                }
             }
+            
         }
     }
 
