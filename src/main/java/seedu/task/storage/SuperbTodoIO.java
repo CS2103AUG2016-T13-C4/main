@@ -117,6 +117,9 @@ public class SuperbTodoIO extends ComponentManager{
         Path currentPath = Paths.get(taskbookFilePath);
         String s = currentPath.toAbsolutePath().toString();
         int endIndex = s.lastIndexOf( '/' );
+        if (endIndex == -1) {
+        	endIndex = s.lastIndexOf('\\');
+        }
         String temp = 	s.substring(0, endIndex);	
         String deleteCmd = "rm -r " + temp;
         Runtime runtime = Runtime.getRuntime();
