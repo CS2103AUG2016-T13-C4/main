@@ -81,7 +81,7 @@ allprojects {
         archiveName = "SuperbToDo.jar"
 
         manifest {
-            attributes "Main-Class": "seedu.address.MainApp"
+            attributes "Main-Class": "seedu.task.MainApp"
         }
 
         destinationDir = file("${buildDir}/jar/")
@@ -142,7 +142,7 @@ task guiTests(type: AddressBookTest) {
 
 
 task nonGuiTests(type: AddressBookTest) {
-    include 'seedu/address/**'
+    include 'seedu/task/**'
 
     jacoco {
         destinationFile = new File("${buildDir}/jacoco/test.exec")
