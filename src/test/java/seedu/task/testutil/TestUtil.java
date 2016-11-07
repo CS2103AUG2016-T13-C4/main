@@ -133,10 +133,6 @@ public class TestUtil {
     }
 
     
-    //@xiaodong 
-//    public static XmlSerializableSuperbTodo generateSampleStorageAddressBook() {
-//        return new XmlSerializableAddressBook(generateEmptyAddressBook());
-//    }
 
     /**
      * Tweaks the {@code keyCodeCombination} to resolve the {@code KeyCode.SHORTCUT} to their
