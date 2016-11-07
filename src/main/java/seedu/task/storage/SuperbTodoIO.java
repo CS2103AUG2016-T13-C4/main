@@ -96,11 +96,11 @@ public class SuperbTodoIO extends ComponentManager{
 	 * Use Gson library and PrintWriter to save content in temporary arraylist into the local file in JSON format
 	 * @throws IOException 
 	*/
-	public static void saveTasksIntoFile(ReadOnlySuperbTodo addressBook) throws IOException {
+	public static void saveTasksIntoFile(ReadOnlySuperbTodo taskBook) throws IOException {
 		Gson gson = new Gson();
 		Type type = new TypeToken<ObservableList<Task>>() {
 		}.getType();
-		UniqueTaskList tempList = addressBook.getUniquePersonList();
+		UniqueTaskList tempList = taskBook.getUniquePersonList();
 		ObservableList<Task> taskList = tempList.getInternalList();
 		String jsonTasks = gson.toJson(taskList,type);
         File file = new File(taskbookFilePath);

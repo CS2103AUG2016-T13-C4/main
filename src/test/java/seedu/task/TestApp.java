@@ -1,3 +1,5 @@
+//@@author A0133945B-reused
+
 package seedu.task;
 
 import javafx.stage.Screen;
@@ -7,8 +9,10 @@ import seedu.task.commons.core.Config;
 import seedu.task.commons.core.GuiSettings;
 import seedu.task.model.ReadOnlySuperbTodo;
 import seedu.task.model.UserPrefs;
+import seedu.task.storage.SuperbTodoIO;
 import seedu.task.testutil.TestUtil;
 
+import java.io.IOException;
 import java.util.function.Supplier;
 
 /**
@@ -17,7 +21,7 @@ import java.util.function.Supplier;
  */
 public class TestApp extends MainApp {
 
-    public static final String SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.xml");
+    public static final String SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.txt");
     protected static final String DEFAULT_PREF_FILE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("pref_testing.json");
     public static final String APP_TITLE = "Test App";
     protected static final String TASK_BOOK_NAME = "Test";
@@ -26,6 +30,7 @@ public class TestApp extends MainApp {
 
     public TestApp() {
     }
+  //@@author A0133945B
 
     public TestApp(Supplier<ReadOnlySuperbTodo> initialDataSupplier, String saveFileLocation) {
         super();
@@ -34,9 +39,11 @@ public class TestApp extends MainApp {
 
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
-            TestUtil.createDataFileWithData(
-                    new XmlSerializableAddressBook(this.initialDataSupplier.get()),
-                    this.saveFileLocation);
+        	try {
+				SuperbTodoIO.saveTasksIntoFile(this.initialDataSupplier.get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
@@ -49,6 +56,7 @@ public class TestApp extends MainApp {
         config.setTaskBookName(TASK_BOOK_NAME);
         return config;
     }
+  //@@author A0133945B-reused
 
     @Override
     protected UserPrefs initPrefs(Config config) {
