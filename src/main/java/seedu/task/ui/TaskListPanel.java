@@ -117,15 +117,18 @@ public class TaskListPanel extends UiPart {
                 setDisable(false);
                 setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
 
-                // sets task color to yellow if it is marked as done
+                // sets task color if it is marked as done
                 if (task.isDoneTask() == test) {
-                    setStyle("-fx-control-inner-background: #4ab901");
+                    setStyle("-fx-control-inner-background: #00bb42");
+                    
                 } 
                 else {
                     if ((getIndex() + 1)%2 == 0 ) {
                         setStyle("-fx-control-inner-background: white");
+                        
                     } else {
                        setStyle("-fx-control-inner-background: #5e64b1"); 
+                       
                     }
                     
                 }
@@ -155,24 +158,28 @@ public class TaskListPanel extends UiPart {
                   // if so change task color
                   if (task_year.compareTo(year_now) < 0) {
                       if (task.isDoneTask() == test) {
-                          setStyle("-fx-control-inner-background: #4ab901");
+                          setStyle("-fx-control-inner-background: #00bb42");
+                          
                       } else {
-                          setStyle("-fx-control-inner-background: #ee2d07");
+                          setStyle("-fx-control-inner-background: #ff6385");
                       }
                       
                   } else{
                       if (task_date.compareTo(date_now) < 0 ) {                        
                           if (task.isDoneTask() == test) {
-                              setStyle("-fx-control-inner-background: #4ab901");
+                              setStyle("-fx-control-inner-background: #00bb42");
+                              
                           } else {
-                              setStyle("-fx-control-inner-background: #ee2d07");
+                              setStyle("-fx-control-inner-background: #ff6385");                              
                           }
                       } else {
                           if (task_date.equals(date_now) && task_time.compareTo(time_now) < 0 ) {
-                              if (task.isDoneTask() == test) {
-                                  setStyle("-fx-control-inner-background: #4ab901");
+                              if (task.isDoneTask() == test) {                                 
+                                  setStyle("-fx-control-inner-background: #00bb42");
+                                  
                               } else {
-                                  setStyle("-fx-control-inner-background: #ee2d07");
+                                  setStyle("-fx-control-inner-background: #ff6385");
+                                  
                               }
                           }
                       }

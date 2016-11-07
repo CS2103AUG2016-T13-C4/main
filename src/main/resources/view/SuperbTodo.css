@@ -74,9 +74,11 @@
 
 .list-view .list-cell:even {
 	-fx-control-inner-background: #5e64b1;
+	-fx-background-insets: 1.0;
 }
 .list-view .list-cell:odd {
 	-fx-control-inner-background: white;
+	-fx-background-insets: 1.0;
 }
 
 .result-display {
