@@ -141,9 +141,9 @@ public class LogicManagerTest {
     @Test
     public void execute_clear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1), 1);
-        model.addTask(helper.generateTask(2), 2);
-        model.addTask(helper.generateTask(3), 3);
+        model.addTask(helper.generateTask(1));
+        model.addTask(helper.generateTask(2));
+        model.addTask(helper.generateTask(3));
 
         assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new SuperbTodo(), Collections.emptyList());
     }
@@ -203,7 +203,7 @@ public class LogicManagerTest {
         expectedAB.addTask(toBeAdded);
 
         // setup starting state
-        model.addTask(toBeAdded, 4); // Task already in internal address book
+        model.addTask(toBeAdded); // Task already in internal address book
 
         // execute command and verify result
         assertCommandBehavior(
@@ -254,12 +254,11 @@ public class LogicManagerTest {
         String expectedMessage = MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
         TestDataHelper helper = new TestDataHelper();
         List<Task> TaskList = helper.generateTaskList(2);
-        int i = 1;
+
         // set AB state to 2 Tasks
         model.resetData(new SuperbTodo());
         for (Task p : TaskList) {
-            model.addTask(p, i);
-            i++;
+            model.addTask(p);
         }
 
         assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), TaskList);
@@ -482,7 +481,7 @@ public class LogicManagerTest {
          */
         void addToModel(Model model, List<Task> TasksToAdd) throws Exception{
             for(Task p: TasksToAdd){
-                model.addTask(p, TasksToAdd.indexOf(p));
+                model.addTask(p);
             }
         }
 
