@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class StringUtil {
     public static boolean containsIgnoreCase(String source, String query) {
-    	return source.toLowerCase().contains(query);
+    	return source.toLowerCase().contains(query.toLowerCase());
     }
 
     /**
