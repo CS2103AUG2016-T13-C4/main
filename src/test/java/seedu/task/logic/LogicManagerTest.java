@@ -1,16 +1,18 @@
 package seedu.task.logic;
-
+//@@author A0135763B
 import com.google.common.eventbus.Subscribe;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.task.commons.core.EventsCenter;
 import seedu.task.commons.events.model.SuperbTodoChangedEvent;
 import seedu.task.commons.events.ui.JumpToListRequestEvent;
 import seedu.task.commons.events.ui.ShowHelpRequestEvent;
+import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.logic.Logic;
 import seedu.task.logic.LogicManager;
 import seedu.task.logic.commands.*;
@@ -21,6 +23,7 @@ import seedu.task.model.SuperbTodo;
 import seedu.task.model.tag.Tag;
 import seedu.task.model.tag.UniqueTagList;
 import seedu.task.model.task.*;
+import seedu.task.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.task.storage.SuperbTodoIO;
 
 import java.util.ArrayList;
@@ -39,6 +42,9 @@ public class LogicManagerTest {
     /**
      * See https://github.com/junit-team/junit4/wiki/rules#temporaryfolder-rule
      */
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+	
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
 
@@ -96,7 +102,7 @@ public class LogicManagerTest {
      * @see #assertCommandBehavior(String, String, ReadOnlySuperbTodo, List)
      */
     private void assertCommandBehavior(String inputCommand, String expectedMessage) throws Exception {
-        assertCommandBehavior(inputCommand, expectedMessage, new SuperbTodo(), Collections.emptyList());
+        assertCommandBehavior(inputCommand, expectedMessage, new SuperbTodo(), model.getFilteredTaskList());
     }
 
     /**
@@ -143,16 +149,9 @@ public class LogicManagerTest {
     @Test
     public void execute_clear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-<<<<<<< HEAD
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
-
-=======
         model.addTask(helper.generateTask(1), DEFAULT_INDEX);
         model.addTask(helper.generateTask(2), DEFAULT_INDEX);
         model.addTask(helper.generateTask(3), DEFAULT_INDEX);
->>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
         assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new SuperbTodo(), Collections.emptyList());
     }
 
@@ -209,21 +208,10 @@ public class LogicManagerTest {
         Task toBeAdded = helper.adam();
         SuperbTodo expectedAB = new SuperbTodo();
         expectedAB.addTask(toBeAdded);
-
+        
+        exception.expect(DuplicateTaskException.class);
         // setup starting state
-<<<<<<< HEAD
-        model.addTask(toBeAdded); // Task already in internal address book
-=======
         model.addTask(toBeAdded, DEFAULT_INDEX); // Task already in internal address book
->>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
-
-        // execute command and verify result
-        assertCommandBehavior(
-                helper.generateAddCommand(toBeAdded),
-                AddCommand.MESSAGE_DUPLICATE_TASK,
-                expectedAB,
-                expectedAB.getTaskList());
-
     }
 
 
@@ -270,11 +258,7 @@ public class LogicManagerTest {
         // set AB state to 2 Tasks
         model.resetData(new SuperbTodo());
         for (Task p : TaskList) {
-<<<<<<< HEAD
-            model.addTask(p);
-=======
         	model.addTask(p, DEFAULT_INDEX);
->>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
         }
 
         assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), TaskList);
@@ -363,15 +347,14 @@ public class LogicManagerTest {
     @Test
     public void execute_find_isNotCaseSensitive() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Task p1 = helper.generateTaskWithName("bla bla KEY bla");
-        Task p2 = helper.generateTaskWithName("bla KEY bla bceofeia");
-        Task p3 = helper.generateTaskWithName("key key");
-        Task p4 = helper.generateTaskWithName("KEy sduauo");
+        Task p1 = helper.generateTaskWithName("test bla KEY bla");
+        Task p2 = helper.generateTaskWithName("test KEY bla bceofeia");
+        Task p3 = helper.generateTaskWithName("key test");
+        Task p4 = helper.generateTaskWithName("KEy test asdw");
 
         List<Task> fourTasks = helper.generateTaskList(p3, p1, p4, p2);
         SuperbTodo expectedAB = helper.generateSuperbTodo(fourTasks);
         List<Task> expectedList = fourTasks;
-        helper.addToModel(model, fourTasks);
 
         assertCommandBehavior("find KEY",
                 Command.getMessageForTaskListShownSummary(expectedList.size()),
@@ -497,11 +480,7 @@ public class LogicManagerTest {
          */
         void addToModel(Model model, List<Task> TasksToAdd) throws Exception{
             for(Task p: TasksToAdd){
-<<<<<<< HEAD
-                model.addTask(p);
-=======
             	model.addTask(p, DEFAULT_INDEX);
->>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
             }
         }
 
