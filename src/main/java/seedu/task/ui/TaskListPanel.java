@@ -89,17 +89,14 @@ public class TaskListPanel extends UiPart {
         });
     }
     
+    //@@author A0113992B
     public static final String[] months = { "Jan", "Feb", "Mar", "Apr",
             "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
     
     public static final String[] dateformat  = {"00", "01", "02", "03", "04", "05", "06",
             "07", "08", "09"};
     
-    
-    
-
-    
-
+    //@@author A0113992B-reused
     class TaskListViewCell extends ListCell<ReadOnlyTask> {
 
         public TaskListViewCell() {
@@ -116,6 +113,7 @@ public class TaskListPanel extends UiPart {
                 setText(null);
                 
             } else {
+                //@@author A0113992B
                 setDisable(false);
                 setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
 
@@ -132,39 +130,7 @@ public class TaskListPanel extends UiPart {
                     
                 }
                 
-//                // sets task color to red if it is overdue
-//                Calendar c = Calendar.getInstance();      
-//                String hour = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
-//                String minute = "";                
-//                if (c.get(Calendar.MINUTE) < 10) {
-//                    minute = "0" + c.get(Calendar.MINUTE);
-//                } else {
-//                    minute = Integer.toString(c.get(Calendar.MINUTE));
-//                }
-//
-//                String year_now = String.format("%1$d", c.get(Calendar.YEAR)) ;
-//                String date_now = dateformat[c.get(Calendar.DATE)] + " " + months[c.get(Calendar.MONTH)];
-//                String time_now = hour + ":" + minute + " Hrs";
-//                
-//                String task_year = task.getDueTime().date_value.substring(7,11);
-//                String task_date = task.getDueTime().date_value.substring(0, 6);
-//                String task_time = task.getDueTime().time_value;
-//
-//                // compare task param with current time param to determine if task is overdue
-//                // if so change task color
-//                if (task_year.compareTo(year_now) < 0) {
-//                    System.out.println("year");
-//                    setStyle("-fx-control-inner-background: #ee2d07");
-//                } else{
-//                    if (task_date.compareTo(date_now) < 0 ) {                        
-//                        setStyle("-fx-control-inner-background: #ee2d07");
-//                    } else {
-//                        if (task_date.equals(date_now) && task_time.compareTo(time_now) < 0 ) {
-//                            setStyle("-fx-control-inner-background: #ee2d07");
-//                        }
-//                    }
-//                } 
-// 
+
             }
             
         }

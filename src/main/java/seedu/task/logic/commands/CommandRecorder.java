@@ -2,7 +2,7 @@ package seedu.task.logic.commands;
 
 import seedu.task.model.tag.UniqueTagList;
 import seedu.task.model.task.*;
-// @@author A0113992B
+// @@author A0113992B-unused
 /**
  * This class records down the command carried out 
  * and the task created. 

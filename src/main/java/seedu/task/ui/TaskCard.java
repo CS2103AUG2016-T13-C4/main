@@ -71,6 +71,7 @@ public class TaskCard extends UiPart{
     public AnchorPane getLayout() {
         return cardPane;
     }
+    
  // @@author A0113992B-reused
     @Override
     public void setNode(Node node) {

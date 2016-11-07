@@ -56,7 +56,6 @@ public class UiManager extends ComponentManager implements Ui {
             mainWindow.taskScopeSetter();
             mainWindow.clockFunction();
             // @@author A0113992B-reused
-            //mainWindow.setDefaultTaskScope();
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
