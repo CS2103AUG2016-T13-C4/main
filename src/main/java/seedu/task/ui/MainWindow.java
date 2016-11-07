@@ -49,7 +49,7 @@ public class MainWindow extends UiPart {
     private static final String ICON = "/images/SuperbTodo.png";
     // @@author A0113992B-reused
     private static final String FXML = "MainWindow.fxml";
-    public static final int MIN_HEIGHT = 600;
+    public static final int MIN_HEIGHT = 650;
     public static final int MIN_WIDTH = 800;
 
     private Logic logic;
