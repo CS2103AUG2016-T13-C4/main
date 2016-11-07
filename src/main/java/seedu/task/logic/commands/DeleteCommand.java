@@ -4,13 +4,10 @@ import java.util.List;
 
 import seedu.task.model.UserAction;
 import seedu.task.commons.core.Messages;
-import seedu.task.commons.core.UnmodifiableObservableList;
 import seedu.task.logic.LogicManager;
 import seedu.task.model.task.ReadOnlyTask;
-import seedu.task.model.task.Task;
 import seedu.task.model.task.UniqueTaskList;
 import seedu.task.model.task.UniqueTaskList.TaskNotFoundException;
-import seedu.task.storage.UndoManagerStorage;
 
 //@@author A0135763B-reused
 /**
@@ -68,7 +65,8 @@ public class DeleteCommand extends Command {
      * Overloaded function for the purpose of undo Command
      * 
      * Allows undo command to overwrite the success and failure messages
-
+	 * 
+	 * @return CommandResult
      */
     public CommandResult execute(String Message, String Error) {
     	
@@ -93,7 +91,12 @@ public class DeleteCommand extends Command {
         //@@author A0135763B-reused
         return new CommandResult(Message);
     }
-
+    
+    /**
+     * function to save user's action into the UndoStorageManager
+     * 
+     * Determine if an action should be saved and if so, save it as an UserAction Obejct
+     */
 	private void saveAction(int getPosition) {
 		if (!undo) {
 			LogicManager.actionRecorder.recordAction(

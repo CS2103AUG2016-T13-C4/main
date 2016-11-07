@@ -93,8 +93,7 @@ public class Parser {
         	return prepareUndone(arguments);
         	
         case PathCommand.COMMAND_WORD:
-        	return preparePath(arguments);  
-        	
+        	return preparePath(arguments);        	
         	
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();

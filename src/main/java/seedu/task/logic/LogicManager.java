@@ -27,7 +27,7 @@ public class LogicManager extends ComponentManager implements Logic {
     public LogicManager(Model model, SuperbTodoIO storage) {
         this.model = model;
         this.parser = new Parser();
-        this.actionRecorder = new UndoManagerStorage(new Vector<UndoManagerStorage>(), new Vector<UndoManagerStorage>());
+        LogicManager.actionRecorder = new UndoManagerStorage(new Vector<UndoManagerStorage>(), new Vector<UndoManagerStorage>());
     }
     
     public static UndoManagerStorage getUndoManager() {

@@ -36,7 +36,7 @@ public class RedoCommand extends Command{
     private final String commandType;
     
     /**
-     * Undo the previous command carried out by user.
+     * Redo the previous command undo-ed by user.
      * 
      * @return void
      */
@@ -45,47 +45,99 @@ public class RedoCommand extends Command{
     	this.commandType = action.getCommandWord();
     }
     
+    // @@author A0135763B
+    /**
+     * Helper function to route the User Action into appropriate redo commands
+     * 
+     * @return command
+     */
     public Command routeCommand(UserAction action) {
     	String commandWord = action.getCommandWord();
     	
     	switch(commandWord) {
 	        case EditCommand.COMMAND_WORD:
-	        	assert action.getBackUpTask() != null;
-	        	
-	        	try {
-	        		return new EditCommand(action.getBackUpEditTask(), action.getIndex(), false, true);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return redoEdit(action);
 	        case AddCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new AddCommand(action.getBackUpTask(), action.getIndex(), false);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return redoAdd(action);
 	        case DeleteCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	return new DeleteCommand(action.getIndex(), false, true);
+	        	return redoDelete(action);
 	        case UndoneCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new UndoneCommand(action.getIndex(), false, true);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return redoUndone(action);
 	        case DoneCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new DoneCommand(action.getIndex(), false, true);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return redoDone(action);
 	        default:
 	            return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	    }
     }
-
+    
+    /**
+     * Router function to redo an edit command
+     * 
+     * @return Command
+     */
+	private Command redoEdit(UserAction action) {
+		assert action.getBackUpTask() != null;
+		
+		try {
+			return new EditCommand(action.getBackUpEditTask(), action.getIndex(), false, true);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to redo an add command
+     * 
+     * @return Command
+     */
+	private Command redoAdd(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new AddCommand(action.getBackUpTask(), action.getIndex(), false);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to redo a delete command
+     * 
+     * @return Command
+     */
+	private Command redoDelete(UserAction action) {
+		assert action.getIndex() != -1;
+		return new DeleteCommand(action.getIndex(), false, true);
+	}
+	
+	/**
+     * Router function to redo an undone command
+     * 
+     * @return Command
+     */
+	private Command redoUndone(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new UndoneCommand(action.getIndex(), false, true);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to redo a done command
+     * 
+     * @return Command
+     */
+	private Command redoDone(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new DoneCommand(action.getIndex(), false, true);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	// @@author A0113992B
 	@Override
 	public CommandResult execute() {
 		toRedo.setData(model);
@@ -104,7 +156,8 @@ public class RedoCommand extends Command{
 	        	return toRedo.execute();
 		}
 	}
-
+	
+	// @@author A0135763B
 	@Override
 	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
 		return execute();

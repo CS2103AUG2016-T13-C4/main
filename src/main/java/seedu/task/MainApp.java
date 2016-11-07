@@ -21,9 +21,7 @@ import seedu.task.commons.util.ConfigUtil;
 import seedu.task.ui.Ui;
 import seedu.task.ui.UiManager;
 import seedu.task.storage.SuperbTodoIO;
-import seedu.task.storage.UndoManagerStorage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -92,7 +90,7 @@ public class MainApp extends Application {
     private Model initModelManager(SuperbTodoIO storage, UserPrefs userPrefs) throws JsonSyntaxException, IOException {
         SuperbTodo initialData;
         try {
-            initialData = storage.loadTasksFromFile();
+            initialData = SuperbTodoIO.loadTasksFromFile();
         } catch (JsonSyntaxException e) {
           logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
           initialData = new SuperbTodo();

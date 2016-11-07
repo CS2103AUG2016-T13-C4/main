@@ -1,16 +1,14 @@
 package seedu.task.model;
 
 import seedu.task.commons.util.CollectionUtil;
-import seedu.task.model.tag.UniqueTagList;
 import seedu.task.model.task.ReadOnlyTask;
 import seedu.task.model.task.Task;
 
-import java.util.Objects;
-
-//@@author A0135763B-reused
+//@@author A0135763B
 /**
  * Represents a UserAction in SuperbToDo.
- * Guarantees: details are present and not null, field values are validated.
+ * 
+ * Serves as a recorder to store the Action user performed
  */
 public class UserAction {
 

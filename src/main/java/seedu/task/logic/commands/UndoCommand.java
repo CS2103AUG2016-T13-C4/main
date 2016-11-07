@@ -48,52 +48,109 @@ public class UndoCommand extends Command {
     private final Command toUndo;
     private final String commandType;
     
+    /**
+     * Undo the previous command of the user.
+     * 
+     * @return void
+     */
     public UndoCommand (UserAction action) {
     	this.toUndo = routeCommand(action);
     	this.commandType = action.getCommandWord();
     }
 
+    // @@author A0135763B
+    /**
+     * Helper function to route the User Action into appropriate undo commands
+     * 
+     * @return command
+     */
     public Command routeCommand(UserAction action) {
     	String commandWord = action.getCommandWord();
     	
     	switch(commandWord) {
 	        case EditCommand.COMMAND_WORD:
-	        	assert action.getBackUpTask() != null;
-	        	
-	        	try {
-	        		return new EditCommand(action.getBackUpTask(), action.getIndex(), true, false);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return undoEdit(action);
 	        case AddCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	            return new DeleteCommand(action.getIndex(), true, false);
+	        	return undoAdd(action);
 	        case DeleteCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new AddCommand(action.getBackUpTask(), action.getIndex(), true);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return undoDelete(action);
 	        case UndoneCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new DoneCommand(action.getIndex(), true, false);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return undoUndone(action);
 	        case DoneCommand.COMMAND_WORD:
-	        	assert action.getIndex() != -1;
-	        	try {
-	        		return new UndoneCommand(action.getIndex(), true, false);
-	            } catch (IllegalValueException ive) {
-	                return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
-	            }
+	        	return undoDone(action);
 	        default:
 	            return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
 	    }
     }
-
+    
+    /**
+     * Router function to undo a done command
+     * 
+     * @return Command
+     */
+	private Command undoDone(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new UndoneCommand(action.getIndex(), true, false);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to undo an undone command
+     * 
+     * @return Command
+     */
+	private Command undoUndone(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new DoneCommand(action.getIndex(), true, false);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to undo a delete command
+     * 
+     * @return Command
+     */
+	private Command undoDelete(UserAction action) {
+		assert action.getIndex() != -1;
+		try {
+			return new AddCommand(action.getBackUpTask(), action.getIndex(), true);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	/**
+     * Router function to undo an add command
+     * 
+     * @return Command
+     */
+	private Command undoAdd(UserAction action) {
+		assert action.getIndex() != -1;
+		return new DeleteCommand(action.getIndex(), true, false);
+	}
+	
+	/**
+     * Router function to undo an edit command
+     * 
+     * @return Command
+     */
+	private Command undoEdit(UserAction action) {
+		assert action.getBackUpTask() != null;
+		
+		try {
+			return new EditCommand(action.getBackUpTask(), action.getIndex(), true, false);
+		} catch (IllegalValueException ive) {
+		    return new IncorrectCommand(FEEDBACK_UNSUCCESSFUL_UNDO);
+		}
+	}
+	
+	// @@author A0113992B
 	@Override
 	public CommandResult execute() {
 		toUndo.setData(model);
@@ -112,7 +169,8 @@ public class UndoCommand extends Command {
 	        	return toUndo.execute();
 		}
 	}
-
+	
+	// @@author A0135763B
 	@Override
 	public CommandResult execute(String feedbackSuccess, String feedbackUnsucess) {
 		return execute();
