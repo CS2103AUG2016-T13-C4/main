@@ -115,7 +115,7 @@ public class AddCommand extends Command {
 
      */
 	public static boolean validateChronoOrder(List<Date> dateList) {
-		if (dateList.size() != 0 && dateList.size() <= 2) {
+		if (dateList.size() > 1 && dateList.size() <= 2) {
 			return (dateList.get(0).compareTo(dateList.get(1)) < 0);
 		} else {
 			return false;
@@ -182,12 +182,12 @@ public class AddCommand extends Command {
      *
      * returns: A list of dates (If a date is found) or empty list (If unable to detect a date value)
      */
-	private static List<Date> retrieveDate(String period)  throws IllegalValueException {
+	public static List<Date> retrieveDate(String period)  throws IllegalValueException {
 		assert period != null;
         period = period.trim();
         Parser parser = new Parser();
     	List<DateGroup> dateParser = parser.parse(period);
-    	if (period.equals(dateParser.get(0).getText())) {
+    	if (dateParser.size() > 0 && period.equals(dateParser.get(0).getText())) {
     		return dateParser.get(0).getDates();
     	} else {
     		throw new IllegalValueException(MESSAGE_ERROR_PERIOD);
@@ -224,7 +224,12 @@ public class AddCommand extends Command {
             return new CommandResult(Error);
         }
     }
-
+    
+    /**
+     * function to save user's action into the UndoStorageManager
+     * 
+     * Determine if an action should be saved and if so, save it as an UserAction Obejct
+     */
 	private void saveAction() {
 		if (!undo) {
 			LogicManager.actionRecorder.recordAction(
