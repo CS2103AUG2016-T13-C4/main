@@ -1,3 +1,5 @@
+//@@author A0133945B
+
 package seedu.task.commons.core;
 
 import org.junit.Rule;
@@ -16,14 +18,15 @@ public class ConfigTest {
 
     @Test
     public void toString_defaultObject_stringReturned() {
-        String defaultConfigAsString = "App title : Address App\n" +
+        String defaultConfigAsString = "App title : SuperbTodo\n" +
                 "Current log level : INFO\n" +
                 "Preference file Location : preferences.json\n" +
-                "Local data file location : data/addressbook.xml\n" +
-                "AddressBook name : MyAddressBook";
+                "Local data file location : data/taskbook.txt\n" +
+                "superbTodoName : MySuperbTodoList";
 
         assertEquals(defaultConfigAsString, new Config().toString());
     }
+  //@@author A0133945B-reused
 
     @Test
     public void equalsMethod(){

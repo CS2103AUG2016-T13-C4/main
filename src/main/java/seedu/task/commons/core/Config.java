@@ -1,4 +1,4 @@
-//@@author A0133945B
+//@@author A0133945B-reused
 package seedu.task.commons.core;
 
 import java.util.Objects;
@@ -10,14 +10,16 @@ import java.util.logging.Level;
 public class Config {
 
     public static final String DEFAULT_CONFIG_FILE = "config.json";
+  //@@author A0133945B
 
     // Config values customizable through config file
     private String appTitle = "SuperbTodo";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
     private String superbTodoFilePath = "data/taskbook.txt";
-    private String superbTodoName = "MySuperTodoList";
+    private String superbTodoName = "MySuperbTodoList";
 
+  //@@author A0133945B-reuses
 
     public Config() {
     }
@@ -86,6 +88,7 @@ public class Config {
     public int hashCode() {
         return Objects.hash(appTitle, logLevel, userPrefsFilePath, superbTodoFilePath, superbTodoName);
     }
+  //@@author A0133945B
 
     @Override
     public String toString(){
@@ -94,7 +97,7 @@ public class Config {
         sb.append("\nCurrent log level : " + logLevel);
         sb.append("\nPreference file Location : " + userPrefsFilePath);
         sb.append("\nLocal data file location : " + superbTodoFilePath);
-        sb.append("\nAddressBook name : " + superbTodoName);
+        sb.append("\nsuperbTodoName : " + superbTodoName);
         return sb.toString();
     }
 
