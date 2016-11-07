@@ -144,7 +144,7 @@ The `UI` component,
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")`
  API call.<br>
  <!--- @@author A0113992B  --->
-<img src="images/DeletePersonSdForLogic.png" width="800"><br>
+<img src="images/DeleteTaskSDforLogic.png" width="800"><br>
 
 <!--- @@author A0113992B-reused --->
 ### Model component

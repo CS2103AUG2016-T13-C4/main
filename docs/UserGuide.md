@@ -235,6 +235,17 @@ Returns the system to the state before the execution of the last undo command.<b
 Format: 
 * `redo`
 
+<!--- @@author A0133945B --->
+
+#### Change a saving path: `path`
+Change the saving directory of the taskbook data.<br>
+Format:
+* `path NEWDIRECTORY`
+Examples: 
+* `path myowndata`<br>
+* `path Desktop/mydatafolder`<br>
+
+
 <!--- @@author A0113992B-reused --->
 #### Clearing all entries : `clear`
 Clears current command line input.<br>
@@ -265,6 +276,7 @@ Done | `done INDEX`
 Edit | `edit <index> <new description> at/on/by <new date/time> #<new hashtags>`
 Find | `find KEYWORD [MORE_KEYWORDS] "FULL KEYWORD"`
 List | `list all`, `list KEYWORD`
+Path | `path NEWDIRECTORY`
 Help | `help`
 Redo | `redo`
 Remove | `remove INDEX`
