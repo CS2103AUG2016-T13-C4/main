@@ -36,6 +36,7 @@ import seedu.task.commons.exceptions.DataConversionException;
 import seedu.task.commons.util.FileUtil;
 import seedu.task.model.ReadOnlySuperbTodo;
 import seedu.task.model.SuperbTodo;
+import seedu.task.model.TaskTest;
 import seedu.task.model.UserPrefs;
 import seedu.task.model.task.*;
 
@@ -96,7 +97,7 @@ public class SuperbTodoIO extends ComponentManager{
 	 * Use Gson library and PrintWriter to save content in temporary arraylist into the local file in JSON format
 	 * @throws IOException 
 	*/
-	public static void saveTasksIntoFile(ReadOnlySuperbTodo taskBook) throws IOException {
+	public static void saveTasksIntoFile(SuperbTodo taskBook) throws IOException {
 		Gson gson = new Gson();
 		Type type = new TypeToken<ObservableList<Task>>() {
 		}.getType();
@@ -109,6 +110,8 @@ public class SuperbTodoIO extends ComponentManager{
 		writer.println(jsonTasks);
 		writer.close();
 	}
+	
+
 	
 	public static void deleteTaskbook() {
         Path currentPath = Paths.get(taskbookFilePath);
@@ -123,10 +126,10 @@ public class SuperbTodoIO extends ComponentManager{
 	}
 	
     @Subscribe
-    public void handleAddressBookChangedEvent(SuperbTodoChangedEvent event) {
+    public void handleTaskBookChangedEvent(SuperbTodoChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
-        	SuperbTodoIO.saveTasksIntoFile(event.data);
+        	SuperbTodoIO.saveTasksIntoFile((SuperbTodo) event.data);
         } catch (IOException e) {
             raise (new DataSavingExceptionEvent(e));
         }
@@ -148,4 +151,6 @@ public class SuperbTodoIO extends ComponentManager{
     public void saveUserPrefs(UserPrefs userPrefs) throws IOException {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
+
+
 }

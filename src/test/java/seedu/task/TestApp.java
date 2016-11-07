@@ -8,6 +8,7 @@ import seedu.task.MainApp;
 import seedu.task.commons.core.Config;
 import seedu.task.commons.core.GuiSettings;
 import seedu.task.model.ReadOnlySuperbTodo;
+import seedu.task.model.SuperbTodo;
 import seedu.task.model.UserPrefs;
 import seedu.task.storage.SuperbTodoIO;
 import seedu.task.testutil.TestUtil;
@@ -25,14 +26,14 @@ public class TestApp extends MainApp {
     protected static final String DEFAULT_PREF_FILE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("pref_testing.json");
     public static final String APP_TITLE = "Test App";
     protected static final String TASK_BOOK_NAME = "Test";
-    protected Supplier<ReadOnlySuperbTodo> initialDataSupplier = () -> null;
+    protected Supplier<SuperbTodo> initialDataSupplier = () -> null;
     protected String saveFileLocation = SAVE_LOCATION_FOR_TESTING;
 
     public TestApp() {
     }
   //@@author A0133945B
 
-    public TestApp(Supplier<ReadOnlySuperbTodo> initialDataSupplier, String saveFileLocation) {
+    public TestApp(Supplier<SuperbTodo> initialDataSupplier, String saveFileLocation) {
         super();
         this.initialDataSupplier = initialDataSupplier;
         this.saveFileLocation = saveFileLocation;

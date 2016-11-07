@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the task-book level
  * Duplicates are not allowed (by .equals comparison)
  */
 public class SuperbTodo implements ReadOnlySuperbTodo {
@@ -38,12 +38,12 @@ public class SuperbTodo implements ReadOnlySuperbTodo {
     /**
      * Task and Tags are copied into SuperbToDo
      */
-    public SuperbTodo(UniqueTaskList persons, UniqueTagList tags) {
-        resetData(persons.getInternalList(), tags.getInternalList());
+    public SuperbTodo(UniqueTaskList tasks, UniqueTagList tags) {
+        resetData(tasks.getInternalList(), tags.getInternalList());
     }
     
-    public SuperbTodo(UniqueTaskList persons) {
-        resetData(persons.getInternalList(), tags.getInternalList());
+    public SuperbTodo(UniqueTaskList tasks) {
+        resetData(tasks.getInternalList(), tags.getInternalList());
     }
 
     public static ReadOnlySuperbTodo getEmptySuperbTodo() {

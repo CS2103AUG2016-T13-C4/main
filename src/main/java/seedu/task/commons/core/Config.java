@@ -19,7 +19,7 @@ public class Config {
     private String superbTodoFilePath = "data/taskbook.txt";
     private String superbTodoName = "MySuperbTodoList";
 
-  //@@author A0133945B-reuses
+  //@@author A0133945B-reused
 
     public Config() {
     }
