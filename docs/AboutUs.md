@@ -16,14 +16,13 @@ We are a team based in the [School of Computing, National University of Singapor
 <img src="images/GaoYu.jpg" width="150"><br>
 **Role**: Developer <br>  
 **Responsibilities**: 
--All UI components of SuperbTodo
+1. All UI components of SuperbTodo
 	*Style sheet
 	*Clock function 
 	*Help, minimize, maximize, close buttons
 	*Task entry 
--Undo and redo commands
--Testing
--Documentation
+2. Testing
+3. Documentation
 	*About us
 	*Contact us
 	*User guide: features
@@ -35,13 +34,14 @@ We are a team based in the [School of Computing, National University of Singapor
 <img src="images/OngQiYong.jpg" width="150"><br>
 **Role**: Developer <br>  
 **Responsibilities**: 
--Most of Logic components of SuperbTodo
+1. Most of Logic components of SuperbTodo
 	*Parser
 	*Add, clear, remove, edit, list commands
--Testing
--Documentation
+2. Testing
+3. Documentation
 	*User guide: features
 	*Developer guide: use cases and non functional requirements
+	*All diagrams and pictures used
 	
 -----
 
@@ -49,9 +49,9 @@ We are a team based in the [School of Computing, National University of Singapor
 <img src="images/YuXiaodong.jpg" width="150"><br>
 **Role**: Developer <br>  
 **Responsibilities**: 
--All Storage components of SuperbTodo
--Undone and done commands
--Testing
+1. All Storage components of SuperbTodo
+2. Undone and done commands
+3. Testing
 
 -----
 

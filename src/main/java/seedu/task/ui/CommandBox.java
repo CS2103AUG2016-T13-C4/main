@@ -86,41 +86,12 @@ public class CommandBox extends UiPart {
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
-        //taskLister(previousCommandTest);
         mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
     
-    private void taskLister(String userInput) throws IllegalValueException {
-        
-        MainWindow main = new MainWindow();
-        String commandWord;
-        String arguments;
-        
-        if (!userInput.substring(0, 4).equals("list")) {
-            throw new IllegalValueException(MESSAGE_NOT_LIST_COMMAND);
-        } else {
-            commandWord = userInput.substring(0, 4);
-            arguments = userInput.substring(5, userInput.length());
-        }
-        
-        
-        if (!commandWord.equals("list")) {
-                main.setLabel(1);
-        } else if (commandWord.equals("list")) {
-            if (arguments.equals("today")) {
-                main.setLabel(1);
-            } else if (arguments.equals("tomorrow")) {
-                main.setLabel(2);
-            } else if (arguments.equals("all")) {
-                System.out.println("in comm");
-                main.setLabel(3);
-            }
-        }  
-    }
-    
-    
+   
     
     /**
      * Sets the command box style to indicate a correct command.

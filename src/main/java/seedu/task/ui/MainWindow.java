@@ -185,38 +185,14 @@ public class MainWindow extends UiPart {
      */
     public void taskScopeSetter() {
         taskScopePlaceholder.getChildren().add(taskScope);
-        taskScope.setText("Viewing Today's Todo Tasks");
+        taskScope.setText("Todo Tasks List");
         taskScope.setTextFill(Color.web("#f194b6"));
         taskScope.setFont(Font.font("Arial Rounded MT Bold", 24.0));
-        FxViewUtil.applyAnchorBoundaryParameters(taskScope, 230.0, 230.0, 15.0, 0.0);
+        FxViewUtil.applyAnchorBoundaryParameters(taskScope, 300.0, 300.0, 10.0, 0.0);
         
     }
     
-    /**
-     * This method sets the correct label content of task scope
-     */
-    public void setLabel(int index) {
-        if (index == 1) { // today
-            //taskScope = new Label();
-            taskScope.setText("Viewing Today's Todo Tasks");
-            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-            //taskScopePlaceholder.getChildren().add(taskScope);
-        } else if (index == 2) { // tomorrow
-            //taskScope = new Label();
-            taskScope.setText("Viewing Tomorrow's Todo Tasks");
-            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-           // taskScopePlaceholder.getChildren().add(taskScope);
-        } else if (index == 3) { // all 
-            System.out.println("here");
-            taskScope = new Label();
-            taskScope.setText("Viewing All Todo Tasks");
-            FxViewUtil.applyAnchorBoundaryParameters(taskScope, 50.0, 50.0, 0.0, 0.0);
-            //taskScopePlaceholder.getChildren().add(taskScope);
-        }
-    }
-    
-
-    
+ 
     /** This method initialize settings for all the buttons
      * 
      */
@@ -401,7 +377,7 @@ public class MainWindow extends UiPart {
         return this.taskListPanel;
     }
     
-
+    // @@author A0113992B
     /**
      * This method sets the action of the minimise button when mouse enters, exits and clicks
      *
