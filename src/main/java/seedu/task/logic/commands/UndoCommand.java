@@ -1,4 +1,4 @@
-// @@author A0113992B
+//@@author A0135763B
 package seedu.task.logic.commands;
 
 import seedu.task.commons.exceptions.IllegalValueException;
@@ -13,7 +13,6 @@ import java.util.Stack;
 import java.util.Vector;
 
 
-// @@author A0113992B
 public class UndoCommand extends Command {
       public static final String COMMAND_WORD = "undo";
 

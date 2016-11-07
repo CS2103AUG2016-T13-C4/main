@@ -146,7 +146,6 @@ public class LogicManagerTest {
         model.addTask(helper.generateTask(1), DEFAULT_INDEX);
         model.addTask(helper.generateTask(2), DEFAULT_INDEX);
         model.addTask(helper.generateTask(3), DEFAULT_INDEX);
-
         assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new SuperbTodo(), Collections.emptyList());
     }
 
@@ -256,11 +255,11 @@ public class LogicManagerTest {
         String expectedMessage = MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
         TestDataHelper helper = new TestDataHelper();
         List<Task> TaskList = helper.generateTaskList(2);
-
+        int i = 1;
         // set AB state to 2 Tasks
         model.resetData(new SuperbTodo());
         for (Task p : TaskList) {
-            model.addTask(p, DEFAULT_INDEX);
+        	model.addTask(p, DEFAULT_INDEX);
         }
 
         assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), TaskList);
@@ -483,7 +482,7 @@ public class LogicManagerTest {
          */
         void addToModel(Model model, List<Task> TasksToAdd) throws Exception{
             for(Task p: TasksToAdd){
-                model.addTask(p, DEFAULT_INDEX);
+            	model.addTask(p, DEFAULT_INDEX);
             }
         }
 
