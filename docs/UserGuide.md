@@ -181,18 +181,18 @@ Examples:
 #### Search for a task: `find`
 Search for a task using a keyword.<br>
 Format: 
-*`find <keyword> [MORE_KEYWORDS]`
+*`find KEYWORD [MORE_KEYWORDS] "FULL KEYWORD"`
 
-> * The search is case sensitive. e.g `hans` will not match `Hans`
 > * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 > * Only the keyword is searched.
-> * Only full words will be matched e.g. `Han` will not match `Hans`
+> * To match a full text add quotation to your search text
+	e.g. `Hans Bo` will match `Hans Bo`
 > * Persons matching at least one keyword will be returned (i.e. `OR` search).
     e.g. `Hans` will match `Hans Bo`
 
 Examples: 
 * `find grocery`<br>
-  Returns `grocery bin` but not `Grocery`
+  Returns `grocery bin` and `Grocery`
 * `find call mother`<br>
   Returns Any tasks with description `call`, or `mother`
 
@@ -209,7 +209,7 @@ Examples:
 * `list undone`<br>
   `remove 2`<br>
   Deletes the 2nd task entry among all the undone tasks listed.
-* `find #grocery`<br> 
+* `find grocery`<br> 
   `remove 1`<br>
   Deletes the 1st task entry in the results of the `find` command.
   
@@ -274,7 +274,7 @@ Add | `add <task description> at/by <time> on <date>`, `add <task description> o
 Clear | `clear`
 Done | `done INDEX`
 Edit | `edit <index> <new description> at/on/by <new date/time> #<new hashtags>`
-Find | `find KEYWORD [MORE_KEYWORDS]`
+Find | `find KEYWORD [MORE_KEYWORDS] "FULL KEYWORD"`
 List | `list all`, `list KEYWORD`
 Path | `path NEWDIRECTORY`
 Help | `help`
