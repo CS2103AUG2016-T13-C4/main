@@ -94,7 +94,7 @@ public class AddCommand extends Command {
      *
      * Return: Task object 
      */
-	private static Task checkDateCount(String name, String dateTimeParam, final Set<Tag> tagSet)
+	public static Task checkDateCount(String name, String dateTimeParam, final Set<Tag> tagSet)
 			throws IllegalValueException {
 		List<Date> dateList = retrieveDate(dateTimeParam);
 		
@@ -114,7 +114,7 @@ public class AddCommand extends Command {
      * Return: boolean representing if valid or not
 
      */
-	private static boolean validateChronoOrder(List<Date> dateList) {
+	public static boolean validateChronoOrder(List<Date> dateList) {
 		if (dateList.size() != 0 && dateList.size() <= 2) {
 			return (dateList.get(0).compareTo(dateList.get(1)) < 0);
 		} else {
@@ -128,7 +128,7 @@ public class AddCommand extends Command {
      * 
      * @throws IllegalValueException if any of the raw values are invalid
      */
-	private static Task createEvent(String name, String dateTimeParam, final Set<Tag> tagSet, List<Date> dateList)
+	public static Task createEvent(String name, String dateTimeParam, final Set<Tag> tagSet, List<Date> dateList)
 			throws IllegalValueException {
 		if (validateChronoOrder(dateList)) {
 			return new Task(
@@ -149,7 +149,7 @@ public class AddCommand extends Command {
      * 
      * @throws IllegalValueException if any of the raw values are invalid
      */
-	private static Task createNormalTask(String name, String dateTimeParam, final Set<Tag> tagSet)
+	public static Task createNormalTask(String name, String dateTimeParam, final Set<Tag> tagSet)
 			throws IllegalValueException {
 		return new Task(
 				new TaskName(name),
@@ -167,7 +167,7 @@ public class AddCommand extends Command {
      * 
      * @throws IllegalValueException if any of the raw values are invalid
      */
-	private static Task createFloatingTask(String name, final Set<Tag> tagSet) throws IllegalValueException {
+	public static Task createFloatingTask(String name, final Set<Tag> tagSet) throws IllegalValueException {
 		return new Task(
 				 new TaskName(name),
 		         new DateTime(),

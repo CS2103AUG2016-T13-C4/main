@@ -1,3 +1,4 @@
+// @@author A0113992B
 package seedu.task.model;
 
 import static org.junit.Assert.assertEquals;
