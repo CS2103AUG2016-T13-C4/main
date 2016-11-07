@@ -33,7 +33,9 @@ import static org.junit.Assert.assertTrue;
 import static seedu.task.commons.core.Messages.*;
 
 public class LogicManagerTest {
-
+	
+	private final int DEFAULT_INDEX = -1;
+	
     /**
      * See https://github.com/junit-team/junit4/wiki/rules#temporaryfolder-rule
      */
@@ -141,9 +143,9 @@ public class LogicManagerTest {
     @Test
     public void execute_clear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
+        model.addTask(helper.generateTask(1), DEFAULT_INDEX);
+        model.addTask(helper.generateTask(2), DEFAULT_INDEX);
+        model.addTask(helper.generateTask(3), DEFAULT_INDEX);
 
         assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new SuperbTodo(), Collections.emptyList());
     }
@@ -203,7 +205,7 @@ public class LogicManagerTest {
         expectedAB.addTask(toBeAdded);
 
         // setup starting state
-        model.addTask(toBeAdded); // Task already in internal address book
+        model.addTask(toBeAdded, DEFAULT_INDEX); // Task already in internal address book
 
         // execute command and verify result
         assertCommandBehavior(
@@ -258,7 +260,7 @@ public class LogicManagerTest {
         // set AB state to 2 Tasks
         model.resetData(new SuperbTodo());
         for (Task p : TaskList) {
-            model.addTask(p);
+            model.addTask(p, DEFAULT_INDEX);
         }
 
         assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), TaskList);
@@ -481,7 +483,7 @@ public class LogicManagerTest {
          */
         void addToModel(Model model, List<Task> TasksToAdd) throws Exception{
             for(Task p: TasksToAdd){
-                model.addTask(p);
+                model.addTask(p, DEFAULT_INDEX);
             }
         }
 

@@ -2,17 +2,18 @@ package seedu.task.testutil;
 
 import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.model.SuperbTodo;
+import seedu.task.model.TaskTest;
 import seedu.task.model.task.*;
 
 
 /**
  *
  */
-public class TypicalTestTasks {
+public class TypicalTaskTests {
 
-    public static TestTask walk, dinner;
+    public static TaskTest walk, dinner;
 
-    public TypicalTestTasks() {
+    public TypicalTaskTests() {
         try {
         	walk =  new TaskBuilder().withName("Walk in the park").withDueTime("18 Oct 2016").build();
         	dinner =  new TaskBuilder().withName("Dinner with family").withDueTime("18 Oct 2016 8pm").build();
@@ -25,15 +26,15 @@ public class TypicalTestTasks {
     public static void loadSuperbTodoWithSampleData(SuperbTodo ab) {
 
         try {
-        	ab.addTask(new Task(walk));
-        	ab.addTask(new Task(dinner));
+        	ab.addTask(new Task((ReadOnlyTask) walk));
+        	ab.addTask(new Task((ReadOnlyTask) dinner));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             assert false : "not possible";
         }
     }
 
-    public TestTask[] getTypicalTasks() {
-        return new TestTask[]{walk, dinner};
+    public TaskTest[] getTypicalTasks() {
+        return new TaskTest[]{walk, dinner};
     }
 
     public SuperbTodo getTypicalSuperbToDo(){
