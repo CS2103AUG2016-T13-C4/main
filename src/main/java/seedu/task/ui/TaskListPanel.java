@@ -119,7 +119,7 @@ public class TaskListPanel extends UiPart {
 
                 // sets task color to yellow if it is marked as done
                 if (task.isDoneTask() == test) {
-                    setStyle("-fx-control-inner-background: #d6c400");
+                    setStyle("-fx-control-inner-background: #4ab901");
                 } 
                 else {
                     if ((getIndex() + 1)%2 == 0 ) {
@@ -146,9 +146,7 @@ public class TaskListPanel extends UiPart {
                 String time_now = hour + ":" + minute + " Hrs";
                 
                 
-                if (task.getDueTime().date_value.compareTo("") >0 && task.getDueTime().time_value.compareTo("") >0) {
-                  
-                  
+                if (task.getDueTime().date_value.compareTo("") >0 && task.getDueTime().time_value.compareTo("") >0) {                 
                   String task_year = task.getDueTime().date_value.substring(7, 11);
                   String task_date = task.getDueTime().date_value.substring(0, 6);
                   String task_time = task.getDueTime().time_value;
@@ -156,14 +154,26 @@ public class TaskListPanel extends UiPart {
                   // compare task param with current time param to determine if task is overdue
                   // if so change task color
                   if (task_year.compareTo(year_now) < 0) {
-                      System.out.println("year");
-                      setStyle("-fx-control-inner-background: #ee2d07");
+                      if (task.isDoneTask() == test) {
+                          setStyle("-fx-control-inner-background: #4ab901");
+                      } else {
+                          setStyle("-fx-control-inner-background: #ee2d07");
+                      }
+                      
                   } else{
                       if (task_date.compareTo(date_now) < 0 ) {                        
-                          setStyle("-fx-control-inner-background: #ee2d07");
+                          if (task.isDoneTask() == test) {
+                              setStyle("-fx-control-inner-background: #4ab901");
+                          } else {
+                              setStyle("-fx-control-inner-background: #ee2d07");
+                          }
                       } else {
                           if (task_date.equals(date_now) && task_time.compareTo(time_now) < 0 ) {
-                              setStyle("-fx-control-inner-background: #ee2d07");
+                              if (task.isDoneTask() == test) {
+                                  setStyle("-fx-control-inner-background: #4ab901");
+                              } else {
+                                  setStyle("-fx-control-inner-background: #ee2d07");
+                              }
                           }
                       }
                   } 
