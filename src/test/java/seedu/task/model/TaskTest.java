@@ -14,6 +14,11 @@ import seedu.task.model.task.Task;
 import seedu.task.model.task.TaskName;
 
 public class TaskTest {
+	TaskName name;
+	DateTime dateTime;
+	DueDateTime dueDateTime;
+	UniqueTagList tags;
+	boolean isDone;
     
     @Test
     public void test() throws IllegalValueException {      
@@ -21,11 +26,11 @@ public class TaskTest {
         Tag t2 = new Tag("urgent");
         Tag t3 = new Tag("school");
         
-        TaskName name = new TaskName("buy grocery");
-        DateTime dateTime  = new DateTime("nov 4 3pm");
-        DueDateTime dueDateTime = new DueDateTime("nov 4 5pm");
-        UniqueTagList tags = new UniqueTagList(t1,t2,t3);
-        boolean isDone = true;
+        name = new TaskName("buy grocery");
+        dateTime  = new DateTime("nov 4 3pm");
+        dueDateTime = new DueDateTime("nov 4 5pm");
+        tags = new UniqueTagList(t1,t2,t3);
+        isDone = true;
         
         // test constructor
         Task task1 = new Task(name, dateTime, dueDateTime, tags, isDone);
@@ -51,4 +56,25 @@ public class TaskTest {
                      + "End: 04 Nov 2016 (17:00 Hrs) Tags: [impt][urgent][school]");
        
     }
+    
+    // @@author A0135763B
+	public void setName(TaskName taskName) {
+		this.name = taskName;
+	}
+	
+	public void setTags(UniqueTagList tags) {
+		this.tags = tags;
+	}
+	
+	public UniqueTagList getTags() {
+		return this.tags;
+	}
+
+	public void setDateTime(DateTime dateTime) {
+		this.dateTime  = dateTime;
+	}
+
+	public void setDueTime(DueDateTime dueDateTime) {
+        this.dueDateTime = dueDateTime;	
+	}
 }

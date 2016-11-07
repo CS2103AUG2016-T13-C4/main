@@ -1,6 +1,7 @@
 package seedu.task.testutil;
 
 import seedu.task.commons.exceptions.IllegalValueException;
+import seedu.task.model.TaskTest;
 import seedu.task.model.tag.Tag;
 import seedu.task.model.task.*;
 
@@ -9,10 +10,10 @@ import seedu.task.model.task.*;
  */
 public class TaskBuilder {
 
-    private TestTask task;
+    private TaskTest task;
 
     public TaskBuilder() {
-        this.task = new TestTask();
+        this.task = new TaskTest();
     }
 
     public TaskBuilder withName(String name) throws IllegalValueException {
@@ -37,7 +38,7 @@ public class TaskBuilder {
         return this;
     }
 
-    public TestTask build() {
+    public TaskTest build() {
         return this.task;
     }
 

@@ -33,7 +33,9 @@ import static org.junit.Assert.assertTrue;
 import static seedu.task.commons.core.Messages.*;
 
 public class LogicManagerTest {
-
+	
+	private final int DEFAULT_INDEX = -1;
+	
     /**
      * See https://github.com/junit-team/junit4/wiki/rules#temporaryfolder-rule
      */
@@ -141,10 +143,16 @@ public class LogicManagerTest {
     @Test
     public void execute_clear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
+<<<<<<< HEAD
         model.addTask(helper.generateTask(1));
         model.addTask(helper.generateTask(2));
         model.addTask(helper.generateTask(3));
 
+=======
+        model.addTask(helper.generateTask(1), DEFAULT_INDEX);
+        model.addTask(helper.generateTask(2), DEFAULT_INDEX);
+        model.addTask(helper.generateTask(3), DEFAULT_INDEX);
+>>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
         assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new SuperbTodo(), Collections.emptyList());
     }
 
@@ -203,7 +211,11 @@ public class LogicManagerTest {
         expectedAB.addTask(toBeAdded);
 
         // setup starting state
+<<<<<<< HEAD
         model.addTask(toBeAdded); // Task already in internal address book
+=======
+        model.addTask(toBeAdded, DEFAULT_INDEX); // Task already in internal address book
+>>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
 
         // execute command and verify result
         assertCommandBehavior(
@@ -258,7 +270,11 @@ public class LogicManagerTest {
         // set AB state to 2 Tasks
         model.resetData(new SuperbTodo());
         for (Task p : TaskList) {
+<<<<<<< HEAD
             model.addTask(p);
+=======
+        	model.addTask(p, DEFAULT_INDEX);
+>>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
         }
 
         assertCommandBehavior(commandWord + " 3", expectedMessage, model.getSuperbTodo(), TaskList);
@@ -481,7 +497,11 @@ public class LogicManagerTest {
          */
         void addToModel(Model model, List<Task> TasksToAdd) throws Exception{
             for(Task p: TasksToAdd){
+<<<<<<< HEAD
                 model.addTask(p);
+=======
+            	model.addTask(p, DEFAULT_INDEX);
+>>>>>>> 56bd8e662f127a5302ff8413c2e90cb38d972c0f
             }
         }
 

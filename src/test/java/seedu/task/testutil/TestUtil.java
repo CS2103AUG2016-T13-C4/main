@@ -18,6 +18,7 @@ import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.commons.util.FileUtil;
 import seedu.task.commons.util.XmlUtil;
 import seedu.task.model.SuperbTodo;
+import seedu.task.model.TaskTest;
 import seedu.task.model.tag.Tag;
 import seedu.task.model.tag.UniqueTagList;
 import seedu.task.model.task.*;
@@ -273,10 +274,10 @@ public class TestUtil {
      * @param personsToRemove The subset of persons.
      * @return The modified persons after removal of the subset from persons.
      */
-    public static TestTask[] removeTasksFromList(final TestTask[] persons, TestTask... personsToRemove) {
-        List<TestTask> listOfPersons = asList(persons);
+    public static TaskTest[] removeTasksFromList(final TaskTest[] persons, TaskTest... personsToRemove) {
+        List<TaskTest> listOfPersons = asList(persons);
         listOfPersons.removeAll(asList(personsToRemove));
-        return listOfPersons.toArray(new TestTask[listOfPersons.size()]);
+        return listOfPersons.toArray(new TaskTest[listOfPersons.size()]);
     }
 
 
@@ -285,7 +286,7 @@ public class TestUtil {
      * @param list original list to copy from
      * @param targetIndexInOneIndexedFormat e.g. if the first element to be removed, 1 should be given as index.
      */
-    public static TestTask[] removeTaskFromList(final TestTask[] list, int targetIndexInOneIndexedFormat) {
+    public static TaskTest[] removeTaskFromList(final TaskTest[] list, int targetIndexInOneIndexedFormat) {
         return removeTasksFromList(list, list[targetIndexInOneIndexedFormat-1]);
     }
 
@@ -296,7 +297,7 @@ public class TestUtil {
      * @param index The index of the person to be replaced.
      * @return
      */
-    public static TestTask[] replaceTaskFromList(TestTask[] persons, TestTask person, int index) {
+    public static TaskTest[] replaceTaskFromList(TaskTest[] persons, TaskTest person, int index) {
         persons[index] = person;
         return persons;
     }
@@ -307,10 +308,10 @@ public class TestUtil {
      * @param personsToAdd The persons that are to be appended behind the original array.
      * @return The modified array of persons.
      */
-    public static TestTask[] addTasksToList(final TestTask[] persons, TestTask... personsToAdd) {
-        List<TestTask> listOfPersons = asList(persons);
+    public static TaskTest[] addTasksToList(final TaskTest[] persons, TaskTest... personsToAdd) {
+        List<TaskTest> listOfPersons = asList(persons);
         listOfPersons.addAll(asList(personsToAdd));
-        return listOfPersons.toArray(new TestTask[listOfPersons.size()]);
+        return listOfPersons.toArray(new TaskTest[listOfPersons.size()]);
     }
 
     private static <T> List<T> asList(T[] objs) {
