@@ -1,20 +1,14 @@
 package seedu.task.logic.commands;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import seedu.task.commons.core.Messages;
-import seedu.task.commons.core.UnmodifiableObservableList;
 import seedu.task.commons.exceptions.IllegalValueException;
 import seedu.task.logic.LogicManager;
 import seedu.task.model.UserAction;
-import seedu.task.model.tag.Tag;
 import seedu.task.model.task.ReadOnlyTask;
-import seedu.task.model.task.Task;
 import seedu.task.model.task.UniqueTaskList;
 import seedu.task.model.task.UniqueTaskList.TaskNotFoundException;
-import seedu.task.storage.UndoManagerStorage;
 
 //@@author A0133945B
 /**
@@ -71,7 +65,8 @@ public class UndoneCommand extends Command {
         String formatOutput = String.format(MESSAGE_Done_Task_SUCCESS, taskToUndone);        
         return new CommandResult(formatOutput);
     }
-
+	
+	//@@author A0135763B
 	/**
      * Overloaded function for the purpose of undo Command
      * 
@@ -99,7 +94,12 @@ public class UndoneCommand extends Command {
 
         return new CommandResult(Message);
     }
-
+    
+    /**
+     * function to save user's action into the UndoStorageManager
+     * 
+     * Determine if an action should be saved and if so, save it as an UserAction Obejct
+     */
 	private void saveAction() {
 		if (!undo) {
 		    LogicManager.actionRecorder.recordAction(

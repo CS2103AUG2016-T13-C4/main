@@ -1,10 +1,9 @@
 package seedu.task.storage;
-
+//@@author A0135763B
 import java.util.Stack;
 import java.util.Vector;
 
 import seedu.task.model.UserAction;
-import seedu.task.model.task.Task;
 
 public class UndoManagerStorage {
     private Stack<UserAction> undoStack;
