@@ -16,7 +16,7 @@
 | add do assignment | Adds a floating task named “do assignment” |
 | add go out on nov 5 | Adds a deadline task named “go out“ on on nov 5th at the time of the task is added
 | add feed birds by 3pm oct 5 | Adds a deadline task named “feed birds” due on oct 5th 3pm |
-| add visit grandma’s garden from 3pm oct 5 to 5pm oct 9 | Adds an event named “visit grandma’s garden” starting on oct 5th 3pm and ending on 5pm oct 9th|
+| add visit grandma garden from 3pm dec 5 to 5pm dec 9 | Adds an event named “visit grandma’s garden” starting on dec 5th 3pm and ending on 5pm dec 9th|
 | add do assignments by today | Adds a floating task on the date of task entered |
 | add visit gardens by the bay by 3pm today | Adds a deadline task named “visit gardens by the bay” due at 3pm on the day the task is entered  |
 | add “spare me lord” camp | “Task names should be spaces or alphanumeric characters” appears in the result display
