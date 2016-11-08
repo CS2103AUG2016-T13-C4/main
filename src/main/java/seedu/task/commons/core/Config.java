@@ -16,7 +16,7 @@ public class Config {
     private String appTitle = "SuperbTodo";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
-    private String superbTodoFilePath = "data/taskbook.xml";
+    private String superbTodoFilePath = "data/SampleData.xml";
     private String superbTodoName = "MySuperbTodoList";
 
   //@@author A0133945B-reused

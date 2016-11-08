@@ -21,7 +21,7 @@ public class ConfigTest {
         String defaultConfigAsString = "App title : SuperbTodo\n" +
                 "Current log level : INFO\n" +
                 "Preference file Location : preferences.json\n" +
-                "Local data file location : data/taskbook.txt\n" +
+                "Local data file location : data/SampleData.xml\n" +
                 "superbTodoName : MySuperbTodoList";
 
         assertEquals(defaultConfigAsString, new Config().toString());
