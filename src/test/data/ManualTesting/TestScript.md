@@ -72,6 +72,7 @@ Example: remove 1" appears in the result display |
 |----------------------------------------------------|-----------------------------------------------------------------------|
 | find do assignment | deadline task and floating task containing do assignment are both listed and “2 tasks listed!” appears in the result display|
 | find visit garden | tasks with either “visit” or “garden” are listed |
+| find "visit gardens" | tasks containing the whole word "visit gardens" are listed |
 | find OuterSpace | "0 tasks listed!" appears in result display |
 
 
